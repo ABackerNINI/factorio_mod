@@ -1,3 +1,6 @@
+#copy bat
+cp to game dir.bat
+
 # Compiled Lua sources
 luac.out
 
