@@ -1,0 +1,10 @@
+{
+    "name": "ab_oreslogisticscenter",
+    "version": "0.16.0",
+    "title": "oreslogisticscenter",
+    "author": "ABacker",
+    "description": "ores logistics center",
+    "factorio_version": "0.16",
+    "dependencies": ["base >= 0.16.0"]
+  }
+  
