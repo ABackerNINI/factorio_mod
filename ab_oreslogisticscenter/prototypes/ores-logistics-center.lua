@@ -70,66 +70,59 @@ end
 --     }
 -- })
 
+local half_length = 7
+local collision_len = 5
+
 data:extend({
     {
         type = "constant-combinator",
         name = entity_names.ores_logistics_center,
-        icon = OLC .. "/graphics/icons/greenhouse.png",
+        icon = OLC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"placeable-neutral", "placeable-player", "player-creation"},
         minable = {hardness = 1, mining_time = 10, result = entity_names.ores_logistics_center},
-        collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
-        selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+        collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
+        selection_box = {{-half_length, -half_length}, {half_length, half_length}},
         max_health = 250,
         corpse = "big-remnants",
         dying_explosion = "medium-explosion",
         item_slot_count = config.lc_item_slot_count,
-    
-        -- sprites =  {
-        --     sheet = {
-        --         filename = OLC .. "/graphics/entity/greenhouse.png",
-        --         frames = 1,
-        --         width = 113,
-        --         height = 91,
-        --         shift = {0.2, 0.15},
-        --     }
-        -- },
-        -- activity_led_sprites = {
-        --     filename = OLC .. "/graphics/entity/greenhouse.png",
-        --     frames = 1,
-        --     width = 113,
-        --     height = 91,
-        --     shift = {0.2, 0.15},
-        -- },
         sprites = {
 			north = {
-                filename = OLC .. "/graphics/entity/greenhouse.png",
+                filename = OLC .. "/graphics/entity/logistics-center.png",
 				frame_count = 1,
-                width = 113,
-                height = 91,
-                shift = {0.2, 0.15}
+                width = 640,
+                height = 592,
+                shift = {0, 2.5}
 			},
 			east = {
-                filename = OLC .. "/graphics/entity/greenhouse.png",
+                filename = OLC .. "/graphics/entity/logistics-center.png",
 				frame_count = 1,
-                width = 113,
-                height = 91,
-                shift = {0.2, 0.15}
+                width = 640,
+                height = 592,
+                shift = {0, 2.5}
 			},
 			south = {
-                filename = OLC .. "/graphics/entity/greenhouse.png",
+                filename = OLC .. "/graphics/entity/logistics-center.png",
 				frame_count = 1,
-                width = 113,
-                height = 91,
-                shift = {0.2, 0.15}
+                width = 640,
+                height = 592,
+                shift = {0, 2.5}
 			},
 			west = {
-                filename = OLC .. "/graphics/entity/greenhouse.png",
+                filename = OLC .. "/graphics/entity/logistics-center.png",
 				frame_count = 1,
-                width = 113,
-                height = 91,
-                shift = {0.2, 0.15}
+                width = 640,
+                height = 592,
+                shift = {0, 2.5}
 			}
+			-- sheet = {
+			-- 	filename = OLC .. "/graphics/entity/logistics-center.png",
+			-- 	frame_count = 1,
+			-- 	width = 100,
+			-- 	height = 100,
+			-- 	shift = {0.2, 0.15}
+			-- }
 		},
 
 		activity_led_sprites = {
@@ -138,32 +131,28 @@ data:extend({
 				width = 8,
 				height = 6,
 				frame_count = 1,
-				shift = util.by_pixel(9, -12),
-				
+				shift = util.by_pixel(9, -12)
 			},
 			east = {
 				filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-E.png",
 				width = 8,
 				height = 8,
 				frame_count = 1,
-				shift = util.by_pixel(8, 0),
-				
+				shift = util.by_pixel(8, 0)
 			},
 			south = {
 				filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-S.png",
 				width = 8,
 				height = 8,
 				frame_count = 1,
-				shift = util.by_pixel(-9, 2),
-				
+				shift = util.by_pixel(-9, 2)
 			},
 			west = {
 				filename = "__base__/graphics/entity/combinator/activity-leds/constant-combinator-LED-W.png",
 				width = 8,
 				height = 8,
 				frame_count = 1,
-				shift = util.by_pixel(-7, -15),
-				
+				shift = util.by_pixel(-7, -15)
 			}
 		},
 
@@ -221,30 +210,6 @@ data:extend({
 				}
 			}
 		},
-        -- pictures = {
-        --     picture = {
-        --         sheet = {
-        --             filename = OLC .. "/graphics/entity/greenhouse.png",
-        --             frames = 1,
-        --             width = 113,
-        --             height = 91,
-        --             shift = {0.2, 0.15},
-        --         },
-        --     },
-        --     fluid_background = blank(),
-        --     window_background = blank(),
-        --     flow_sprite = blank(),
-        --     gas_flow = ablank(),
-        -- },
-        -- window_bounding_box = {{0,0},{0,0}},
-        -- fluid_box = {
-        --     base_area = 1,
-        --     pipe_covers = pipecoverspictures(),
-        --     pipe_connections = {},
-        -- },
-        -- flow_length_in_ticks = 1,
-        -- circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points,
-        -- circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites,
         circuit_wire_max_distance = 10,
         map_color = {r = 0, g = 1, b = 0},
         vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 }
@@ -267,7 +232,7 @@ data:extend({
         type = "item",
         name = entity_names.ores_logistics_center,
         stack_size = 1,
-        icon = OLC .. "/graphics/icons/greenhouse.png",
+        icon = OLC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},
         subgroup = "logistics",
@@ -282,7 +247,6 @@ data:extend(
         type = "recipe-category",
         name = "logistics"
       },
-    
       {
         type = "item-subgroup",
         name = "logistics",

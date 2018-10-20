@@ -5,11 +5,14 @@ require("config")
 local entity_names = get_entity_names()
 local config = get_config()
 
+local half_length = 7
+local collision_len = 5
+
 data:extend({
     {
         type = "electric-energy-interface",
         name = entity_names.electric_energy_interface,
-        icon = OLC .. "/graphics/icons/greenhouse.png",
+        icon = OLC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"not-on-map"},
         minable = nil,
@@ -22,9 +25,9 @@ data:extend({
             buffer_capacity = config.electric_energy_interface_buffer_capacity .. "J",
         },
         energy_usage = "1MW",
-        energy_production = "0MW",
-        collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
-        selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
+        energy_production = "0MW",        
+        collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
+        selection_box = {{-half_length, -half_length}, {half_length, half_length}},
         collision_mask = {},
     }
 })

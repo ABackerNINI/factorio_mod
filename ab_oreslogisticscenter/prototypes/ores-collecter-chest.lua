@@ -21,7 +21,7 @@ data:extend({
         vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
         picture = 
         {
-			filename = OLC .. "/graphics/icons/collecter-chest.png",
+			filename = OLC .. "/graphics/entity/collecter-chest.png",
 			priority = "extra-high",
 			width = 48,
 			height = 34,
@@ -60,7 +60,7 @@ data:extend({
         type = "item",
         name = entity_names.ores_collecter_chest,
         stack_size = 50,
-        icon = OLC .. "/graphics/icons/collecter-chest-icon.png",
+        icon = OLC .. "/graphics/icons/collecter-chest.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},
         subgroup = "logistics",
