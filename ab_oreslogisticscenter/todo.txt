@@ -13,11 +13,12 @@ cc，rc初始能耗选项，不耗电选项
 初始stability选项，stability最大为1
 科技花费与难度
 lc，cc，rc，recipe
-lc唯一
+lc唯一,多lc支持
 添加命令，ores stack查询库存
 添加注释
 粗糙的空间技术具有不稳定性，用于传输固体原矿
 看作大型原矿物流中心，假装你有很多超快物流机器人，但是计算量远远小于前者，UN weight你的电脑
+?fluid支持
 
 
 SignalID
