@@ -6,6 +6,7 @@ local entity_names = get_entity_names()
 local function init_globals()
     global.items_stock = global.items_stock or {index = 1,items = {}} -- {index,items = ["item_name"] = {index,stock}}
 
+    --multi-lc causes a promblem a severe bug on energy consumption
     global.lc_entities = global.lc_entities or {count = 0,entities = {}} -- {count,entities = {["pos_str"] = {lc,eei,cc_rc_s={1={},2={}}}}}
     global.cc_entities = global.cc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
     global.rc_entities = global.rc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
@@ -75,7 +76,7 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         global.rc_entities.entities[tostring(global.rc_entities.index)] = {index = global.rc_entities.index,entity = entity,nearest_lc = find_nearest_lc(entity,2,global.rc_entities.index)}
         global.rc_entities.index = global.rc_entities.index + 1
     elseif entity.name == entity_names.ores_logistics_center then
-        --disable signal output on default
+        --disable signal output on default,this will cause a problem that signals don't show up immediately after control-behavior enabled
         entity.get_or_create_control_behavior().enabled = false
 
         --will confilct when entity on diffrent surfaces?
@@ -125,31 +126,33 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
 
         global.lc_entities.count = global.lc_entities.count - 1
 
+
+        local cc_rc_s = global.lc_entities.entities[p_str].cc_rc_s
+
         --destroy the electric energy interface
         global.lc_entities.entities[p_str].eei.destroy()
-
-        --re-calc distance
-        -- if global.lc_entities.count > 0 then
-        --     for _,index in ipairs(global.lc_entities.entities[p_str].cc_rc_s[1]) do
-        --         local pack = global.cc_entities.entities[tostring(index)]
-        --         if pack.entity.valid then
-        --             global.cc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,1,index)
-        --         else
-        --             remove_cc(pack.index)
-        --         end
-        --     end
-        --     for _,index in ipairs(global.lc_entities.entities[p_str].cc_rc_s[2]) do
-        --         local pack = global.rc_entities.entities[tostring(index)]
-        --         if pack.entity.valid then
-        --             global.rc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,2,index)
-        --         else
-        --             remove_cc(pack.index)
-        --         end
-        --     end
-        -- end
-        
         global.lc_entities.entities[p_str].cc_rc_s = nil --?
         global.lc_entities.entities[p_str] = nil
+
+        --re-calc distance
+        if global.lc_entities.count > 0 then
+            for _,index in ipairs(cc_rc_s[1]) do
+                local pack = global.cc_entities.entities[tostring(index)]
+                if pack.entity.valid then
+                    global.cc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,1,index)
+                else
+                    remove_cc(pack.index)
+                end
+            end
+            for _,index in ipairs(cc_rc_s[2]) do
+                local pack = global.rc_entities.entities[tostring(index)]
+                if pack.entity.valid then
+                    global.rc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,2,index)
+                else
+                    remove_cc(pack.index)
+                end
+            end
+        end
     end
 end)
 
@@ -209,8 +212,6 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
             table.remove(global.cc_entities.entities,cc.index)
         end
     end
-
-    -- update_lc_signals(global.lc_entity)
 end)
 
 --check all requester chests
@@ -255,6 +256,4 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
             table.remove(global.rc_entities.entities,rc.index)
         end
     end
-
-    -- update_lc_signals(global.lc_entity)
 end)
