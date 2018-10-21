@@ -70,8 +70,8 @@ end
 --     }
 -- })
 
-local half_length = 7
-local collision_len = 5
+local half_length = 1.5
+local collision_len = 1.4
 
 data:extend({
     {
@@ -90,31 +90,31 @@ data:extend({
         sprites = {
 			north = {
                 filename = OLC .. "/graphics/entity/logistics-center.png",
+				width = 113,
+				height = 91,
 				frame_count = 1,
-                width = 640,
-                height = 592,
-                shift = {0, 2.5}
+				shift = {0.2, 0.15}
 			},
 			east = {
                 filename = OLC .. "/graphics/entity/logistics-center.png",
+				width = 113,
+				height = 91,
 				frame_count = 1,
-                width = 640,
-                height = 592,
-                shift = {0, 2.5}
+				shift = {0.2, 0.15}
 			},
 			south = {
                 filename = OLC .. "/graphics/entity/logistics-center.png",
+				width = 113,
+				height = 91,
 				frame_count = 1,
-                width = 640,
-                height = 592,
-                shift = {0, 2.5}
+				shift = {0.2, 0.15}
 			},
 			west = {
                 filename = OLC .. "/graphics/entity/logistics-center.png",
+				width = 113,
+				height = 91,
 				frame_count = 1,
-                width = 640,
-                height = 592,
-                shift = {0, 2.5}
+				shift = {0.2, 0.15}
 			}
 			-- sheet = {
 			-- 	filename = OLC .. "/graphics/entity/logistics-center.png",
