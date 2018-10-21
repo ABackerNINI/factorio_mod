@@ -6,7 +6,7 @@ local entity_names = get_entity_names()
 local function init_globals()
     global.items_stock = global.items_stock or {index = 1,items = {}} -- {index,items = ["item_name"] = {index,stock}}
 
-    --multi-lc causes a promblem a severe bug on energy consumption
+    --multi-lc causes a severe bug on energy consumption
     global.lc_entities = global.lc_entities or {count = 0,entities = {}} -- {count,entities = {["pos_str"] = {lc,eei,cc_rc_s={1={},2={}}}}}
     global.cc_entities = global.cc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
     global.rc_entities = global.rc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
