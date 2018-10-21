@@ -5,8 +5,8 @@ require("config")
 local entity_names = get_entity_names()
 local config = get_config()
 
-local half_length = 7
-local collision_len = 5
+local half_length = 1.5
+local collision_len = 1.4
 
 data:extend({
     {
@@ -21,10 +21,10 @@ data:extend({
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
-            input_flow_limit = config.electric_energy_interface_input_flow_limit .."W",
-            buffer_capacity = config.electric_energy_interface_buffer_capacity .. "J",
+            input_flow_limit = config.eei_input_flow_limit .."W",
+            buffer_capacity = config.eei_buffer_capacity .. "J",
         },
-        energy_usage = "1MW",
+        energy_usage = config.eei_basic_power_consumption .. "W",
         energy_production = "0MW",        
         collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
         selection_box = {{-half_length, -half_length}, {half_length, half_length}},

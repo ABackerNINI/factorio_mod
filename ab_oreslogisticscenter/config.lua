@@ -29,9 +29,11 @@ function get_config()
         --item slot count of logistics center
         lc_item_slot_count = 200,
 
-        electric_energy_interface_input_flow_limit = 10000000, --W [10MW]
+        eei_basic_power_consumption = 1000000, --W[1MW]
+
+        eei_input_flow_limit = 10000000, --W [10MW]
         
-        electric_energy_interface_buffer_capacity  = 10000000  --J [10MJ]
+        eei_buffer_capacity  = 20000000  --J [10MJ]
     }
 end
 
