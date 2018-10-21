@@ -27,7 +27,7 @@ function get_config()
         rc_logistic_slots_count = 2,
 
         --item slot count of logistics center
-        lc_item_slot_count = 30,
+        lc_item_slot_count = 200,
 
         electric_energy_interface_input_flow_limit = 10000000, --W [10MW]
         
