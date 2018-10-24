@@ -26,8 +26,8 @@ function get_config()
         --logistic slots count of requester chests,default = 5
         rc_logistic_slots_count = 5,
 
-        --item slot count of logistics center,default = 50
-        lc_item_slot_count = 50,
+        --item slot count of logistics center,default = 200
+        lc_item_slot_count = 200,
 
         eei_basic_power_consumption = 1000000, --W [1MW]
 
