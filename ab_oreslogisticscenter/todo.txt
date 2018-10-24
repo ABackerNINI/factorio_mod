@@ -1,11 +1,15 @@
 --lc类型constant-combinator
 --output库存量信号
+--优化distance公式Max，dx，dy，（dx+dy）/2
+--lc唯一,多lc支持
+控制信号,停止cc,停止rc
+数量限制器
+该名ab-logistics-center
 改变图标
 stability0.90
 stability科技每次+0.01，耗电+2%，9次
 capacity科技每次+20%，10次，最后无限
 power consume科技每次-5%，10次
---优化distance公式Max，dx，dy，（dx+dy）/2
 电力传输能力科技每次+20%，10次
 locale翻译
 cc，rc初始能耗选项，不耗电选项
@@ -13,22 +17,10 @@ cc，rc初始能耗选项，不耗电选项
 初始stability选项，stability最大为1
 科技花费与难度
 lc，cc，rc，recipe
-lc唯一,多lc支持
 添加命令，ores stack查询库存
 添加注释
 粗糙的空间技术具有不稳定性，用于传输固体原矿
 看作大型原矿物流中心，假装你有很多超快物流机器人，但是计算量远远小于前者，UN weight你的电脑
 ?没电re-calc distance
 ?fluid支持
-
-
-SignalID
-Table with the following fields:
-type :: string: "item", "fluid", or "virtual".
-name :: string (optional): Name of the item, fluid or virtual signal.
-Signal
-An actual signal transmitted by the network.
-
-Table with the following fields:
-signal :: SignalID: ID of the signal.
-count :: int: Value of the signal.
+?传送到最近有能量的lc
