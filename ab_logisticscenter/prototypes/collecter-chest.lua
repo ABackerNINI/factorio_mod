@@ -1,25 +1,19 @@
-local OLC = "__ab_oreslogisticscenter__"
+local OLC = "__ab_logisticscenter__"
 
 require("config")
 
 local entity_names = get_entity_names()
-local config = get_config()
 
 data:extend({
     {
-        type = "logistic-container",
-        name = entity_names.ores_requester_chest,
-
-        logistic_mode = "requester",
-        logistic_slots_count = config.rc_logistic_slots_count,
-        render_not_in_network_icon = false,
-
-        icon = OLC .. "/graphics/icons/requester-chest.png",
+        type = "container",
+        name = entity_names.collecter_chest,
+        icon = OLC .. "/graphics/icons/collecter-chest.png",
         icon_size = 32,
         inventory_size = 48,
         max_health = 350,
         flags = {"placeable-neutral", "placeable-player", "player-creation"},
-        minable = {hardness = 0.5, mining_time = 1, result = entity_names.ores_requester_chest},
+        minable = {hardness = 0.5, mining_time = 1, result = entity_names.collecter_chest},
         fast_replaceable_group = "container",
         selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
         collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
@@ -28,7 +22,7 @@ data:extend({
         vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
         picture = 
         {
-			filename = OLC .. "/graphics/entity/requester-chest.png",
+			filename = OLC .. "/graphics/entity/collecter-chest.png",
 			priority = "extra-high",
 			width = 48,
 			height = 34,
@@ -54,25 +48,25 @@ data:extend({
 data:extend({
     {
         type = "recipe",
-        name = entity_names.ores_requester_chest,
+        name = entity_names.collecter_chest,
         enabled = true,
         energy_required = 1,
         ingredients = {},
-        result = entity_names.ores_requester_chest
+        result = entity_names.collecter_chest
     }
 })
 
 data:extend({
     {
         type = "item",
-        name = entity_names.ores_requester_chest,
+        name = entity_names.collecter_chest,
         stack_size = 50,
-        icon = OLC .. "/graphics/icons/requester-chest.png",
+        icon = OLC .. "/graphics/icons/collecter-chest.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},
         subgroup = "logistics",
         order = "l[a]",
-        place_result = entity_names.ores_requester_chest,
+        place_result = entity_names.collecter_chest,
     }
 })
     

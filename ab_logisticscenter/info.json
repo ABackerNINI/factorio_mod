@@ -1,9 +1,9 @@
 {
-    "name": "ab_oreslogisticscenter",
+    "name": "ab_logisticscenter",
     "version": "0.16.0",
-    "title": "oreslogisticscenter",
+    "title": "ab-logistics-center",
     "author": "ABacker",
-    "description": "ores logistics center",
+    "description": "ab mod:logistics center",
     "factorio_version": "0.16",
     "dependencies": ["base >= 0.16.0"]
   }

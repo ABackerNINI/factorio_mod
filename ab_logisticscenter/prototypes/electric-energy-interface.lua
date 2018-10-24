@@ -1,4 +1,4 @@
-local OLC = "__ab_oreslogisticscenter__"
+local OLC = "__ab_logisticscenter__"
 
 require("config")
 

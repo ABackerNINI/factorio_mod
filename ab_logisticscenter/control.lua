@@ -7,14 +7,9 @@ local function init_globals()
     global.items_stock = global.items_stock or {index = 1,items = {}} -- {index,items = ["item_name"] = {index,stock}}
 
     --multi-lc causes a severe bug on energy consumption
-    global.lc_entities = global.lc_entities or {count = 0,entities = {}} -- {count,entities = {["pos_str"] = {lc,eei,cc_rc_s={1={},2={}}}}}
+    global.lc_entities = global.lc_entities or {count = 0,entities = {}} -- {count,entities = {["pos_str"] = {lc,eei}}}
     global.cc_entities = global.cc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
     global.rc_entities = global.rc_entities or {index = 1,entities = {}} -- {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
-end
-
-local function add_new_item(item_name)
-    global.items_stock.items[item_name] = {index = global.items_stock.index,stock = 0}
-    global.items_stock.index = global.items_stock.index + 1
 end
 
 script.on_init(function()
@@ -28,14 +23,22 @@ end)
 local function calc_distance_between_two_points(p1,p2)
     local dx = math.abs(p1.x-p2.x)
     local dy = math.abs(p1.y-p2.y)
-    return math.sqrt(dx*dx+dy*dy) --return math.max(math.max(dx,dy),(dx+dy)/2)
+    return math.sqrt(dx*dx+dy*dy)
 end
 
 local function position_to_string(p)
     return p.x .. "," .. p.y
 end
 
-local function find_nearest_lc(entity,cc_or_rc,index)
+local function remove_cc(index)
+    global.cc_entities.entities[tostring(index)] = nil
+end
+
+local function remove_rc(index)
+    global.rc_entities.entities[tostring(index)] = nil
+end
+
+local function find_nearest_lc(entity)
     local nearest_lc = nil
     local nearest_distance = 1000000000 --should big enough
     for _,v in pairs(global.lc_entities.entities) do
@@ -47,7 +50,6 @@ local function find_nearest_lc(entity,cc_or_rc,index)
     end
 
     if nearest_lc ~= nil then 
-        table.insert(nearest_lc.cc_rc_s[cc_or_rc],index)
         return {
             distance = nearest_distance,
             lc_pos_str = position_to_string(nearest_lc.lc.position)
@@ -57,25 +59,34 @@ local function find_nearest_lc(entity,cc_or_rc,index)
     end
 end
 
-local function remove_cc(index)
-    global.cc_entities.entities[tostring(index)] = nil
-end
-
-local function remove_rc(index)
-    global.rc_entities.entities[tostring(index)] = nil
+local function recalc_distance()
+    for _,v in pairs(global.cc_entities.entities) do
+        if v.entity.valid then
+            v.nearest_lc = find_nearest_lc(v.entity)
+        else
+            remove_cc(v.index)
+        end
+    end
+    for _,v in pairs(global.rc_entities.entities) do
+        if v.entity.valid then
+            v.nearest_lc = find_nearest_lc(v.entity)
+        else
+            remove_rc(v.index)
+        end
+    end
 end
 
 --on built
 script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_entity}, function(event)
     local entity = event.created_entity
 
-    if entity.name == entity_names.ores_collecter_chest then
+    if entity.name == entity_names.collecter_chest then
         global.cc_entities.entities[tostring(global.cc_entities.index)] = {index = global.cc_entities.index,entity = entity,nearest_lc = find_nearest_lc(entity,1,global.cc_entities.index)}
         global.cc_entities.index = global.cc_entities.index + 1
-    elseif entity.name == entity_names.ores_requester_chest then
+    elseif entity.name == entity_names.requester_chest then
         global.rc_entities.entities[tostring(global.rc_entities.index)] = {index = global.rc_entities.index,entity = entity,nearest_lc = find_nearest_lc(entity,2,global.rc_entities.index)}
         global.rc_entities.index = global.rc_entities.index + 1
-    elseif entity.name == entity_names.ores_logistics_center then
+    elseif entity.name == entity_names.logistics_center then
         --disable signal output on default,this will cause a problem that signals don't show up immediately after control-behavior enabled
         entity.get_or_create_control_behavior().enabled = false
 
@@ -86,75 +97,44 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
                 name = entity_names.electric_energy_interface,
                 position = entity.position,
                 force = entity.force
-            },
-            cc_rc_s = {[1]={},[2]={}}
+            }
         }
         global.lc_entities.count = global.lc_entities.count + 1
         
         --re-calc distance
-        if global.lc_entities.count == 1 then 
-            for _,v in pairs(global.cc_entities.entities) do
-                if v.entity.valid then
-                    v.nearest_lc = find_nearest_lc(v.entity,1,v.index)
-                else
-                    remove_cc(v.index)
-                end
-            end
-            for _,v in pairs(global.rc_entities.entities) do
-                if v.entity.valid then
-                    v.nearest_lc = find_nearest_lc(v.entity,2,v.index)
-                else
-                    remove_rc(v.index)
-                end
-            end
-        end
+        recalc_distance()
     end
 end)
 
---on pre-mined-item
+--on pre-mined-item/entity-died
 script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot_pre_mined,defines.events.on_entity_died},function(event)
     local entity = event.entity
 
     --TODO erase refrences in global.lc_entities.entities[].cc_rc_s when pre-mined cc or rc
-    -- if entity.name == entity_names.ores_ores_collecter_chest then
+    -- if entity.name == entity_names.collecter_chest then
     --     global.lc_entities.entities[].cc_rc_s
-    -- elseif entity.name == entity_names.ores_ores_collecter_chest then 
+    -- elseif entity.name == entity_names.collecter_chest then 
 
     -- else
-    if entity.name == entity_names.ores_logistics_center then
+    if entity.name == entity_names.logistics_center then
         local p_str = position_to_string(entity.position)
 
         global.lc_entities.count = global.lc_entities.count - 1
 
-
-        local cc_rc_s = global.lc_entities.entities[p_str].cc_rc_s
-
         --destroy the electric energy interface
         global.lc_entities.entities[p_str].eei.destroy()
-        global.lc_entities.entities[p_str].cc_rc_s = nil --?
         global.lc_entities.entities[p_str] = nil
 
         --re-calc distance
-        if global.lc_entities.count > 0 then
-            for _,index in ipairs(cc_rc_s[1]) do
-                local pack = global.cc_entities.entities[tostring(index)]
-                if pack.entity.valid then
-                    global.cc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,1,index)
-                else
-                    remove_cc(pack.index)
-                end
-            end
-            for _,index in ipairs(cc_rc_s[2]) do
-                local pack = global.rc_entities.entities[tostring(index)]
-                if pack.entity.valid then
-                    global.rc_entities.entities[tostring(index)].nearest_lc = find_nearest_lc(pack.entity,2,index)
-                else
-                    remove_cc(pack.index)
-                end
-            end
-        end
+        recalc_distance()
     end
 end)
+
+--add new item to the stock
+local function add_new_item(item_name)
+    global.items_stock.items[item_name] = {index = global.items_stock.index,stock = 0}
+    global.items_stock.index = global.items_stock.index + 1
+end
 
 --update signals of logistics center
 local function update_lc_signals(item_name)
@@ -208,8 +188,7 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
             end
         else
             --remove invalid collecter chest
-            global.cc_entities.entities[cc.index] = nil --?
-            table.remove(global.cc_entities.entities,cc.index)
+            remove_cc(cc.index)
         end
     end
 end)
@@ -252,8 +231,7 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
             end
         else
             --remove invalid requester chest
-            global.rc_entities.entities[rc.index] = nil --?
-            table.remove(global.rc_entities.entities,rc.index)
+            remove_rc(rc.index)
         end
     end
 end)

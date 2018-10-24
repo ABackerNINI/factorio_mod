@@ -12,10 +12,10 @@ function get_config()
         lc_capacity = 1000000, --[1M] 
 
         --stability of collecter chests,default = 0.9
-        cc_stability = 0.9,
+        -- cc_stability = 0.9,
 
         --stability of requester chests,default = 0.9
-        rc_stability = 0.9,
+        -- rc_stability = 0.9,
 
         --power consumption of collector chests per distance per item transferring,default = 1000
         cc_power_consumption = 1000,  --J
@@ -29,19 +29,19 @@ function get_config()
         --item slot count of logistics center,default = 200
         lc_item_slot_count = 200,
 
-        eei_basic_power_consumption = 1000000, --W [1MW]
+        eei_basic_power_consumption = 2000000, --W [2MW]
 
         eei_input_flow_limit = 10000000, --W [10MW]
         
-        eei_buffer_capacity  = 20000000  --J [10MJ]
+        eei_buffer_capacity  = 20000000  --J [20MJ]
     }
 end
 
 function get_entity_names()
     return {
-        ores_collecter_chest = "ab-ores-collecter-chest",
-        ores_requester_chest = "ab-ores-requester-chest",
-        ores_logistics_center = "ab-ores-logistic-center",
-        electric_energy_interface = "ab-ores-lc-electric-energy-interface"
+        collecter_chest = "ab-collecter-chest",
+        requester_chest = "ab-requester-chest",
+        logistics_center = "ab-logistic-center",
+        electric_energy_interface = "ab-lc-electric-energy-interface"
     }
 end

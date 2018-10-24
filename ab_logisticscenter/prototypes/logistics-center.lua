@@ -1,4 +1,4 @@
-local OLC = "__ab_oreslogisticscenter__"
+local OLC = "__ab_logisticscenter__"
 
 require("config")
 
@@ -27,60 +27,17 @@ local function ablank()
 	}
 end
 
--- data:extend({
---     {
---         type = "storage-tank",
---         name = entity_names.ores_logistics_center,
---         icon = OLC .. "/graphics/icons/greenhouse.png",
---         icon_size = 32,
---         flags = {"placeable-neutral", "placeable-player", "player-creation"},
---         minable = {hardness = 1, mining_time = 10, result = entity_names.ores_logistics_center},
---         collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
---         selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
---         max_health = 250,
---         corpse = "big-remnants",
---         dying_explosion = "medium-explosion",
---         pictures = {
---             picture = {
---                 sheet = {
---                     filename = OLC .. "/graphics/entity/greenhouse.png",
---                     frames = 1,
---                     width = 113,
---                     height = 91,
---                     shift = {0.2, 0.15},
---                 },
---             },
---             fluid_background = blank(),
---             window_background = blank(),
---             flow_sprite = blank(),
---             gas_flow = ablank(),
---         },
---         window_bounding_box = {{0,0},{0,0}},
---         fluid_box = {
---             base_area = 1,
---             pipe_covers = pipecoverspictures(),
---             pipe_connections = {},
---         },
---         flow_length_in_ticks = 1,
---         circuit_wire_connection_points = circuit_connector_definitions["storage-tank"].points,
---         circuit_connector_sprites = circuit_connector_definitions["storage-tank"].sprites,
---         circuit_wire_max_distance = 10,
---         map_color = {r = 0, g = 1, b = 0},
---         vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 }
---     }
--- })
-
 local half_length = 1.5
 local collision_len = 1.4
 
 data:extend({
     {
         type = "constant-combinator",
-        name = entity_names.ores_logistics_center,
+        name = entity_names.logistics_center,
         icon = OLC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"placeable-neutral", "placeable-player", "player-creation"},
-        minable = {hardness = 1, mining_time = 10, result = entity_names.ores_logistics_center},
+        minable = {hardness = 1, mining_time = 10, result = entity_names.logistics_center},
         collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
         selection_box = {{-half_length, -half_length}, {half_length, half_length}},
         max_health = 250,
@@ -116,13 +73,6 @@ data:extend({
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			}
-			-- sheet = {
-			-- 	filename = OLC .. "/graphics/entity/logistics-center.png",
-			-- 	frame_count = 1,
-			-- 	width = 100,
-			-- 	height = 100,
-			-- 	shift = {0.2, 0.15}
-			-- }
 		},
 
 		activity_led_sprites = {
@@ -219,25 +169,25 @@ data:extend({
 data:extend({
     {
         type = "recipe",
-        name = entity_names.ores_logistics_center,
+        name = entity_names.logistics_center,
         enabled = true,
         energy_required = 1,
         ingredients = {},
-        result = entity_names.ores_logistics_center
+        result = entity_names.logistics_center
     }
 })
 
 data:extend({
     {
         type = "item",
-        name = entity_names.ores_logistics_center,
+        name = entity_names.logistics_center,
         stack_size = 1,
         icon = OLC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},
         subgroup = "logistics",
         order = "g[l]",
-        place_result = entity_names.ores_logistics_center,
+        place_result = entity_names.logistics_center,
     }
 })
 
