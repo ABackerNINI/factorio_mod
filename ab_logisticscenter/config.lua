@@ -3,10 +3,14 @@ function get_config()
         --!!attention! the values "check_xx_on_nth_tick" below can NOT be the same with each other.
 
         --check all collecter chests every nth tick,default = 120
-        check_cc_on_nth_tick = 120,
+        check_cc_on_nth_tick = 50,
 
         --check all requester chests every nth tick,default = 121
-        check_rc_on_nth_tick = 121,
+        check_rc_on_nth_tick = 20,
+
+        check_cc_percentage = 0.20,
+
+        check_rc_percentage = 0.20,
 
         --capacity of the logistics center of each item,default = 1000000
         lc_capacity = 1000000, --[1M] 
