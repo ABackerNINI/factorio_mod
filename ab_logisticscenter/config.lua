@@ -8,7 +8,7 @@ function get_config()
         --check all requester chests every nth tick,default = 121
         check_rc_on_nth_tick = 121,
 
-        --capacity of the logistics center per ore,default = 1000000
+        --capacity of the logistics center of each item,default = 1000000
         lc_capacity = 1000000, --[1M] 
 
         --stability of collecter chests,default = 0.9
