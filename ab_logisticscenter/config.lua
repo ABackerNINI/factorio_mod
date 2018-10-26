@@ -1,12 +1,14 @@
 function get_config()
     return {
-        --!!attention! the values "check_xx_on_nth_tick" below can NOT be the same with each other.
+        --!!attention! the values "xx_on_nth_tick" below can NOT be the same with each other.
 
         --check all collecter chests every nth tick,default = 120
         check_cc_on_nth_tick = 50,
 
         --check all requester chests every nth tick,default = 121
         check_rc_on_nth_tick = 20,
+
+        update_all_signals_on_nth_tick = 180,
 
         check_cc_percentage = 0.20,
 
