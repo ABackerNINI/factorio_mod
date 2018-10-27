@@ -82,10 +82,6 @@ function init_utilities()
     Cc.check_percentage = config.check_cc_percentage
     Rc.data = global.rc_entities
     Rc.check_percentage = config.check_rc_percentage
-
-    --cc/rc counts may change after migrations
-    Cc:_recalc_cpr()
-    Rc:_recalc_cpr()
 end
 
 function migrations_during_alpha()
@@ -123,6 +119,12 @@ function migrations_during_alpha()
         rc_entities.count = rc_count
         global.rc_entities = nil
         global.rc_entities = rc_entities
+        
+        --cc/rc counts may change after migrations
+        Cc.data = global.cc_entities
+        Rc.data = global.rc_entities
+        Cc:_recalc_cpr()
+        Rc:_recalc_cpr()
     end
 end
 
@@ -284,11 +286,11 @@ end
 --recalc distance from cc/rc to the nearest lc
 --call after lc entity being created or destoried 
 function CRc:recalc_distance()
-    for _,v in ipairs(self.data.entities) do
+    for index,v in ipairs(self.data.entities) do
         if v.entity.valid then
             v.nearest_lc = Lc:find_nearest(v.entity)
         else
-            self:_remove(v.index)
+            self:_remove(index)
         end
     end
 end
