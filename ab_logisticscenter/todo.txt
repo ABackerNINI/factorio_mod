@@ -4,18 +4,18 @@
 --lc唯一,多lc支持
 --改名ab-logistics-center
 --locale翻译
-平滑CPU占用
+--平滑CPU占用
 改变图标
 capacity科技每次+20%，10次，最后无限
 power consume科技每次-5%，10次
-电力传输能力科技每次+20%，10次
+input_flow_limit电力传输能力科技每次+20%，10次
 cc，rc初始能耗选项，不耗电选项
-初始电力传输能力选项
+input_flow_limit初始电力传输能力选项
 科技花费与难度
 lc，cc，rc，recipe
-添加命令，ores stack查询库存
 添加注释
 
+?添加命令，ores stack查询库存
 ?没电re-calc distance
 ?fluid支持
 ?传送到最近有能量的lc
