@@ -4,25 +4,21 @@ require("utilities")
 local config = get_config()
 local names = get_names()
 
-local check_cc_per_round = 0
-local check_rc_per_round = 0
-local checked_cc_index = 0
-local checked_rc_index = 0
-
 script.on_init(function()
     init_globals()
 
     init_utilities()
 end)
 
+--call on ever save and load
 script.on_load(function()
     init_utilities()
 end)
 
 script.on_configuration_changed(function(config_changed_data)
-    migrations_during_alpha()
+    -- init_utilities()
 
-    init_utilities()
+    migrations_during_alpha()
 end)
 
 --on built
@@ -61,7 +57,14 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
     Rc:check()
 end)
 
-script.on_nth_tick(config.update_all_signals_on_nth_tick,function(nth_tick_event)
-    --?
-    Stock:update_all_signals()
+-- script.on_nth_tick(config.update_all_signals_on_nth_tick,function(nth_tick_event)
+--     --?
+--     Stock:update_all_signals()
+-- end)
+
+script.on_event(defines.events.on_research_finished, function(event)
+    local research = event.research
+    if research.name == names.tech_lc_capacity then
+        game.print(research.level)
+    end
 end)

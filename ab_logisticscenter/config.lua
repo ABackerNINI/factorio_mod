@@ -17,20 +17,20 @@ function get_config()
 
         --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
 
-        --check all collecter chests every nth tick,default = 50
-        check_cc_on_nth_tick = 50,
+        --check all collecter chests every nth tick,default = 5
+        check_cc_on_nth_tick = 5,
 
-        --check all requester chests every nth tick,default = 30
-        check_rc_on_nth_tick = 20,
+        --check all requester chests every nth tick,default = 3
+        check_rc_on_nth_tick = 3,
 
-        --update all signals ever nth tick,default = 180
-        update_all_signals_on_nth_tick = 180,
+        --update all signals ever nth tick,default = 600
+        update_all_signals_on_nth_tick = 600,
 
         --check 20% collecter chests every 'check_cc_on_nth_tick'
-        check_cc_percentage = 0.20,
+        check_cc_percentage = 0.015,
 
         --check 20% requester chests every 'check_rc_on_nth_tick'
-        check_rc_percentage = 0.20,
+        check_rc_percentage = 0.015,
 
         --logistic slots count of requester chests,default = 5
         rc_logistic_slots_count = 5,
@@ -40,9 +40,9 @@ function get_config()
 
         eei_basic_power_consumption = 2000000, --W [2MW]
 
-        eei_input_flow_limit = 10000000, --W [10MW]
+        eei_input_flow_limit = 50000000, --W [50MW]
         
-        eei_buffer_capacity  = 20000000  --J [20MJ]
+        eei_buffer_capacity  = 100000000  --J [100MJ]
     }
 end
 
