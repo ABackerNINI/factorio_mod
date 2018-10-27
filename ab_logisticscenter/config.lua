@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 3,
+        global_data_version = 4,
 
         --capacity of the logistics center of each item,default = 1000000
         lc_capacity = 1000000, --[1M] 
