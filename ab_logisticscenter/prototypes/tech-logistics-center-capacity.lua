@@ -8,17 +8,18 @@ data:extend({
     {
         type = "technology",
         name = names.tech_lc_capacity,
-        icon = F.."/graphics/technology/factory-architecture-1.png",
+        icon = LC.."/graphics/technology/logistics-center-capacity.png",
         icon_size = 128,
-        prerequisites = {"stone-walls", "logistics"},
-        effects = {
-            {type = "unlock-recipe", recipe = "factory-1"},
-        },
+        enable = false,
+        prerequisites = {},
+        -- upgrade = true,
+        effects = {},
         unit = {
-            count = easy_research and 30 or 200,
+            count = 100,
             ingredients = {{"science-pack-1", 1}},
-            time = 30
+            time = 5
         },
-        order = "a-a",
+        max_level = "infinite",
+        order = "lc-a-a",
     }
 })
