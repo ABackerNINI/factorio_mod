@@ -1,5 +1,7 @@
 function get_config()
     return {
+        global_data_version = 3,
+
         --capacity of the logistics center of each item,default = 1000000
         lc_capacity = 1000000, --[1M] 
 
@@ -40,9 +42,9 @@ function get_config()
 
         eei_basic_power_consumption = 2000000, --W [2MW]
 
-        eei_input_flow_limit = 50000000, --W [50MW]
+        eei_input_flow_limit = 20000000, --W [20MW]
         
-        eei_buffer_capacity  = 100000000  --J [100MJ]
+        eei_buffer_capacity  = 40000000  --J [40MJ]
     }
 end
 
