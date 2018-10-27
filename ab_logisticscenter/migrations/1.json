@@ -1,0 +1,14 @@
+{
+    "entity":[
+        ["ab-ores-collecter-chest","ab-collecter-chest"],
+        ["ab-ores-requester-chest","ab-requester-chest"],
+        ["ab-ores-logistic-center","ab-logistic-center"],
+        ["ab-ores-lc-electric-energy-interface","ab-lc-electric-energy-interface"]
+    ],
+    "item":[
+        ["ab-ores-collecter-chest","ab-collecter-chest"],
+        ["ab-ores-requester-chest","ab-requester-chest"],
+        ["ab-ores-logistic-center","ab-logistic-center"],
+        ["ab-ores-lc-electric-energy-interface","ab-lc-electric-energy-interface"]
+    ]
+}
