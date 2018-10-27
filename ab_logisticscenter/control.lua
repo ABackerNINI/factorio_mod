@@ -36,14 +36,14 @@ local function init_globals()
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,lc_pos_str}}}}
     global.cc_entities = global.cc_entities or {
         count = 0,
         empty_stack = {count = 0,data = {}},
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,lc_pos_str}}}}
     global.rc_entities = global.rc_entities or {
         count = 0,
         empty_stack = {count = 0,data = {}},
@@ -73,6 +73,7 @@ end
 local function global_data_migrations()
     --first change,global.global_data_version = nil
     if global.cc_entities ~= nil and global.cc_entities.index ~= nil then
+        game.print("first migrations applied.")
         --global.cc_entities
         --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
         --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
@@ -112,27 +113,71 @@ local function global_data_migrations()
     end
 
     --secend change,global.global_data_version = nil
-    if global.cc_entities.empty_stack.p ~= nil then
+    if global.global_data_version == nil or global.global_data_version < 3 then
+        game.print("secend migrations applied.")
         --cc_entities.empty_stack
         --OLD Stack:new{p,data}
         --NEW {count,data}
-        local new_cc_empty_stack = {count = global.cc_entities.empty_stack.p - 1,data = global.cc_entities.empty_stack.data}
+        local new_cc_es_count = 0
+        local new_cc_empty_stack = {count = 0,data = {}}
+        for k,v in ipairs(global.cc_entities.entities) do
+            if v == nil then
+                new_cc_es_count = new_cc_es_count + 1
+                new_cc_empty_stack.data[new_cc_es_count] = k
+            end
+        end
+        new_cc_empty_stack.count = new_cc_es_count
         global.cc_entities.empty_stack = new_cc_empty_stack
 
         --rc_entities.empty_stack
         --OLD Stack:new{p,data}
         --NEW {count,data}
-        local new_rc_empty_stack = {count = global.rc_entities.empty_stack.p - 1,data = global.rc_entities.empty_stack.data}
+        local new_rc_es_count = 0
+        local new_rc_empty_stack = {count = 0,data = {}}
+        for k,v in ipairs(global.rc_entities.entities) do
+            if v == nil then
+                new_rc_es_count = new_rc_es_count + 1
+                new_rc_empty_stack.data[new_rc_es_count] = k
+            end
+        end
+        new_rc_empty_stack.count = new_rc_es_count
         global.rc_entities.empty_stack = new_rc_empty_stack
 
         --set global_data_version
         global.global_data_version = 3
     end
 
-    -- if global.global_data_version < 4 then
+    --third change,global.global_data_version = nil
+    if global.global_data_version == nil or global.global_data_version < 4 then
+        game.print("third migrations applied.")
+        --cc_entities.entities.nearest_lc
+        --OLD {distance,lc_pos_str}
+        --NEW {power_consumption,lc_pos_str}
+        for k,v in ipairs(global.cc_entities.entities) do
+            if v.nearest_lc ~= nil then
+                local power_consumption = v.nearest_lc.distance * config.cc_power_consumption
+                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
+            end
+        end
+
+        --rc_entities.entities.nearest_lc
+        --OLD {distance,lc_pos_str}
+        --NEW {power_consumption,lc_pos_str}
+        for k,v in ipairs(global.rc_entities.entities) do
+            if v.nearest_lc ~= nil then
+                local power_consumption = v.nearest_lc.distance * config.rc_power_consumption
+                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
+            end
+        end
+    
+        --set global_data_version
+        global.global_data_version = 4
+    end
+
+    -- if global.global_data_version < 5 then
     --     --TODO migrations
     --     --set global_data_version
-    --     global.global_data_version = 4
+    --     global.global_data_version = 5
     -- end
 
     global.global_data_version = config.global_data_version
@@ -180,10 +225,16 @@ local function find_nearest_lc(entity)
     end
 
     if nearest_lc_pack ~= nil then 
-        return {
-            distance = nearest_distance,
+        local ret = {
+            power_consumption = 0,
             lc_pos_str = position_to_string(nearest_lc_pack.lc.position)
         }
+        if entity.name == names.collecter_chest then
+            ret.power_consumption = nearest_distance * config.cc_power_consumption
+        else
+            ret.power_consumption = nearest_distance * config.rc_power_consumption
+        end
+        return ret
     else
         return nil
     end
@@ -351,7 +402,7 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
             if v.entity.valid then
                 local inventory = v.entity.get_output_inventory()
                 if not inventory.is_empty() then
-                    local power_consumption = config.cc_power_consumption * v.nearest_lc.distance
+                    local power_consumption = v.nearest_lc.power_consumption--config.cc_power_consumption * v.nearest_lc.distance
                     local contents = inventory.get_contents()
                     local eei = lc_entities.entities[v.nearest_lc.lc_pos_str].eei
 
@@ -419,7 +470,7 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
             if v.entity.valid then
                 local inventory = v.entity.get_output_inventory()
                 local eei = lc_entities.entities[v.nearest_lc.lc_pos_str].eei
-                local power_consumption = config.rc_power_consumption * v.nearest_lc.distance
+                local power_consumption = v.nearest_lc.power_consumption--config.rc_power_consumption * v.nearest_lc.distance
 
                 for i = 1,config.rc_logistic_slots_count do
                     local request_slot = v.entity.get_request_slot(i)
@@ -476,11 +527,15 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
     end
 end)
 
--- function update_all_signals()
---     for k,_ in pairs(item_stock.items) do
---         update_signals(k)
---     end
--- end
+local function update_all_signals()
+    for k,_ in pairs(item_stock.items) do
+        update_signals(k)
+    end
+end
+
+commands.add_command("ab_logistics_center_update_all_signals",{"update all signals"},function(event)
+    update_all_signals()
+end)
 
 -- script.on_nth_tick(config.update_all_signals_on_nth_tick,function(nth_tick_event)
 --     --?
