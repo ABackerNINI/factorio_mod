@@ -1,6 +1,8 @@
 require("config")
+------------------------------------------------------------------------------------------------------
+--LOCAL VARS/FUNCTIONS
 local config = get_config()
-local entity_names = get_entity_names()
+local names = get_names()
 
 local function calc_distance_between_two_points(p1,p2)
     local dx = math.abs(p1.x-p2.x)
@@ -13,7 +15,7 @@ local function position_to_string(p)
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table Stack
+--META TABLE Stack(First In,Last Out)
 Stack = {
     data = {},
     p = 1
@@ -41,26 +43,38 @@ function Stack:count()
 end
 
 ------------------------------------------------------------------------------------------------------
---INIT
+--INIT FUNCTIONS
+--call on mod init.should call it only once
 function init_globals()
-    global.items_stock = global.items_stock or {index = 1,items = {}} -- {index,items = ["item_name"] = {index,stock}}
+    --{index,items = {["item_name"] = {index,stock}}}
+    global.items_stock = global.items_stock or {
+        index = 1,
+        items = {}
+    }
 
     --multi-lc causes a severe bug on energy consumption
-    global.lc_entities = global.lc_entities or {count = 0,entities = {}} -- {count,entities = {["pos_str"] = {lc,eei}}}
+    --{count,entities = {["pos_str"] = {lc,eei}}}
+    global.lc_entities = global.lc_entities or {
+        count = 0,
+        entities = {}
+    } 
 
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
     global.cc_entities = global.cc_entities or {
         count = 0,
         empty_stack = Stack:new(),
         entities = {}
-    } -- {count,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+    } 
 
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
     global.rc_entities = global.rc_entities or {
         count = 0,
         empty_stack = Stack:new(),
         entities = {}
-    } -- {count,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+    }
 end
 
+--call this before calling functions of Stock,Lc,Cc,Rc
 function init_utilities()
     Stock.data = global.items_stock
     Lc.data = global.lc_entities
@@ -68,10 +82,52 @@ function init_utilities()
     Cc.check_percentage = config.check_cc_percentage
     Rc.data = global.rc_entities
     Rc.check_percentage = config.check_rc_percentage
+
+    --cc/rc counts may change after migrations
+    Cc:_recalc_cpr()
+    Rc:_recalc_cpr()
+end
+
+function migrations_during_alpha()
+    if global.cc_entities ~= nil and global.cc_entities.index ~= nil then
+        --global.cc_entities
+        --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
+        --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+        local cc_entities = {
+            count = 0,
+            empty_stack = Stack:new(),
+            entities = {}
+        }
+        local cc_count = 0
+        for k,v in pairs(global.cc_entities.entities) do
+            cc_count = cc_count + 1
+            cc_entities.entities[cc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
+        end
+        cc_entities.count = cc_count
+        global.cc_entities = nil
+        global.cc_entities = cc_entities
+
+        --global.rc_entities
+        --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
+        --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
+        local rc_entities = {
+            count = 0,
+            empty_stack = Stack:new(),
+            entities = {}
+        }
+        local rc_count = 0
+        for k,v in pairs(global.rc_entities.entities) do
+            rc_count = rc_count + 1
+            rc_entities.entities[rc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
+        end
+        rc_entities.count = rc_count
+        global.rc_entities = nil
+        global.rc_entities = rc_entities
+    end
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table Stock
+--META TABLE Stock
 Stock = {data = nil}
 
 function Stock:_add_new_item(item_name)
@@ -95,7 +151,7 @@ function Stock:update_all_signals()
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table Lc
+--META TABLE Lc
 Lc = {data = nil}
 
 function Lc:on_built(entity)
@@ -106,7 +162,7 @@ function Lc:on_built(entity)
     self.data.entities[position_to_string(entity.position)] = { 
         lc = entity,
         eei = entity.surface.create_entity{
-            name = entity_names.electric_energy_interface,
+            name = names.electric_energy_interface,
             position = entity.position,
             force = entity.force
         }
@@ -177,7 +233,7 @@ function Lc:get_eei(pos_str)
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table CRc(Cc and Rc)
+--META TABLE CRc(Cc and Rc)
 CRc = {data = nil,check_percentage = 0,check_per_round = 0,checked_index = 0}
 
 function CRc:new(o)
@@ -187,10 +243,12 @@ function CRc:new(o)
     return o
 end
 
+--call after cc/rc counts changed
 function CRc:_recalc_cpr()
     self.check_per_round = math.ceil(self.data.count * self.check_percentage)
 end
 
+--add cc/rc to the watch-list
 function CRc:_add(entity)
     self.data.count = self.data.count + 1
 
@@ -203,6 +261,7 @@ function CRc:_add(entity)
     self:_recalc_cpr()
 end
 
+--remove cc/rc from the watch-list
 function CRc:_remove(index)
     self.data.count = self.data.count - 1
     self.data.entities[index] = nil
@@ -216,9 +275,14 @@ function CRc:on_built(entity)
 end
 
 function CRc:on_destroyed(entity)
+    --can't get index by entity except using 'for'
+    --no need to call _remove here,
+    --but should check valid before using entities stored in the watch-list
     -- self:_remove()
 end
 
+--recalc distance from cc/rc to the nearest lc
+--call after lc entity being created or destoried 
 function CRc:recalc_distance()
     for _,v in ipairs(self.data.entities) do
         if v.entity.valid then
@@ -234,18 +298,18 @@ function CRc:check()
 
     local index_begin = self.checked_index + 1
     local index_end = index_begin + self.check_per_round
+
     self:_check(index_begin,index_end)
 
-    self.checked_index = index_end
     if self.data.count ~= 0 then
-        self.checked_index = self.checked_index % self.data.count
+        self.checked_index = index_end % self.data.count
     else
         self.checked_index = 0
     end
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table Cc
+--META TABLE Cc
 Cc = CRc:new()
 
 function Cc:_check(index_begin,index_end)
@@ -288,10 +352,11 @@ function Cc:_check(index_begin,index_end)
 end
 
 ------------------------------------------------------------------------------------------------------
---meta table Rc
+--META TABLE Rc
 Rc = CRc:new()
 
 function Rc:_check(index_begin,index_end)
+    -- game.print(index_begin.." "..index_end)
     for index = index_begin,index_end,1 do
         local idx = index
         if idx > self.data.count then idx = idx - self.data.count end

@@ -1,73 +1,73 @@
-local OLC = "__ab_logisticscenter__"
+local LC = "__ab_logisticscenter__"
 
 require("config")
 
-local entity_names = get_entity_names()
+local names = get_names()
 local config = get_config()
 
 local transfer_rate = 10
 local buffer_size = transfer_rate*16667
 
-local function blank()
-	return {
-		filename = OLC .. "/graphics/nothing.png",
-		priority = "high",
-		width = 1,
-		height = 1,
-	}
-end
+-- local function blank()
+-- 	return {
+-- 		filename = LC .. "/graphics/nothing.png",
+-- 		priority = "high",
+-- 		width = 1,
+-- 		height = 1,
+-- 	}
+-- end
 
-local function ablank()
-	return {
-		filename = OLC .. "/graphics/nothing.png",
-		priority = "high",
-		width = 1,
-		height = 1,
-		frame_count = 1,
-	}
-end
+-- local function ablank()
+-- 	return {
+-- 		filename = LC .. "/graphics/nothing.png",
+-- 		priority = "high",
+-- 		width = 1,
+-- 		height = 1,
+-- 		frame_count = 1,
+-- 	}
+-- end
 
-local half_length = 1.5
-local collision_len = 1.4
+local half_selection_length = 1.5
+local half_collision_len = 1.4
 
 data:extend({
     {
         type = "constant-combinator",
-        name = entity_names.logistics_center,
-        icon = OLC .. "/graphics/icons/logistics-center.png",
+        name = names.logistics_center,
+        icon = LC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"placeable-neutral", "placeable-player", "player-creation"},
-        minable = {hardness = 1, mining_time = 10, result = entity_names.logistics_center},
-        collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
-        selection_box = {{-half_length, -half_length}, {half_length, half_length}},
+        minable = {hardness = 1, mining_time = 10, result = names.logistics_center},
+        collision_box = {{-half_collision_len, -half_collision_len}, {half_collision_len, half_collision_len}},
+        selection_box = {{-half_selection_length, -half_selection_length}, {half_selection_length, half_selection_length}},
         max_health = 250,
         corpse = "big-remnants",
         dying_explosion = "medium-explosion",
         item_slot_count = config.lc_item_slot_count,
         sprites = {
 			north = {
-                filename = OLC .. "/graphics/entity/logistics-center.png",
+                filename = LC .. "/graphics/entity/logistics-center.png",
 				width = 113,
 				height = 91,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			east = {
-                filename = OLC .. "/graphics/entity/logistics-center.png",
+                filename = LC .. "/graphics/entity/logistics-center.png",
 				width = 113,
 				height = 91,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			south = {
-                filename = OLC .. "/graphics/entity/logistics-center.png",
+                filename = LC .. "/graphics/entity/logistics-center.png",
 				width = 113,
 				height = 91,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			west = {
-                filename = OLC .. "/graphics/entity/logistics-center.png",
+                filename = LC .. "/graphics/entity/logistics-center.png",
 				width = 113,
 				height = 91,
 				frame_count = 1,
@@ -169,25 +169,25 @@ data:extend({
 data:extend({
     {
         type = "recipe",
-        name = entity_names.logistics_center,
+        name = names.logistics_center,
         enabled = true,
         energy_required = 1,
         ingredients = {},
-        result = entity_names.logistics_center
+        result = names.logistics_center
     }
 })
 
 data:extend({
     {
         type = "item",
-        name = entity_names.logistics_center,
+        name = names.logistics_center,
         stack_size = 1,
-        icon = OLC .. "/graphics/icons/logistics-center.png",
+        icon = LC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},
         subgroup = "logistics",
         order = "g[l]",
-        place_result = entity_names.logistics_center,
+        place_result = names.logistics_center,
     }
 })
 

@@ -1,8 +1,8 @@
-local OLC = "__ab_logisticscenter__"
+local LC = "__ab_logisticscenter__"
 
 require("config")
 
-local entity_names = get_entity_names()
+local names = get_names()
 local config = get_config()
 
 local half_length = 1.5
@@ -11,8 +11,8 @@ local collision_len = 1.4
 data:extend({
     {
         type = "electric-energy-interface",
-        name = entity_names.electric_energy_interface,
-        icon = OLC .. "/graphics/icons/logistics-center.png",
+        name = names.electric_energy_interface,
+        icon = LC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"not-on-map"},
         minable = nil,

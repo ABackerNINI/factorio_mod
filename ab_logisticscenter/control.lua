@@ -2,7 +2,7 @@ require("config")
 require("utilities")
 
 local config = get_config()
-local entity_names = get_entity_names()
+local names = get_names()
 
 local check_cc_per_round = 0
 local check_rc_per_round = 0
@@ -20,7 +20,7 @@ script.on_load(function()
 end)
 
 script.on_configuration_changed(function(config_changed_data)
-    init_globals()
+    migrations_during_alpha()
 
     init_utilities()
 end)
@@ -29,11 +29,11 @@ end)
 script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_entity}, function(event)
     local entity = event.created_entity
 
-    if entity.name == entity_names.collecter_chest then
+    if entity.name == names.collecter_chest then
         Cc:on_built(entity)
-    elseif entity.name == entity_names.requester_chest then
+    elseif entity.name == names.requester_chest then
         Rc:on_built(entity)
-    elseif entity.name == entity_names.logistics_center then
+    elseif entity.name == names.logistics_center then
         Lc:on_built(entity)
     end
 end)
@@ -42,11 +42,11 @@ end)
 script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot_pre_mined,defines.events.on_entity_died},function(event)
     local entity = event.entity
 
-    if entity.name == entity_names.collecter_chest then
+    if entity.name == names.collecter_chest then
         Cc:on_destroyed(entity)
-    elseif entity.name == entity_names.requester_chest then
+    elseif entity.name == names.requester_chest then
         Rc:on_destroyed(entity)
-    elseif entity.name == entity_names.logistics_center then
+    elseif entity.name == names.logistics_center then
         Lc:on_destroyed(entity)
     end
 end)

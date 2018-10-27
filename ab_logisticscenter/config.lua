@@ -1,19 +1,5 @@
 function get_config()
     return {
-        --!!attention! the values "xx_on_nth_tick" below can NOT be the same with each other.
-
-        --check all collecter chests every nth tick,default = 120
-        check_cc_on_nth_tick = 50,
-
-        --check all requester chests every nth tick,default = 121
-        check_rc_on_nth_tick = 20,
-
-        update_all_signals_on_nth_tick = 180,
-
-        check_cc_percentage = 0.20,
-
-        check_rc_percentage = 0.20,
-
         --capacity of the logistics center of each item,default = 1000000
         lc_capacity = 1000000, --[1M] 
 
@@ -29,6 +15,23 @@ function get_config()
         --power consumption of requester chests per distance per item transferring,default = 100
         rc_power_consumption = 100,   --J
 
+        --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
+
+        --check all collecter chests every nth tick,default = 50
+        check_cc_on_nth_tick = 50,
+
+        --check all requester chests every nth tick,default = 30
+        check_rc_on_nth_tick = 20,
+
+        --update all signals ever nth tick,default = 180
+        update_all_signals_on_nth_tick = 180,
+
+        --check 20% collecter chests every 'check_cc_on_nth_tick'
+        check_cc_percentage = 0.20,
+
+        --check 20% requester chests every 'check_rc_on_nth_tick'
+        check_rc_percentage = 0.20,
+
         --logistic slots count of requester chests,default = 5
         rc_logistic_slots_count = 5,
 
@@ -43,11 +46,16 @@ function get_config()
     }
 end
 
-function get_entity_names()
+function get_names()
     return {
+        --item/entity
         collecter_chest = "ab-collecter-chest",
         requester_chest = "ab-requester-chest",
         logistics_center = "ab-logistic-center",
-        electric_energy_interface = "ab-lc-electric-energy-interface"
+        electric_energy_interface = "ab-lc-electric-energy-interface",
+
+        --technology
+        tech_lc_capacity = "ab-lc-tech-lc-capacity",
+        tech_power_consumption = "ab-lc-tech-power-consumption"
     }
 end
