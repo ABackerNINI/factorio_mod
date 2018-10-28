@@ -184,5 +184,38 @@ function global_data_migrations()
         global.global_data_version = 5
     end
 
+    --fifth change,global.global_data_version = 5
+    if global.global_data_version < 6 then
+        game.print("[ab_logisticscenter]:fifth global data migrations applied.")
+        --cc_entities
+        --OLD {count,empty_stack,entities}
+        --NEW {index,empty_stack,entities}
+        local ordered_cc_entities = {}
+        local index = 1
+        for _,v in pairs(global.cc_entities.entities) do
+            ordered_cc_entities[index] = v
+            index = index + 1
+        end
+
+        local new_cc_entities = {index = index,empty_stack={count = 0,data = {}},entities=ordered_cc_entities}
+        global.cc_entities = new_cc_entities
+
+        --rc_entities
+        --OLD {count,empty_stack,entities}
+        --NEW {index,empty_stack,entities}
+        local ordered_rc_entities = {}
+        index = 1
+        for _,v in pairs(global.rc_entities.entities) do
+            ordered_rc_entities[index] = v
+            index = index + 1
+        end
+
+        local new_rc_entities = {index = index,empty_stack={count = 0,data = {}},entities=ordered_rc_entities}
+        global.rc_entities = new_rc_entities
+
+        --set global_data_version
+        global.global_data_version = 6
+    end
+
     global.global_data_version = config.global_data_version
 end

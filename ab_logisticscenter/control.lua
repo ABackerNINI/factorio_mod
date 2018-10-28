@@ -37,16 +37,16 @@ local function init_globals()
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
+    --{index,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
     global.cc_entities = global.cc_entities or {
-        count = 0,
+        index = 1,
         empty_stack = {count = 0,data = {}},
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
+    --{index,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
     global.rc_entities = global.rc_entities or {
-        count = 0,
+        index = 1,
         empty_stack = {count = 0,data = {}},
         entities = {}
     }
@@ -63,9 +63,9 @@ local function init_locals()
     rc_entities = global.rc_entities
 
     --calc cpr
-    if cc_entities.count ~= nil then
-        cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
-        rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+    if cc_entities.index ~= nil then
+        cc_check_per_round = math_ceil(cc_entities.index * config.check_cc_percentage)
+        rc_check_per_round = math_ceil(rc_entities.index * config.check_rc_percentage)
     end
 end
 
@@ -100,7 +100,6 @@ end
 
 local function remove_cc(index)
     --remove invalid chest
-    cc_entities.count = cc_entities.count - 1
     cc_entities.entities[index] = nil
 
     --push the index to the stack
@@ -109,12 +108,11 @@ local function remove_cc(index)
     empty_stack.data[empty_stack.count] = index
 
     --recalc cpr
-    cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
+    cc_check_per_round = math_ceil(cc_entities.index * config.check_cc_percentage)
 end
 
 local function remove_rc(index)
     --remove invalid chest
-    rc_entities.count = rc_entities.count - 1
     rc_entities.entities[index] = nil
 
     --push the index to the stack
@@ -123,7 +121,7 @@ local function remove_rc(index)
     empty_stack.data[empty_stack.count] = index
 
     --recalc cpr
-    rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+    rc_check_per_round = math_ceil(rc_entities.index * config.check_rc_percentage)
 end
 
 --find nearest lc
@@ -206,10 +204,8 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
     local name = entity.name
 
     if name == names.collecter_chest then
-        cc_entities.count = cc_entities.count + 1
-
         --add cc to the watch-list
-        local index = cc_entities.count
+        local index = cc_entities.index
         local empty_stack = cc_entities.empty_stack
         if empty_stack.count > 0 then
             index = empty_stack.data[empty_stack.count]
@@ -217,13 +213,13 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         end
         cc_entities.entities[index] = {entity = entity,nearest_lc = find_nearest_lc(entity)}
     
-        --recalc cpr
-        cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
-    elseif name == names.requester_chest then
-        rc_entities.count = rc_entities.count + 1
+        cc_entities.index = cc_entities.index + 1
 
+        --recalc cpr
+        cc_check_per_round = math_ceil(cc_entities.index * config.check_cc_percentage)
+    elseif name == names.requester_chest then
         --add rc to the watch-list
-        local index = rc_entities.count
+        local index = rc_entities.index
         local empty_stack = rc_entities.empty_stack
         if empty_stack.count > 0 then
             index = empty_stack.data[empty_stack.count]
@@ -231,8 +227,10 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         end
         rc_entities.entities[index] = {entity = entity,nearest_lc = find_nearest_lc(entity)}
     
+        rc_entities.index = rc_entities.index + 1
+
         --recalc cpr
-        rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+        rc_check_per_round = math_ceil(rc_entities.index * config.check_rc_percentage)
     elseif name == names.logistics_center then
         --disable signal output of the lc on default except the very first one
         --this will cause a problem that signals don't show up immediately after control-behavior enabled
@@ -292,9 +290,9 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
 
     --check(index_begin,index_end)
     for idx = index_begin,index_end,1 do
-        -- game.print("cc"..index_begin.." "..index_end)
+        -- game.print("cc:"..index_begin.." "..index_end)
         local index = idx
-        if index > cc_entities.count then index = index - cc_entities.count end
+        if index > cc_entities.index then index = index - cc_entities.index end
         local v = cc_entities.entities[index]
         if v ~= nil then 
             if v.entity.valid then
@@ -335,8 +333,8 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
     end
 
     --calc checked_index
-    if cc_entities.count ~= 0 then
-        cc_checked_index = index_end % cc_entities.count
+    if cc_entities.index ~= 0 then
+        cc_checked_index = index_end % cc_entities.index
     else
         cc_checked_index = 0
     end
@@ -351,9 +349,9 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
 
     --check(index_begin,index_end)
     for idx = index_begin,index_end,1 do
-        -- game.print("rc"..index_begin.." "..index_end)
+        -- game.print("rc:"..index_begin.." "..index_end)
         local index = idx
-        if index > rc_entities.count then index = index - rc_entities.count end
+        if index > rc_entities.index then index = index - rc_entities.index end
         local v = rc_entities.entities[index]
         if v ~= nil then
             if v.entity.valid then
@@ -400,27 +398,59 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
     end
 
     --calc checked_index
-    if rc_entities.count ~= 0 then
-        rc_checked_index = index_end % rc_entities.count
+    if rc_entities.index ~= 0 then
+        rc_checked_index = index_end % rc_entities.index
     else
         rc_checked_index = 0
     end
 end)
 
 local function update_all_signals()
-    for k,_ in pairs(item_stock.items) do
-        update_signals(k)
+    --pack all the signals
+    local signals = {}
+    local index = 1
+    for item_name,_ in pairs(items_stock.items) do
+        local signal = nil
+        local item = items_stock.items[item_name]
+        if item.index < config.lc_item_slot_count then
+            if item.stock > 0 then
+                signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
+            end
+        end
+        signals[index] = signal
+        index = index + 1
+    end
+   
+    --TODO if item.index > config.lc_item_slot_count
+
+    --set the signals to the lc(s) which control_behavior are enabled
+    local parameters = {parameters = signals}
+    for _,v in pairs(lc_entities.entities) do
+        local control_behavior = v.lc.get_or_create_control_behavior()
+        if control_behavior.enabled then
+            control_behavior.parameters = parameters
+        end
     end
 end
 
-commands.add_command("ab_logistics_center_update_all_signals",{"update all signals"},function(event)
-    update_all_signals()
+--on open the lc
+script.on_event(defines.events.on_gui_opened,function(event)
+    local entity = event.entity
+
+    if entity ~= nil and entity.name == names.logistics_center then
+        update_all_signals()
+    end
 end)
+
+-- commands.add_command("abc()",{"update all signals"},function(event)
+--     update_all_signals()
+-- end)
 
 -- script.on_nth_tick(config.update_all_signals_on_nth_tick,function(nth_tick_event)
 --     --?
 --     update_all_signals()
 -- end)
+
 
 -- script.on_event(defines.events.on_research_finished, function(event)
     -- local research = event.research
