@@ -1,4 +1,5 @@
 require("config")
+require("updates")
 
 local config = get_config()
 local names = get_names()
@@ -36,14 +37,14 @@ local function init_globals()
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,lc_pos_str}}}}
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
     global.cc_entities = global.cc_entities or {
         count = 0,
         empty_stack = {count = 0,data = {}},
         entities = {}
     } 
 
-    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,lc_pos_str}}}}
+    --{count,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
     global.rc_entities = global.rc_entities or {
         count = 0,
         empty_stack = {count = 0,data = {}},
@@ -66,121 +67,6 @@ local function init_locals()
         cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
         rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
     end
-end
-
---global data migrations
---call only in script.on_configuration_changed()
-local function global_data_migrations()
-    --first change,global.global_data_version = nil
-    if global.cc_entities ~= nil and global.cc_entities.index ~= nil then
-        game.print("first migrations applied.")
-        --global.cc_entities
-        --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
-        --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
-        local new_cc_entities = {
-            count = 0,
-            empty_stack = {count = 0,data = {}},
-            entities = {}
-        }
-        local cc_count = 0
-        for k,v in pairs(global.cc_entities.entities) do
-            cc_count = cc_count + 1
-            new_cc_entities.entities[cc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
-        end
-        new_cc_entities.count = cc_count
-        global.cc_entities = nil
-        global.cc_entities = new_cc_entities
-
-        --global.rc_entities
-        --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
-        --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
-        local new_rc_entities = {
-            count = 0,
-            empty_stack = {count = 0,data = {}},
-            entities = {}
-        }
-        local rc_count = 0
-        for k,v in pairs(global.rc_entities.entities) do
-            rc_count = rc_count + 1
-            new_rc_entities.entities[rc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
-        end
-        new_rc_entities.count = rc_count
-        global.rc_entities = nil
-        global.rc_entities = new_rc_entities
-
-        --set global_data_version
-        global.global_data_version = 2
-    end
-
-    --secend change,global.global_data_version = nil
-    if global.global_data_version == nil or global.global_data_version < 3 then
-        game.print("secend migrations applied.")
-        --cc_entities.empty_stack
-        --OLD Stack:new{p,data}
-        --NEW {count,data}
-        local new_cc_es_count = 0
-        local new_cc_empty_stack = {count = 0,data = {}}
-        for k,v in ipairs(global.cc_entities.entities) do
-            if v == nil then
-                new_cc_es_count = new_cc_es_count + 1
-                new_cc_empty_stack.data[new_cc_es_count] = k
-            end
-        end
-        new_cc_empty_stack.count = new_cc_es_count
-        global.cc_entities.empty_stack = new_cc_empty_stack
-
-        --rc_entities.empty_stack
-        --OLD Stack:new{p,data}
-        --NEW {count,data}
-        local new_rc_es_count = 0
-        local new_rc_empty_stack = {count = 0,data = {}}
-        for k,v in ipairs(global.rc_entities.entities) do
-            if v == nil then
-                new_rc_es_count = new_rc_es_count + 1
-                new_rc_empty_stack.data[new_rc_es_count] = k
-            end
-        end
-        new_rc_empty_stack.count = new_rc_es_count
-        global.rc_entities.empty_stack = new_rc_empty_stack
-
-        --set global_data_version
-        global.global_data_version = 3
-    end
-
-    --third change,global.global_data_version = nil
-    if global.global_data_version == nil or global.global_data_version < 4 then
-        game.print("third migrations applied.")
-        --cc_entities.entities.nearest_lc
-        --OLD {distance,lc_pos_str}
-        --NEW {power_consumption,lc_pos_str}
-        for k,v in ipairs(global.cc_entities.entities) do
-            if v.nearest_lc ~= nil then
-                local power_consumption = v.nearest_lc.distance * config.cc_power_consumption
-                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
-            end
-        end
-
-        --rc_entities.entities.nearest_lc
-        --OLD {distance,lc_pos_str}
-        --NEW {power_consumption,lc_pos_str}
-        for k,v in ipairs(global.rc_entities.entities) do
-            if v.nearest_lc ~= nil then
-                local power_consumption = v.nearest_lc.distance * config.rc_power_consumption
-                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
-            end
-        end
-    
-        --set global_data_version
-        global.global_data_version = 4
-    end
-
-    -- if global.global_data_version < 5 then
-    --     --TODO migrations
-    --     --set global_data_version
-    --     global.global_data_version = 5
-    -- end
-
-    global.global_data_version = config.global_data_version
 end
 
 script.on_init(function()
@@ -212,22 +98,52 @@ local function position_to_string(p)
     return p.x .. "," .. p.y
 end
 
+local function remove_cc(index)
+    --remove invalid chest
+    cc_entities.count = cc_entities.count - 1
+    cc_entities.entities[index] = nil
+
+    --push the index to the stack
+    local empty_stack = cc_entities.empty_stack
+    empty_stack.count = empty_stack.count + 1
+    empty_stack.data[empty_stack.count] = index
+
+    --recalc cpr
+    cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
+end
+
+local function remove_rc(index)
+    --remove invalid chest
+    rc_entities.count = rc_entities.count - 1
+    rc_entities.entities[index] = nil
+
+    --push the index to the stack
+    local empty_stack = rc_entities.empty_stack
+    empty_stack.count = empty_stack.count + 1
+    empty_stack.data[empty_stack.count] = index
+
+    --recalc cpr
+    rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+end
+
 --find nearest lc
 local function find_nearest_lc(entity)
-    local nearest_lc_pack = nil
+    if lc_entities.count == 0 then return nil end
+
+    local eei = nil
     local nearest_distance = 1000000000 --should big enough
-    for _,v in pairs(lc_entities.entities) do
+    for k,v in pairs(lc_entities.entities) do
         local distance = calc_distance_between_two_points(entity.position,v.lc.position)
         if distance < nearest_distance then
             nearest_distance = distance
-            nearest_lc_pack = v
+            eei = v.eei
         end
     end
 
-    if nearest_lc_pack ~= nil then 
+    if eei ~= nil then 
         local ret = {
             power_consumption = 0,
-            lc_pos_str = position_to_string(nearest_lc_pack.lc.position)
+            eei = eei
         }
         if entity.name == names.collecter_chest then
             ret.power_consumption = nearest_distance * config.cc_power_consumption
@@ -236,6 +152,7 @@ local function find_nearest_lc(entity)
         end
         return ret
     else
+        game.print("[ab_logisticscenter]:error,didn't find@find_nearest_lc")
         return nil
     end
 end
@@ -244,40 +161,20 @@ end
 --call after lc entity being created or destoried 
 local function recalc_distance()
     --recalc cc
-    for index,v in ipairs(cc_entities.entities) do
+    for index,v in pairs(cc_entities.entities) do
         if v.entity.valid then
             v.nearest_lc = find_nearest_lc(v.entity)
         else
-            --remove invalid chest
-            cc_entities.count = cc_entities.count - 1
-            cc_entities.entities[index] = nil
-
-            --push the index to the stack
-            local empty_stack = cc_entities.empty_stack
-            empty_stack.count = empty_stack.count + 1
-            empty_stack.data[empty_stack.count] = index
-        
-            --recalc cpr
-            cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
+            remove_cc(index)
         end
     end
 
     --recalc rc
-    for index,v in ipairs(rc_entities.entities) do
+    for index,v in pairs(rc_entities.entities) do
         if v.entity.valid then
             v.nearest_lc = find_nearest_lc(v.entity)
         else
-            --remove invalid chest
-            rc_entities.count = rc_entities.count - 1
-            rc_entities.entities[index] = nil
-
-            --push the index to the stack
-            local empty_stack = rc_entities.empty_stack
-            empty_stack.count = empty_stack.count + 1
-            empty_stack.data[empty_stack.count] = index
-        
-            --recalc cpr
-            rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+            remove_rc(index)
         end
     end
 end
@@ -375,6 +272,7 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
         lc_entities.count = lc_entities.count - 1
     
         local p_str = position_to_string(entity.position)
+        -- game.print("pre-mined:"..p_str)
 
         --destroy the electric energy interface
         lc_entities.entities[p_str].eei.destroy()
@@ -387,7 +285,7 @@ end)
 
 --check all collecter chests
 script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
-    if global.lc_entities.count < 1 then return end
+    if lc_entities.count < 1 then return end
 
     local index_begin = cc_checked_index + 1
     local index_end = index_begin + cc_check_per_round
@@ -402,9 +300,9 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
             if v.entity.valid then
                 local inventory = v.entity.get_output_inventory()
                 if not inventory.is_empty() then
-                    local power_consumption = v.nearest_lc.power_consumption--config.cc_power_consumption * v.nearest_lc.distance
+                    local power_consumption = v.nearest_lc.power_consumption
                     local contents = inventory.get_contents()
-                    local eei = lc_entities.entities[v.nearest_lc.lc_pos_str].eei
+                    local eei = v.nearest_lc.eei
 
                     for name,count in pairs(contents) do
                         --stock.get_item(name)
@@ -431,21 +329,12 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                     end
                 end
             else
-                --remove invalid collecter chest
-                cc_entities.count = cc_entities.count - 1
-                cc_entities.entities[index] = nil
-
-                --stack.push(index)
-                local empty_stack = cc_entities.empty_stack
-                empty_stack.count = empty_stack.count + 1
-                empty_stack.data[empty_stack.count] = index
-            
-                --recalc cpr
-                cc_check_per_round = math_ceil(cc_entities.count * config.check_cc_percentage)
+                remove_cc(index)
             end
         end
     end
 
+    --calc checked_index
     if cc_entities.count ~= 0 then
         cc_checked_index = index_end % cc_entities.count
     else
@@ -455,7 +344,7 @@ end)
 
 --check all requester chests
 script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
-    if global.lc_entities.count < 1 then return end
+    if lc_entities.count < 1 then return end
 
     local index_begin = rc_checked_index + 1
     local index_end = index_begin + rc_check_per_round
@@ -469,8 +358,8 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
         if v ~= nil then
             if v.entity.valid then
                 local inventory = v.entity.get_output_inventory()
-                local eei = lc_entities.entities[v.nearest_lc.lc_pos_str].eei
-                local power_consumption = v.nearest_lc.power_consumption--config.rc_power_consumption * v.nearest_lc.distance
+                local eei = v.nearest_lc.eei
+                local power_consumption = v.nearest_lc.power_consumption
 
                 for i = 1,config.rc_logistic_slots_count do
                     local request_slot = v.entity.get_request_slot(i)
@@ -505,21 +394,12 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
                     end
                 end
             else
-                --remove invalid requester chest
-                rc_entities.count = rc_entities.count - 1
-                rc_entities.entities[index] = nil
-    
-                --stack.push(index)
-                local empty_stack = rc_entities.empty_stack
-                empty_stack.count = empty_stack.count + 1
-                empty_stack.data[empty_stack.count] = index
-            
-                --recalc cpr
-                rc_check_per_round = math_ceil(rc_entities.count * config.check_rc_percentage)
+                remove_rc(index)
             end
         end
     end
 
+    --calc checked_index
     if rc_entities.count ~= 0 then
         rc_checked_index = index_end % rc_entities.count
     else
