@@ -65,7 +65,7 @@ end
 --call only in script.on_configuration_changed()
 function global_data_migrations()
     --first change,global.global_data_version = nil
-    if global.cc_entities ~= nil and global.cc_entities.index ~= nil then
+    if global.global_data_version == nil and global.cc_entities ~= nil and global.cc_entities.index ~= nil then
         game.print("[ab_logisticscenter]:first global data migrations applied.")
         --global.cc_entities
         --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
