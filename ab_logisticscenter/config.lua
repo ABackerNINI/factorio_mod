@@ -1,7 +1,7 @@
 function get_config()
     return {
         global_data_version = 6,
-        
+
         --technology
         tech_lc_capacity_increment = 1000,
 
@@ -61,6 +61,9 @@ function get_names()
 
         --technology
         tech_lc_capacity = "ab-lc-tech-lc-capacity",
-        tech_power_consumption = "ab-lc-tech-power-consumption"
+        tech_power_consumption = "ab-lc-tech-power-consumption",
+
+        --locale
+        locale_flying_text_when_build_box = "ab_logisticscenter_text.flying_text_when_build_box"
     }
 end

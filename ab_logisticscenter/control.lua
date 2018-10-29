@@ -84,7 +84,7 @@ script.on_configuration_changed(function(config_changed_data)
     global_data_migrations()
     
     -- config.lc_capacity = config.lc_capacity + config.tech_lc_capacity_increment * game.player.force.technology[names.tech_lc_capacity].level
-    game.print(config.lc_capacity)
+    -- game.print(config.lc_capacity)
 
     --in case global tables were altered in global_data_migrations()
     --and cc/rc counts may change after migrations
@@ -147,9 +147,9 @@ local function find_nearest_lc(entity)
             eei = eei
         }
         if entity.name == names.collecter_chest then
-            ret.power_consumption = nearest_distance * config.cc_power_consumption
+            ret.power_consumption = math_ceil(nearest_distance * config.cc_power_consumption)
         else
-            ret.power_consumption = nearest_distance * config.rc_power_consumption
+            ret.power_consumption = math_ceil(nearest_distance * config.rc_power_consumption)
         end
         return ret
     else
@@ -215,7 +215,20 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
             empty_stack.count = empty_stack.count - 1
         end
         cc_entities.entities[index] = {entity = entity,nearest_lc = find_nearest_lc(entity)}
-    
+
+        --show flying text
+        if cc_entities.entities[index].nearest_lc ~= nil then
+            entity.surface.create_entity{
+                name = "flying-text",
+                position = {x = entity.position.x, y = entity.position.y - 1}, 
+                color = {r = 228/255, g = 236/255, b = 0},
+                text = {
+                    names.locale_flying_text_when_build_box, 
+                    string.format("%.1f",calc_distance_between_two_points(entity.position,cc_entities.entities[index].nearest_lc.eei.position))
+                }
+            }
+        end
+
         cc_entities.index = cc_entities.index + 1
 
         --recalc cpr
@@ -229,6 +242,19 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
             empty_stack.count = empty_stack.count - 1
         end
         rc_entities.entities[index] = {entity = entity,nearest_lc = find_nearest_lc(entity)}
+
+        --show flying text
+        if rc_entities.entities[index].nearest_lc ~= nil then
+            entity.surface.create_entity{
+                name = "flying-text",
+                position = {x = entity.position.x, y = entity.position.y - 1}, 
+                color = {r = 228/255, g = 236/255, b = 0},
+                text = {
+                    names.locale_flying_text_when_build_box, 
+                    string.format("%.1f",calc_distance_between_two_points(entity.position,rc_entities.entities[index].nearest_lc.eei.position))
+                }
+            }
+        end
     
         rc_entities.index = rc_entities.index + 1
 
