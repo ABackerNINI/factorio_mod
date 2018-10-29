@@ -64,6 +64,6 @@ function get_names()
         tech_power_consumption = "ab-lc-tech-power-consumption",
 
         --locale
-        locale_flying_text_when_build_box = "ab_logisticscenter_text.flying_text_when_build_box"
+        locale_flying_text_when_build_box = "ab_logisticscenter_text.flying_text_when_building_chest"
     }
 end
