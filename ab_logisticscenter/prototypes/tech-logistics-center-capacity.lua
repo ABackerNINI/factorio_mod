@@ -19,7 +19,7 @@ data:extend({
             ingredients = {{"science-pack-1", 1}},
             time = 5
         },
-        max_level = "infinite",
+        max_level = 10000,
         order = "lc-a-a",
     }
 })

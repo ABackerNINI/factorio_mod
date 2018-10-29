@@ -62,7 +62,7 @@ local function init_locals()
     cc_entities = global.cc_entities
     rc_entities = global.rc_entities
 
-    --calc cpr
+    --calc cpr??
     if cc_entities.index ~= nil then
         cc_check_per_round = math_ceil(cc_entities.index * config.check_cc_percentage)
         rc_check_per_round = math_ceil(rc_entities.index * config.check_rc_percentage)
@@ -82,6 +82,9 @@ end)
 
 script.on_configuration_changed(function(config_changed_data)
     global_data_migrations()
+    
+    -- config.lc_capacity = config.lc_capacity + config.tech_lc_capacity_increment * game.player.force.technology[names.tech_lc_capacity].level
+    game.print(config.lc_capacity)
 
     --in case global tables were altered in global_data_migrations()
     --and cc/rc counts may change after migrations
