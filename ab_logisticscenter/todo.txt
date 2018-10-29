@@ -18,6 +18,7 @@ lc，cc，rc，recipe
 不同surfaces支持
 放箱子时显示距离,显示与物流中心的连接线
 优化,当物流中心与玩家距离较远时,延长检查时间,增加开启优化选项
+距离外lc之间独立,远距离打包运输
 
 ?添加关闭update_all_signals选项
 ?添加命令，ores stack查询库存
