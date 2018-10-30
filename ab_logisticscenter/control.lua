@@ -25,7 +25,7 @@ local crc_item_stack = {name = nil,count = 0}
 local function init_globals()
     global.global_data_version = config.global_data_version
 
-    --{index,items = {["item_name"] = {index,stock}}}
+    --{index,items = {["item_name"] = {index,stock,enable}}}
     global.items_stock = global.items_stock or {
         index = 1,
         items = {}
@@ -96,6 +96,15 @@ script.on_configuration_changed(function(config_changed_data)
     --in case global tables were altered in global_data_migrations()
     --and cc/rc counts may change after migrations
     init_locals()
+
+    --check if item were removed
+    for k,v in pairs(global.items_stock.items) do
+        if game.item_prototypes[k] ~= nil then
+            v.enable = true
+        else
+            v.enable = false
+        end
+    end
 end)
 
 local function calc_distance_between_two_points(p1,p2)
@@ -451,12 +460,13 @@ local function update_all_signals()
     --pack all the signals
     local signals = {}
     local index = 1
-    for item_name,_ in pairs(items_stock.items) do
+    for item_name,item in pairs(items_stock.items) do
         local signal = nil
-        local item = items_stock.items[item_name]
-        if item.index < config.lc_item_slot_count then
-            if item.stock > 0 then
-                signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
+        if item.enable then
+            if item.index < config.lc_item_slot_count then
+                if item.stock > 0 then
+                    signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
+                end
             end
         end
         signals[index] = signal

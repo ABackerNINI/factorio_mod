@@ -217,7 +217,7 @@ function global_data_migrations()
         global.global_data_version = 6
     end
 
-    --fifth change,global.global_data_version = 6
+    --sixth change,global.global_data_version = 6
     if global.global_data_version < 7 then
         game.print("[ab_logisticscenter]:sixth global data migrations applied.")
         --global.technologies
@@ -235,6 +235,26 @@ function global_data_migrations()
         --set global_data_version
         global.global_data_version = 7
     end
+
+       --seventh change,global.global_data_version = 7
+       if global.global_data_version < 8 then
+        game.print("[ab_logisticscenter]:seventh global data migrations applied.")
+        --global.items_stock.items
+        --OLD {["item_name"] = {index,stock}
+        --NEW {["item_name"] = {index,stock,enable}
+       
+        for k,v in pairs(global.items_stock.items) do
+            if game.item_prototypes[k] ~= nil then
+                v.enable = true
+            else
+                v.enable = false
+            end
+        end
+
+        --set global_data_version
+        global.global_data_version = 8
+    end
+
 
     global.global_data_version = config.global_data_version
 end
