@@ -487,7 +487,7 @@ local function update_all_signals()
     end
 end
 
---on open the logistics center
+--on opened the logistics center
 script.on_event(defines.events.on_gui_opened,function(event)
     local entity = event.entity
 
@@ -568,4 +568,42 @@ script.on_event(defines.events.on_research_finished, function(event)
         --recalc distance
         recalc_distance()
     end
+end)
+
+--on player created
+script.on_event(defines.events.on_player_created, function(event)
+    local player = game.players[event.player_index]
+    local setting = settings.startup["ab-logistics-center-quick-start"].value
+    local items = {}
+
+    if setting == nil then
+        setting = "small"
+    end
+
+    if setting == "small" then
+        items = {
+            {names.logistics_center,1},
+            {names.collecter_chest,10},
+            {names.requester_chest,10}
+        }
+    elseif setting =="medium" then
+        items = {
+            {names.logistics_center,3},
+            {names.collecter_chest,50},
+            {names.requester_chest,50}
+        }
+    elseif setting == "big" then
+        items = {
+            {names.logistics_center,10},
+            {names.collecter_chest,100},
+            {names.requester_chest,100}
+        }
+    end
+
+    game.print(111)
+    local inventory = player.get_inventory(defines.inventory.player_main)
+    for k,v in pairs(items) do
+        game.print(v[1]..v[2])
+		game.print(inventory.insert({name = v[1], count = v[2]}))
+	end
 end)

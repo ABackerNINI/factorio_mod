@@ -57,7 +57,10 @@ data:extend({
         name = names.requester_chest,
         enabled = true,
         energy_required = 1,
-        ingredients = {},
+        ingredients = {
+            {"steel-plate",10},
+            {"copper-plate",20}
+        },
         result = names.requester_chest
     }
 })

@@ -172,7 +172,16 @@ data:extend({
         name = names.logistics_center,
         enabled = true,
         energy_required = 1,
-        ingredients = {},
+        ingredients = {
+			{"flying-robot-frame",200},
+			{"accumulator",20},
+			{"advanced-circuit",100},
+			{"constant-combinator",20},
+			{"steel-plate",100},
+			{"iron-plate",100},
+			{"copper-plate",100},
+			{"radar",10},
+		},
         result = names.logistics_center
     }
 })
@@ -181,7 +190,7 @@ data:extend({
     {
         type = "item",
         name = names.logistics_center,
-        stack_size = 1,
+        stack_size = 5,
         icon = LC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"goes-to-quickbar"},

@@ -51,7 +51,10 @@ data:extend({
         name = names.collecter_chest,
         enabled = true,
         energy_required = 1,
-        ingredients = {},
+        ingredients = {
+            {"steel-plate",10},
+            {"copper-plate",20}
+        },
         result = names.collecter_chest
     }
 })
