@@ -8,6 +8,7 @@ local items_stock = nil
 local lc_entities = nil
 local cc_entities = nil
 local rc_entities = nil
+local technologies = nil
 
 local cc_check_per_round = 0
 local cc_checked_index = 0
@@ -50,6 +51,14 @@ local function init_globals()
         empty_stack = {count = 0,data = {}},
         entities = {}
     }
+
+    global.technologies = global.technologies or {
+        lc_capacity = config.default_lc_capacity,
+        cc_power_consumption = config.default_cc_power_consumption,
+        rc_power_consumption = config.default_rc_power_consumption,
+        tech_lc_capacity_real_level = 0,
+        tech_power_consumption_real_level = 0
+    }
 end
 
 --init locals
@@ -61,6 +70,7 @@ local function init_locals()
     lc_entities = global.lc_entities
     cc_entities = global.cc_entities
     rc_entities = global.rc_entities
+    technologies = global.technologies
 
     --calc cpr??
     if cc_entities.index ~= nil then
@@ -82,9 +92,6 @@ end)
 
 script.on_configuration_changed(function(config_changed_data)
     global_data_migrations()
-    
-    -- config.lc_capacity = config.lc_capacity + config.tech_lc_capacity_increment * game.player.force.technology[names.tech_lc_capacity].level
-    -- game.print(config.lc_capacity)
 
     --in case global tables were altered in global_data_migrations()
     --and cc/rc counts may change after migrations
@@ -92,9 +99,9 @@ script.on_configuration_changed(function(config_changed_data)
 end)
 
 local function calc_distance_between_two_points(p1,p2)
-    local dx = math.abs(p1.x-p2.x)
-    local dy = math.abs(p1.y-p2.y)
-    return math.sqrt(dx*dx+dy*dy)
+    local dx = math.abs(p1.x - p2.x)
+    local dy = math.abs(p1.y - p2.y)
+    return math.sqrt(dx * dx + dy * dy)
 end
 
 local function position_to_string(p)
@@ -147,9 +154,9 @@ local function find_nearest_lc(entity)
             eei = eei
         }
         if entity.name == names.collecter_chest then
-            ret.power_consumption = math_ceil(nearest_distance * config.cc_power_consumption)
+            ret.power_consumption = math_ceil(nearest_distance * technologies.cc_power_consumption)
         else
-            ret.power_consumption = math_ceil(nearest_distance * config.rc_power_consumption)
+            ret.power_consumption = math_ceil(nearest_distance * technologies.rc_power_consumption)
         end
         return ret
     else
@@ -223,8 +230,11 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
                 position = {x = entity.position.x, y = entity.position.y - 1}, 
                 color = {r = 228/255, g = 236/255, b = 0},
                 text = {
-                    names.locale_flying_text_when_build_box, 
-                    string.format("%.1f",calc_distance_between_two_points(entity.position,cc_entities.entities[index].nearest_lc.eei.position))
+                    config.locale_flying_text_when_build_chest, 
+                    string.format(
+                        "%.1f",
+                        calc_distance_between_two_points(entity.position,cc_entities.entities[index].nearest_lc.eei.position)
+                    )
                 }
             }
         end
@@ -250,8 +260,11 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
                 position = {x = entity.position.x, y = entity.position.y - 1}, 
                 color = {r = 228/255, g = 236/255, b = 0},
                 text = {
-                    names.locale_flying_text_when_build_box, 
-                    string.format("%.1f",calc_distance_between_two_points(entity.position,rc_entities.entities[index].nearest_lc.eei.position))
+                    config.locale_flying_text_when_build_chest, 
+                    string.format(
+                        "%.1f",
+                        calc_distance_between_two_points(entity.position,rc_entities.entities[index].nearest_lc.eei.position)
+                    )
                 }
             }
         end
@@ -343,7 +356,7 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                         --enough energy?
                         count = math.min(count,math_floor(eei.energy/power_consumption))
                         --enough capacity?
-                        count = math.min(count,config.lc_capacity - item.stock)
+                        count = math.min(count,technologies.lc_capacity - item.stock)
 
                         if count > 0 then
                             crc_item_stack.name = name
@@ -475,15 +488,72 @@ end)
 --     update_all_signals()
 -- end)
 
--- script.on_nth_tick(config.update_all_signals_on_nth_tick,function(nth_tick_event)
---     --?
---     update_all_signals()
--- end)
+local tech_lc_capacity_names = {}
+for i = 1,4 do
+    tech_lc_capacity_names[i] = names.tech_lc_capacity .. "-" .. (i * 10 - 9)
+end
 
+local tech_lc_capacity_increment_sum = {}--config.default_lc_capacity,200000,500000,1000000
+tech_lc_capacity_increment_sum[1] = 0
+for i = 2,4 do
+    tech_lc_capacity_increment_sum[i] = tech_lc_capacity_increment_sum[i-1] + config.tech_lc_capacity_increment[i-1] * 10
+end
 
--- script.on_event(defines.events.on_research_finished, function(event)
-    -- local research = event.research
-    -- if research.name == names.tech_lc_capacity then
-    --     game.print(research.level)
-    -- end
--- end)
+local tech_power_consumption_names = {}
+for i = 1,4 do
+    tech_power_consumption_names[i] = names.tech_power_consumption .. "-" .. (i * 10 - 9)
+end
+
+local tech_power_consumption_decrement_sum = {}--{0,0.015,0.030,0.045}
+tech_power_consumption_decrement_sum[1] = 0
+for i = 2,4 do
+    tech_power_consumption_decrement_sum[i] = tech_power_consumption_decrement_sum[i-1] + config.tech_power_consumption_decrement[i-1] * 10
+end
+
+--on research finished
+script.on_event(defines.events.on_research_finished, function(event)
+    local research = event.research
+
+    if string.match(research.name,names.tech_lc_capacity_pattern) ~= nil then
+        for i = 1,4 do
+            if research.name == tech_lc_capacity_names[i] then
+                technologies.tech_lc_capacity_real_level =  technologies.tech_lc_capacity_real_level + 1
+                technologies.lc_capacity = 
+                    config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
+                    config.tech_lc_capacity_increment[i] * (technologies.tech_lc_capacity_real_level - (i - 1) * 10)
+
+                -- game.print(technologies.tech_lc_capacity_real_level)
+                game.print({"ab-logisticscenter-text.print-after-tech-lc-capacity-researched",technologies.lc_capacity})
+
+                break
+            end
+        end
+    elseif string.match(research.name,names.tech_power_consumption_pattern) ~= nil then
+        for i = 1,4 do
+            if research.name == tech_power_consumption_names[i] then
+                technologies.tech_power_consumption_real_level = technologies.tech_power_consumption_real_level + 1
+                local power_consumption_percentage = 1 - 
+                    (tech_power_consumption_decrement_sum[i] + 
+                     config.tech_power_consumption_decrement[i] * (technologies.tech_power_consumption_real_level - (i - 1) * 10))
+
+                technologies.cc_power_consumption = 
+                    math_ceil(config.default_cc_power_consumption * power_consumption_percentage)
+                technologies.rc_power_consumption = 
+                    math_ceil(config.default_rc_power_consumption * power_consumption_percentage)
+
+                game.print(
+                    {
+                        "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
+                        technologies.cc_power_consumption,
+                        technologies.rc_power_consumption
+                    }
+                )
+
+                break
+            end
+        end
+
+        --recalc distance
+        recalc_distance()
+    end
+end)

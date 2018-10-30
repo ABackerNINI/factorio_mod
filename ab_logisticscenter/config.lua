@@ -1,42 +1,27 @@
 function get_config()
     return {
-        global_data_version = 6,
+        global_data_version = 7,
 
-        --technology
-        tech_lc_capacity_increment = 1000,
+        --TECHNOLOGIES
+        --increment of lc_capacity of each research
+        tech_lc_capacity_increment = {19000,30000,50000,100000},
 
+        --decrement of cc/rc power_consumption of each research
+        tech_power_consumption_decrement = {0.015,0.015,0.015,0.015},
+
+
+        --DEFAULT CONFIGS
         --capacity of the logistics center of each item,default = 1000000
-        lc_capacity = 1000000, --[1M] 
-
-        --stability of collecter chests,default = 0.9
-        -- cc_stability = 0.9,
-
-        --stability of requester chests,default = 0.9
-        -- rc_stability = 0.9,
+        default_lc_capacity = 10000, --[10K] 
 
         --power consumption of collector chests per distance per item transferring,default = 1000
-        cc_power_consumption = 1000,  --J
+        default_cc_power_consumption = 1000,  --J
 
         --power consumption of requester chests per distance per item transferring,default = 100
-        rc_power_consumption = 100,   --J
+        default_rc_power_consumption = 100,   --J
 
-        --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
 
-        --check all collecter chests every nth tick,default = 5
-        check_cc_on_nth_tick = 5,
-
-        --check all requester chests every nth tick,default = 3
-        check_rc_on_nth_tick = 3,
-
-        --update all signals ever nth tick,default = 600
-        update_all_signals_on_nth_tick = 600,
-
-        --check 20% collecter chests every 'check_cc_on_nth_tick'
-        check_cc_percentage = 0.015,
-
-        --check 20% requester chests every 'check_rc_on_nth_tick'
-        check_rc_percentage = 0.015,
-
+        --ENTITY PROPERTIES
         --logistic slots count of requester chests,default = 5
         rc_logistic_slots_count = 5,
 
@@ -47,7 +32,40 @@ function get_config()
 
         eei_input_flow_limit = 20000000, --W [20MW]
         
-        eei_buffer_capacity  = 40000000  --J [40MJ]
+        eei_buffer_capacity  = 100000000,  --J [100MJ]
+
+
+        --RUNTIME CONFIGS
+        --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
+
+        --check all collecter chests every nth tick,default = 5
+        check_cc_on_nth_tick = 5,
+
+        --check all requester chests every nth tick,default = 3
+        check_rc_on_nth_tick = 3,
+
+        --check 20% collecter chests every 'check_cc_on_nth_tick'
+        check_cc_percentage = 0.015,
+
+        --check 20% requester chests every 'check_rc_on_nth_tick'
+        check_rc_percentage = 0.015,
+
+        --update all signals ever nth tick,default = 600
+        -- update_all_signals_on_nth_tick = 600,
+
+
+        --LOCALES
+        locale_flying_text_when_build_chest = "ab-logisticscenter-text.flying-text-when-building-chest",
+        locale_print_after_tech_lc_capacity_researched = "ab-logisticscenter-text.print-after-tech-lc-capacity-researched",
+        locale_print_after_tech_power_consumption_researched = "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
+
+
+        --FOR GLOBAL DATA MIGRATIONS
+        --power consumption of collector chests per distance per item transferring,default = 1000
+        cc_power_consumption = 1000,  --J
+
+        --power consumption of requester chests per distance per item transferring,default = 100
+        rc_power_consumption = 100,   --J
     }
 end
 
@@ -63,7 +81,8 @@ function get_names()
         tech_lc_capacity = "ab-lc-tech-lc-capacity",
         tech_power_consumption = "ab-lc-tech-power-consumption",
 
-        --locale
-        locale_flying_text_when_build_box = "ab_logisticscenter_text.flying_text_when_building_chest"
+        --match pattern string
+        tech_lc_capacity_pattern = "ab%-lc%-tech%-lc%-capacity",
+        tech_power_consumption_pattern = "ab%-lc%-tech%-power%-consumption"
     }
 end

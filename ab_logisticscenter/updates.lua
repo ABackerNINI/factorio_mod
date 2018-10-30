@@ -217,5 +217,24 @@ function global_data_migrations()
         global.global_data_version = 6
     end
 
+    --fifth change,global.global_data_version = 6
+    if global.global_data_version < 7 then
+        game.print("[ab_logisticscenter]:sixth global data migrations applied.")
+        --global.technologies
+        --OLD nil
+        --NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
+       
+        global.technologies =  {
+            lc_capacity = config.default_lc_capacity,
+            cc_power_consumption = config.default_cc_power_consumption,
+            rc_power_consumption = config.default_rc_power_consumption,
+            tech_lc_capacity_real_level = 0,
+            tech_power_consumption_real_level = 0
+        }
+
+        --set global_data_version
+        global.global_data_version = 7
+    end
+
     global.global_data_version = config.global_data_version
 end
