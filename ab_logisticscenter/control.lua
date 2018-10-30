@@ -196,6 +196,7 @@ local function recalc_distance()
     end
 end
 
+--update signals
 local function update_signals(item_name)
     --pack the signal
     local signal = nil
@@ -357,7 +358,7 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                         --stock.get_item(name)
                         local item = items_stock.items[name]
                         if item == nil then
-                            item = {index = items_stock.index,stock = 0}
+                            item = {index = items_stock.index,stock = 0,enable = true}
                             items_stock.items[name] = item
                             items_stock.index = items_stock.index + 1
                         end
@@ -419,7 +420,7 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
                         --stock.get_item(name)
                         local item = items_stock.items[name]
                         if item == nil then
-                            item = {index = items_stock.index,stock = 0}
+                            item = {index = items_stock.index,stock = 0,enable = true}
                             items_stock.items[name] = item
                             items_stock.index = items_stock.index + 1
                         end
@@ -456,21 +457,22 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
     end
 end)
 
+--update all signals
 local function update_all_signals()
     --pack all the signals
     local signals = {}
-    local index = 1
     for item_name,item in pairs(items_stock.items) do
         local signal = nil
-        if item.enable then
+        if item.enable == true then
+            -- game.print(item_name)
+            
             if item.index < config.lc_item_slot_count then
                 if item.stock > 0 then
                     signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
                 end
             end
         end
-        signals[index] = signal
-        index = index + 1
+        signals[item.index] = signal
     end
    
     --TODO if item.index > config.lc_item_slot_count
@@ -485,7 +487,7 @@ local function update_all_signals()
     end
 end
 
---on open the lc
+--on open the logistics center
 script.on_event(defines.events.on_gui_opened,function(event)
     local entity = event.entity
 
@@ -498,12 +500,13 @@ end)
 --     update_all_signals()
 -- end)
 
+--TECHNOLOGIES
 local tech_lc_capacity_names = {}
 for i = 1,4 do
     tech_lc_capacity_names[i] = names.tech_lc_capacity .. "-" .. (i * 10 - 9)
 end
 
-local tech_lc_capacity_increment_sum = {}--config.default_lc_capacity,200000,500000,1000000
+local tech_lc_capacity_increment_sum = {}--0,200000,500000,1000000
 tech_lc_capacity_increment_sum[1] = 0
 for i = 2,4 do
     tech_lc_capacity_increment_sum[i] = tech_lc_capacity_increment_sum[i-1] + config.tech_lc_capacity_increment[i-1] * 10
@@ -532,7 +535,6 @@ script.on_event(defines.events.on_research_finished, function(event)
                     config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
                     config.tech_lc_capacity_increment[i] * (technologies.tech_lc_capacity_real_level - (i - 1) * 10)
 
-                -- game.print(technologies.tech_lc_capacity_real_level)
                 game.print({"ab-logisticscenter-text.print-after-tech-lc-capacity-researched",technologies.lc_capacity})
 
                 break
