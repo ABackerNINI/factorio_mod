@@ -375,6 +375,10 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                             item.stock = item.stock + count
                             eei.energy = eei.energy - count * power_consumption
                             update_signals(name)
+
+                            if eei.energy < power_consumption then
+                                break
+                            end
                         end
                     end
                 end
@@ -440,6 +444,10 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
                             item.stock = item.stock - inserted_count
                             eei.energy = eei.energy - inserted_count * power_consumption
                             update_signals(name)
+
+                            if eei.energy < power_consumption then
+                                break
+                            end
                         end
                     end
                 end
