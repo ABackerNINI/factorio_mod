@@ -608,10 +608,8 @@ script.on_event(defines.events.on_player_created, function(event)
         }
     end
 
-    game.print(111)
     local inventory = player.get_inventory(defines.inventory.player_main)
     for k,v in pairs(items) do
-        game.print(v[1]..v[2])
-		game.print(inventory.insert({name = v[1], count = v[2]}))
+		inventory.insert({name = v[1], count = v[2]})
 	end
 end)
