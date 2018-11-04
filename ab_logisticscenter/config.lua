@@ -3,15 +3,15 @@ function get_config()
         global_data_version = 8,
 
         --TECHNOLOGIES
-        --increment of lc_capacity of each research
+        --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
         tech_lc_capacity_increment = {19000,30000,50000,100000},
 
-        --decrement of cc/rc power_consumption of each research
+        --decrement of cc/rc power_consumption of each research,default = {0.015,0.015,0.015,0.015}
         tech_power_consumption_decrement = {0.015,0.015,0.015,0.015},
 
 
         --DEFAULT CONFIGS
-        --capacity of the logistics center of each item,default = 1000000
+        --capacity of the logistics center of each item,default = 10000
         default_lc_capacity = 10000, --[10K] 
 
         --power consumption of collector chests per distance per item transferring,default = 1000
@@ -28,11 +28,14 @@ function get_config()
         --item slot count of logistics center,default = 200
         lc_item_slot_count = 200,
 
+        --basic power consumption of the electric energy interface,default = 2000000
         eei_basic_power_consumption = 2000000, --W [2MW]
 
-        eei_input_flow_limit = 20000000, --W [20MW]
+        --input flow limit of the electric energy interface,default = 0
+        eei_input_flow_limit = 0, --W [no limit]
         
-        eei_buffer_capacity  = 100000000,  --J [100MJ]
+        --buffer capacity of the electric energy interface,default = 1000000000
+        eei_buffer_capacity  = 1000000000,  --J [1GJ]
 
 
         --RUNTIME CONFIGS
@@ -44,10 +47,10 @@ function get_config()
         --check all requester chests every nth tick,default = 3
         check_rc_on_nth_tick = 3,
 
-        --check 20% collecter chests every 'check_cc_on_nth_tick'
+        --check 20% collecter chests every 'check_cc_on_nth_tick',default = 0.015
         check_cc_percentage = 0.015,
 
-        --check 20% requester chests every 'check_rc_on_nth_tick'
+        --check 20% requester chests every 'check_rc_on_nth_tick',default = 0.015
         check_rc_percentage = 0.015,
 
         --update all signals ever nth tick,default = 600
