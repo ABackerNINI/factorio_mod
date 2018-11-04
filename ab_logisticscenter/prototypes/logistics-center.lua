@@ -5,30 +5,10 @@ require("config")
 local names = get_names()
 local config = get_config()
 
-local transfer_rate = 10
-local buffer_size = transfer_rate*16667
-
--- local function blank()
--- 	return {
--- 		filename = LC .. "/graphics/nothing.png",
--- 		priority = "high",
--- 		width = 1,
--- 		height = 1,
--- 	}
--- end
-
--- local function ablank()
--- 	return {
--- 		filename = LC .. "/graphics/nothing.png",
--- 		priority = "high",
--- 		width = 1,
--- 		height = 1,
--- 		frame_count = 1,
--- 	}
--- end
-
 local half_selection_length = 1.5
 local half_collision_len = 1.4
+local width = 113
+local height = 91
 
 data:extend({
     {
@@ -47,29 +27,29 @@ data:extend({
         sprites = {
 			north = {
                 filename = LC .. "/graphics/entity/logistics-center.png",
-				width = 113,
-				height = 91,
+				width = width,
+				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			east = {
                 filename = LC .. "/graphics/entity/logistics-center.png",
-				width = 113,
-				height = 91,
+				width = width,
+				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			south = {
                 filename = LC .. "/graphics/entity/logistics-center.png",
-				width = 113,
-				height = 91,
+				width = width,
+				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			west = {
                 filename = LC .. "/graphics/entity/logistics-center.png",
-				width = 113,
-				height = 91,
+				width = width,
+				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			}
