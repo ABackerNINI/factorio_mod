@@ -70,7 +70,7 @@ function global_data_migrations()
 
     --first change,global.global_data_version = nil
     if global.global_data_version == nil and global.cc_entities ~= nil and global.cc_entities.index ~= nil then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",1)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",1})
         --global.cc_entities
         --OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
         --NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
@@ -111,7 +111,7 @@ function global_data_migrations()
 
     --secend change,global.global_data_version = nil
     if global.global_data_version == nil or global.global_data_version < 3 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",2)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",2})
         --cc_entities.empty_stack
         --OLD Stack:new{p,data}
         --NEW {count,data}
@@ -146,7 +146,7 @@ function global_data_migrations()
 
     --third change,global.global_data_version = nil
     if global.global_data_version == nil or global.global_data_version < 4 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",3)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",3})
         --cc_entities.entities.nearest_lc
         --OLD {distance,lc_pos_str}
         --NEW {power_consumption,lc_pos_str}
@@ -173,7 +173,7 @@ function global_data_migrations()
 
     --fourth change,global.global_data_version = 4
     if global.global_data_version < 5 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",4)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",4})
         --cc_entities.entities.nearest_lc
         --OLD {power_consumption,lc_pos_str}
         --NEW {power_consumption,eei}
@@ -190,7 +190,7 @@ function global_data_migrations()
 
     --fifth change,global.global_data_version = 5
     if global.global_data_version < 6 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",5)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",5})
         --cc_entities
         --OLD {count,empty_stack,entities}
         --NEW {index,empty_stack,entities}
@@ -223,7 +223,7 @@ function global_data_migrations()
 
     --sixth change,global.global_data_version = 6
     if global.global_data_version < 7 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",6)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",6})
         --global.technologies
         --OLD nil
         --NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
@@ -242,7 +242,7 @@ function global_data_migrations()
 
        --seventh change,global.global_data_version = 7
        if global.global_data_version < 8 then
-        game.print("ab_logisticscenter_text.print-when-global-data-migrate",7)
+        game.print({"ab_logisticscenter_text.print-when-global-data-migrate",7})
         --global.items_stock.items
         --OLD {["item_name"] = {index,stock}
         --NEW {["item_name"] = {index,stock,enable}
