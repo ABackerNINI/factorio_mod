@@ -10,6 +10,8 @@
 --capacity科技每次+20%，10次，最后无限
 
 改变图标
+创建箱子时,显示最近物流中心箭头指示器
+hover时显示剩余电量
 power consume科技每次-5%，10次
 input_flow_limit电力传输能力科技每次+20%，10次,和buffer_capacity同步提升
 input_flow_limit初始电力传输能力选项
