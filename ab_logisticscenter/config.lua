@@ -58,6 +58,7 @@ function get_config()
         locale_flying_text_when_build_chest = "ab-logisticscenter-text.flying-text-when-building-chest",
         locale_print_after_tech_lc_capacity_researched = "ab-logisticscenter-text.print-after-tech-lc-capacity-researched",
         locale_print_after_tech_power_consumption_researched = "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
+        locale_print_when_global_data_migrate = "ab-logisticscenter-text.print-when-global-data-migrate",
 
 
         --FOR GLOBAL DATA MIGRATIONS
