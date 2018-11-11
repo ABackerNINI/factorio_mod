@@ -5,8 +5,8 @@ require("config")
 local names = get_names()
 local config = get_config()
 
-local half_length = 1.5
-local collision_len = 1.4
+local hsl = 1.5
+local hcl = 1.4
 
 data:extend({
     {
@@ -15,19 +15,16 @@ data:extend({
         icon = LC .. "/graphics/icons/logistics-center.png",
         icon_size = 32,
         flags = {"not-on-map"},
-        minable = nil,
-        max_health = 1,
         selectable_in_game = false,
+        selection_box = {{-hsl, -hsl}, {hsl, hsl}},
+        collision_box = {{-hcl, -hcl}, {hcl, hcl}},
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
             input_flow_limit = config.eei_input_flow_limit .."W",
-            buffer_capacity = config.eei_buffer_capacity .. "J",
+            buffer_capacity = config.eei_buffer_capacity .. "J"
         },
         energy_usage = config.eei_basic_power_consumption .. "W",
-        energy_production = "0MW",        
-        collision_box = {{-collision_len, -collision_len}, {collision_len, collision_len}},
-        selection_box = {{-half_length, -half_length}, {half_length, half_length}},
-        collision_mask = {},
+        energy_production = "0MW",
     }
 })

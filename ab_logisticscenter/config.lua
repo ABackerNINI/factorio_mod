@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 8,
+        global_data_version = 9,
 
         --TECHNOLOGIES
         --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
@@ -80,6 +80,8 @@ function get_names()
         requester_chest = "ab-requester-chest",
         logistics_center = "ab-logistic-center",
         electric_energy_interface = "ab-lc-electric-energy-interface",
+        -- logistics_center_d = "ab-lc-logistics-center-",
+        -- logistics_center_animation = "ab-lc-logistics-center-animation",
 
         --technology
         tech_lc_capacity = "ab-lc-tech-lc-capacity",

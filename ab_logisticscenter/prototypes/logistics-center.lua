@@ -5,8 +5,9 @@ require("config")
 local names = get_names()
 local config = get_config()
 
-local half_selection_length = 1.5
-local half_collision_len = 1.4
+local hsl = 1.5
+local hcl = 1.4
+
 local width = 113
 local height = 91
 
@@ -18,36 +19,40 @@ data:extend({
         icon_size = 32,
         flags = {"placeable-neutral", "placeable-player", "player-creation"},
         minable = {hardness = 1, mining_time = 10, result = names.logistics_center},
-        collision_box = {{-half_collision_len, -half_collision_len}, {half_collision_len, half_collision_len}},
-        selection_box = {{-half_selection_length, -half_selection_length}, {half_selection_length, half_selection_length}},
+        selection_box = {{-hsl, -hsl}, {hsl, hsl}},
+        collision_box = {{-hcl, -hcl}, {hcl, hcl}},
         max_health = 250,
         corpse = "big-remnants",
         dying_explosion = "medium-explosion",
         item_slot_count = config.lc_item_slot_count,
         sprites = {
 			north = {
-                filename = LC .. "/graphics/entity/logistics-center.png",
+				filename = LC .. "/graphics/entity/logistics-center.png",
+				-- filename = LC .. "/graphics/nothing.png",
 				width = width,
 				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			east = {
-                filename = LC .. "/graphics/entity/logistics-center.png",
+				filename = LC .. "/graphics/entity/logistics-center.png",
+				-- filename = LC .. "/graphics/nothing.png",
 				width = width,
 				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			south = {
-                filename = LC .. "/graphics/entity/logistics-center.png",
+				filename = LC .. "/graphics/entity/logistics-center.png",
+				-- filename = LC .. "/graphics/nothing.png",
 				width = width,
 				height = height,
 				frame_count = 1,
 				shift = {0.2, 0.15}
 			},
 			west = {
-                filename = LC .. "/graphics/entity/logistics-center.png",
+				filename = LC .. "/graphics/entity/logistics-center.png",
+				-- filename = LC .. "/graphics/nothing.png",
 				width = width,
 				height = height,
 				frame_count = 1,
