@@ -228,7 +228,7 @@ function global_data_migrations()
         --OLD nil
         --NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
        
-        global.technologies =  {
+        global.technologies = {
             lc_capacity = config.default_lc_capacity,
             cc_power_consumption = config.default_cc_power_consumption,
             rc_power_consumption = config.default_rc_power_consumption,
@@ -240,8 +240,8 @@ function global_data_migrations()
         global.global_data_version = 7
     end
 
-       --seventh change,global.global_data_version = 7
-       if global.global_data_version < 8 then
+    --seventh change,global.global_data_version = 7
+    if global.global_data_version < 8 then
         game.print({config.locale_print_when_global_data_migrate,7})
         --global.items_stock.items
         --OLD {["item_name"] = {index,stock}
@@ -259,6 +259,23 @@ function global_data_migrations()
         global.global_data_version = 8
     end
 
+    --eighth change,global.global_data_version = 8
+    if global.global_data_version < 9 then
+        game.print({config.locale_print_when_global_data_migrate,8})
+        --global.runtime_vars
+        --OLD nil
+        --NEW {cc_check_per_round,cc_checked_index,rc_check_per_round,rc_checked_index}
+        
+        global.runtime_vars = {
+            cc_check_per_round = math.ceil(global.cc_entities.index * config.check_cc_percentage),
+            cc_checked_index = 0,
+            rc_check_per_round = math.ceil(global.rc_entities.index * config.check_rc_percentage),
+            rc_checked_index = 0
+        }
+
+        --set global_data_version
+        global.global_data_version = 9
+    end
 
     global.global_data_version = config.global_data_version
 end
