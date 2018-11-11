@@ -69,6 +69,7 @@ function global_data_migrations()
     -- end
 
     --first change,global.global_data_version = nil
+    --code opt.
     if global.global_data_version == nil and global.cc_entities ~= nil and global.cc_entities.index ~= nil then
         game.print({config.locale_print_when_global_data_migrate,1})
         --global.cc_entities
@@ -110,6 +111,7 @@ function global_data_migrations()
     end
 
     --secend change,global.global_data_version = nil
+    --code frame change:classes-version->plain-version
     if global.global_data_version == nil or global.global_data_version < 3 then
         game.print({config.locale_print_when_global_data_migrate,2})
         --cc_entities.empty_stack
@@ -145,6 +147,7 @@ function global_data_migrations()
     end
 
     --third change,global.global_data_version = nil
+    --code opt:distance->power_consumption.no need to calc the power_comsumption every time
     if global.global_data_version == nil or global.global_data_version < 4 then
         game.print({config.locale_print_when_global_data_migrate,3})
         --cc_entities.entities.nearest_lc
@@ -172,6 +175,7 @@ function global_data_migrations()
     end
 
     --fourth change,global.global_data_version = 4
+    --code opt:lc_pos_str->eei.no need to get the eei every time
     if global.global_data_version < 5 then
         game.print({config.locale_print_when_global_data_migrate,4})
         --cc_entities.entities.nearest_lc
@@ -222,6 +226,7 @@ function global_data_migrations()
     end
 
     --sixth change,global.global_data_version = 6
+    --new feature:two technologies
     if global.global_data_version < 7 then
         game.print({config.locale_print_when_global_data_migrate,6})
         --global.technologies
@@ -241,6 +246,7 @@ function global_data_migrations()
     end
 
     --seventh change,global.global_data_version = 7
+    --bug fix:in case player disables some mods which adds items
     if global.global_data_version < 8 then
         game.print({config.locale_print_when_global_data_migrate,7})
         --global.items_stock.items
@@ -260,6 +266,7 @@ function global_data_migrations()
     end
 
     --eighth change,global.global_data_version = 8
+    --bug fix:mutiplayer desyncs.check https://wiki.factorio.com/Tutorial:Modding_tutorial/Gangsir#Multiplayer_and_desyncs
     if global.global_data_version < 9 then
         game.print({config.locale_print_when_global_data_migrate,8})
         --global.runtime_vars
