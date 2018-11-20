@@ -232,7 +232,6 @@ function global_data_migrations()
         --global.technologies
         --OLD nil
         --NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
-       
         global.technologies = {
             lc_capacity = config.default_lc_capacity,
             cc_power_consumption = config.default_cc_power_consumption,
@@ -252,7 +251,6 @@ function global_data_migrations()
         --global.items_stock.items
         --OLD {["item_name"] = {index,stock}
         --NEW {["item_name"] = {index,stock,enable}
-       
         for k,v in pairs(global.items_stock.items) do
             if game.item_prototypes[k] ~= nil then
                 v.enable = true
@@ -272,7 +270,6 @@ function global_data_migrations()
         --global.runtime_vars
         --OLD nil
         --NEW {cc_check_per_round,cc_checked_index,rc_check_per_round,rc_checked_index}
-        
         global.runtime_vars = {
             cc_check_per_round = math.ceil(global.cc_entities.index * config.check_cc_percentage),
             cc_checked_index = 0,
@@ -282,6 +279,28 @@ function global_data_migrations()
 
         --set global_data_version
         global.global_data_version = 9
+    end
+
+    --ninth change,global.global_data_version = 9
+    --add logistics center controller
+    if global.global_data_version < 10 then
+        game.print({config.locale_print_when_global_data_migrate,9})
+        --global.lcc_entity
+        --OLD nil
+        --NEW {entity}
+        global.lcc_entity = {
+            entity = nil
+        }
+
+        --global.items_stock.items
+        --OLD {["item_name"] = {index,stock,enable}}
+        --NEW {["item_name"] = {index,stock,enable,max_control}}
+        for k,v in pairs(global.items_stock.items) do
+            v.max_control = global.technologies.lc_capacity
+        end
+
+        --set global_data_version
+        global.global_data_version = 10
     end
 
     global.global_data_version = config.global_data_version

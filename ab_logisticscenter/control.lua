@@ -6,6 +6,8 @@ local names = get_names()
 
 local math_ceil = math.ceil
 local math_floor = math.floor
+local math_min = math.min
+local math_max = math.max
 
 --INIT FUNCTIONS
 --init globals
@@ -13,7 +15,7 @@ local math_floor = math.floor
 local function init_globals()
     global.global_data_version = config.global_data_version
 
-    --{index,items = {["item_name"] = {index,stock,enable}}}
+    --{index,items = {["item_name"] = {index,stock,enable,max_control}}}
     global.items_stock = global.items_stock or {
         index = 1,
         items = {}
@@ -38,6 +40,10 @@ local function init_globals()
         index = 1,
         empty_stack = {count = 0,data = {}},
         entities = {}
+    }
+
+    global.lcc_entity = global.lcc_entity or {
+        entity = nil
     }
 
     global.technologies = global.technologies or {
@@ -123,7 +129,7 @@ local function find_nearest_lc(entity)
     if global.lc_entities.count == 0 then return nil end
 
     local eei = nil
-    local nearest_distance = 1000000000 --should big enough
+    local nearest_distance = config.big_number --should big enough
     for k,v in pairs(global.lc_entities.entities) do
         local distance = calc_distance_between_two_points(entity.position,v.lc.position)
         if distance < nearest_distance then
@@ -181,9 +187,9 @@ local function update_signals(item_name)
     local signal = nil
     local item = global.items_stock.items[item_name]
     if item.index < config.lc_item_slot_count then
-        if item.stock > 0 then
+        -- if item.stock > 0 then --won't crash if signal.count == 0
             signal = {signal = {type = "item",name = item_name},count = item.stock}
-        end
+        -- end
     end
 
     --TODO if item.index > config.lc_item_slot_count
@@ -297,6 +303,12 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         
         --recalc distance
         recalc_distance()
+    elseif name == names.logistics_center_controller then
+        if global.lcc_entity.entity == nil then
+            global.lcc_entity.entity = entity
+        else
+            game.print({config.locale_print_when_secend_lcc_built})
+        end
     end
 end)
 
@@ -323,8 +335,24 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
     
         --recalc distance
         recalc_distance()
+    elseif name == names.logistics_center_contoller then
+        if entity == global.lcc_entity.entity then
+            --reset all max_control
+            for k,v in pairs(global.items_stock.items) do
+                v.max_control = global.technologies.lc_capacity
+            end
+
+            global.lcc_entity.entity = nil
+        end
     end
 end)
+
+local function add_item(name)
+    local item = {index = global.items_stock.index,stock = 0,enable = true,max_control = config.big_number}
+    global.items_stock.items[name] = item
+    global.items_stock.index = global.items_stock.index + 1
+    return item
+end
 
 --check all collecter chests
 script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
@@ -353,15 +381,15 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                         --stock.get_item(name)
                         local item = global.items_stock.items[name]
                         if item == nil then
-                            item = {index = global.items_stock.index,stock = 0,enable = true}
-                            global.items_stock.items[name] = item
-                            global.items_stock.index = global.items_stock.index + 1
+                            item = add_item(name)
                         end
                         
                         --enough energy?
-                        count = math.min(count,math_floor(eei.energy/power_consumption))
-                        --enough capacity?
-                        count = math.min(count,global.technologies.lc_capacity - item.stock)
+                        count = math_min(count,math_floor(eei.energy/power_consumption))
+                        -- --enough capacity?
+                        -- count = math_min(count,global.technologies.lc_capacity - item.stock)
+                        --calc max_control
+                        count = math_min(count,item.max_control - item.stock)
 
                         if count > 0 then
                             crc_item_stack.name = name
@@ -421,17 +449,15 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
                         --stock.get_item(name)
                         local item = global.items_stock.items[name]
                         if item == nil then
-                            item = {index = global.items_stock.index,stock = 0,enable = true}
-                            global.items_stock.items[name] = item
-                            global.items_stock.index = global.items_stock.index + 1
+                            item = add_item(name)
                         end
 
                         --calc shortage
                         count = count - inventory.get_item_count(name)
                         --enough stock?
-                        count = math.min(count,item.stock)
+                        count = math_min(count,item.stock)
                         --enough energy?
-                        count = math.min(count,math_floor(eei.energy/power_consumption))
+                        count = math_min(count,math_floor(eei.energy/power_consumption))
 
                         if count > 0 then
                             crc_item_stack.name = name
@@ -466,18 +492,20 @@ end)
 local function update_all_signals()
     --pack all the signals
     local signals = {}
+    local i = 1
     for item_name,item in pairs(global.items_stock.items) do
         local signal = nil
         if item.enable == true then
             -- game.print(item_name)
             
             if item.index < config.lc_item_slot_count then
-                if item.stock > 0 then
+                -- if item.stock > 0 then --won't crash if signal.count == 0
                     signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
-                end
+                -- end
             end
         end
-        signals[item.index] = signal
+        signals[i] = signal
+        i = i + 1
     end
    
     --TODO if item.index > config.lc_item_slot_count
@@ -498,6 +526,48 @@ script.on_event(defines.events.on_gui_opened,function(event)
 
     if entity ~= nil and entity.name == names.logistics_center then
         update_all_signals()
+    end
+end)
+
+local function update_lc_controller()
+    local control_behavior = global.lcc_entity.entity.get_or_create_control_behavior()
+    local signals = control_behavior.parameters.parameters
+    local item1 = nil --item the contoller set
+    local item2 = nil --item to replace
+    for k,v in pairs(signals) do
+        if v.signal.type == "item" and v.signal.name ~= nil then
+            item1 = global.items_stock.items[v.signal.name]
+            if item1 == nil then
+                item1 = add_item(v.signal.name)
+            end
+
+            item2 = nil
+            for k2,v2 in pairs(global.items_stock.items) do
+                if v2.index == v.index then
+                    item2 = v2
+                    break
+                end
+            end
+            if item2 ~= nil then 
+                item2.index = item1.index
+            end
+
+            item1.index = v.index
+            if v.count == 1 then
+                item1.max_control = global.technologies.lc_capacity --should big enough
+            else
+                item1.max_control = math_min(v.count,global.technologies.lc_capacity)
+            end
+        end
+    end
+end
+
+--on closed the logistics center controller
+script.on_event(defines.events.on_gui_closed,function(event)
+    local entity = event.entity
+
+    if entity ~= nil and entity == global.lcc_entity.entity then
+        update_lc_controller()
     end
 end)
 
@@ -539,6 +609,12 @@ script.on_event(defines.events.on_research_finished, function(event)
                 global.technologies.lc_capacity = 
                     config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
                     config.tech_lc_capacity_increment[i] * (global.technologies.tech_lc_capacity_real_level - (i - 1) * 10)
+
+                --update max_control
+                for k,v in pairs(global.items_stock.items) do
+                    v.max_control = global.technologies.lc_capacity
+                end
+                update_lc_controller()
 
                 game.print({"ab-logisticscenter-text.print-after-tech-lc-capacity-researched",global.technologies.lc_capacity})
 

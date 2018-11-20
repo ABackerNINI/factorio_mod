@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 9,
+        global_data_version = 10,
 
         --TECHNOLOGIES
         --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
@@ -26,7 +26,7 @@ function get_config()
         rc_logistic_slots_count = 5,
 
         --item slot count of logistics center,default = 200
-        lc_item_slot_count = 200,
+        lc_item_slot_count = 500,
 
         --basic power consumption of the electric energy interface,default = 2000000
         eei_basic_power_consumption = 2000000, --W [2MW]
@@ -57,11 +57,16 @@ function get_config()
         -- update_all_signals_on_nth_tick = 600,
 
 
+        --COMMON
+        big_number = 1000000000,
+
+
         --LOCALES
         locale_flying_text_when_build_chest = "ab-logisticscenter-text.flying-text-when-building-chest",
         locale_print_after_tech_lc_capacity_researched = "ab-logisticscenter-text.print-after-tech-lc-capacity-researched",
         locale_print_after_tech_power_consumption_researched = "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
         locale_print_when_global_data_migrate = "ab-logisticscenter-text.print-when-global-data-migrate",
+        locale_print_when_secend_lcc_built = "ab-logisticscenter-text.print-when-secend-lcc-built",
 
 
         --FOR GLOBAL DATA MIGRATIONS
@@ -80,7 +85,8 @@ function get_names()
         collecter_chest_3_6 = "ab-lc-collecter-chest-3_6",
         collecter_chest_6_3 = "ab-lc-collecter-chest-6_3",
         requester_chest_1_1 = "ab-lc-requester-chest-1_1",
-        logistics_center = "ab-lc-logistic-center",
+        logistics_center = "ab-lc-logistics-center",
+        logistics_center_controller = "ab-lc-logistics-center-controller",
         electric_energy_interface = "ab-lc-electric-energy-interface",
         -- logistics_center_d = "ab-lc-logistics-center-",
         -- logistics_center_animation = "ab-lc-logistics-center-animation",

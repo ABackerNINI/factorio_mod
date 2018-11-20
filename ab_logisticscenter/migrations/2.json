@@ -2,11 +2,11 @@
     "entity":[
         ["ab-collecter-chest","ab-lc-collecter-chest-1_1"],
         ["ab-requester-chest","ab-lc-requester-chest-1_1"],
-        ["ab-logistic-center","ab-lc-logistic-center"]
+        ["ab-logistic-center","ab-lc-logistics-center"]
     ],
     "item":[
         ["ab-collecter-chest","ab-lc-collecter-chest-1_1"],
         ["ab-requester-chest","ab-lc-requester-chest-1_1"],
-        ["ab-logistic-center","ab-lc-logistic-center"]
+        ["ab-logistic-center","ab-lc-logistics-center"]
     ]
 }
