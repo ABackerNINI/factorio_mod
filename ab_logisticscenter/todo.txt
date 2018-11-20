@@ -1,38 +1,40 @@
---lc����constant-combinator
---output������ź�
---�Ż�distance��ʽMax��dx��dy����dx+dy��/2
---lcΨһ,��lc֧��
---����ab-logistics-center
---locale����
---ƽ��CPUռ��
---������ʱ��ʾ������������ľ���
---lc��cc��rc��recipe
---capacity�Ƽ�ÿ��+20%��10�Σ��������
+--lc类型constant-combinator
+--output库存量信号
+--优化distance公式Max，dx，dy，（dx+dy）/2
+--lc唯一,多lc支持
+--改名ab-logistics-center
+--locale翻译
+--平滑CPU占用
+--放箱子时显示与最近物流中心距离
+--lc，cc，rc，recipe
+--capacity科技每次+20%，10次，最后无限
 
-�ı�ͼ��
-��������ʱ,��ʾ����������ļ�ͷָʾ��
-hoverʱ��ʾʣ�����
-power consume�Ƽ�ÿ��-5%��10��
-input_flow_limit�������������Ƽ�ÿ��+20%��10��,��buffer_capacityͬ������
-input_flow_limit��ʼ������������ѡ��
-cc��rc��ʼ�ܺ�ѡ����ĵ�ѡ��
-�Ƽ��������Ѷ�
-����ע��
-����֧��
-��ͬsurfaces֧��
-������ʱ��ʾ������������ĵ�������
-�Ż�,��������������Ҿ����Զʱ,�ӳ����ʱ��,���ӿ����Ż�ѡ��
-�������������źŲۿƼ�
-��������������ۿƼ�
-������lc֮�����,Զ����������
+信号排序,同类排在一起,1原矿,2铁板,3铜板
+信号槽数量改为500
+改变图标
+创建箱子时,显示最近物流中心箭头指示器
+hover时显示剩余电量
+power consume科技每次-5%，10次
+input_flow_limit电力传输能力科技每次+20%，10次,和buffer_capacity同步提升
+input_flow_limit初始电力传输能力选项
+cc，rc初始能耗选项，不耗电选项
+科技花费与难度
+添加注释
+联机支持
+不同surfaces支持
+放箱子时显示与最近物流中心的连接线
+优化,当物流中心与玩家距离较远时,延长检查时间,增加开启优化选项
+添加物流中心信号槽科技
+添加请求箱请求槽科技
+距离外lc之间独立,远距离打包运输
 
-?���ӹر�update_all_signalsѡ��
-?�������ores stack��ѯ���
-?û��re-calc distance
-?fluid֧��
-?���͵������������lc
-?�����ź�,ֹͣcc,ֹͣrc
-?����������
+?添加关闭update_all_signals选项
+?添加命令，ores stack查询库存
+?没电re-calc distance
+?fluid支持
+?传送到最近有能量的lc
+?控制信号,停止cc,停止rc
+?数量限制器
 ?stability0.90
-?stability�Ƽ�ÿ��+0.01���ĵ�+2%��9��
-?��ʼstabilityѡ�stability���Ϊ1
+?stability科技每次+0.01，耗电+2%，9次
+?初始stability选项，stability最大为1
