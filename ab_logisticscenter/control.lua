@@ -137,7 +137,11 @@ local function find_nearest_lc(entity)
             power_consumption = 0,
             eei = eei
         }
-        if entity.name == names.collecter_chest then
+        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then --this is not recommanded
+        if entity.name == names.collecter_chest_1_1 --or
+            -- entity.name == names.collecter_chest_3_6 or
+            -- entity.name == names.collecter_chest_6_3 
+            then
             ret.power_consumption = math_ceil(nearest_distance * global.technologies.cc_power_consumption)
         else
             ret.power_consumption = math_ceil(nearest_distance * global.technologies.rc_power_consumption)
@@ -198,7 +202,11 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
     local entity = event.created_entity
     local name = entity.name
 
-    if name == names.collecter_chest then
+    --if string.match(name,names.collecter_chest_pattern) ~= nil then --this is not recommanded
+    if name == names.collecter_chest_1_1 --or
+        -- name == names.collecter_chest_3_6 or
+        -- name == names.collecter_chest_6_3 
+        then
         --add cc to the watch-list
         local index = global.cc_entities.index
         local empty_stack = global.cc_entities.empty_stack
@@ -228,7 +236,11 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
 
         --recalc cpr
         global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * config.check_cc_percentage)
-    elseif name == names.requester_chest then
+    --if string.match(name,names.requester_chest_pattern) ~= nil then --this is not recommanded
+    elseif name == names.requester_chest_1_1 --or
+            -- name == names.requester_chest_3_6 or
+            -- name == names.requester_chest_6_3
+            then
         --add rc to the watch-list
         local index = global.rc_entities.index
         local empty_stack = global.rc_entities.empty_stack
@@ -577,20 +589,20 @@ script.on_event(defines.events.on_player_created, function(event)
     if setting == "small" then
         items = {
             {names.logistics_center,1},
-            {names.collecter_chest,10},
-            {names.requester_chest,10}
+            {names.collecter_chest_1_1,10},
+            {names.requester_chest_1_1,10}
         }
     elseif setting =="medium" then
         items = {
             {names.logistics_center,3},
-            {names.collecter_chest,50},
-            {names.requester_chest,50}
+            {names.collecter_chest_1_1,50},
+            {names.requester_chest_1_1,50}
         }
     elseif setting == "big" then
         items = {
             {names.logistics_center,10},
-            {names.collecter_chest,100},
-            {names.requester_chest,100}
+            {names.collecter_chest_1_1,100},
+            {names.requester_chest_1_1,100}
         }
     end
 

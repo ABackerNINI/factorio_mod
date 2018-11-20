@@ -76,9 +76,11 @@ end
 function get_names()
     return {
         --item/entity
-        collecter_chest = "ab-collecter-chest",
-        requester_chest = "ab-requester-chest",
-        logistics_center = "ab-logistic-center",
+        collecter_chest_1_1 = "ab-lc-collecter-chest-1_1",
+        collecter_chest_3_6 = "ab-lc-collecter-chest-3_6",
+        collecter_chest_6_3 = "ab-lc-collecter-chest-6_3",
+        requester_chest_1_1 = "ab-lc-requester-chest-1_1",
+        logistics_center = "ab-lc-logistic-center",
         electric_energy_interface = "ab-lc-electric-energy-interface",
         -- logistics_center_d = "ab-lc-logistics-center-",
         -- logistics_center_animation = "ab-lc-logistics-center-animation",
@@ -88,6 +90,8 @@ function get_names()
         tech_power_consumption = "ab-lc-tech-power-consumption",
 
         --match pattern string
+        collecter_chest_pattern = "ab%-lc%-collecter%-chest",
+        requester_chest_pattern = "ab%-lc%-collecter%-chest",
         tech_lc_capacity_pattern = "ab%-lc%-tech%-lc%-capacity",
         tech_power_consumption_pattern = "ab%-lc%-tech%-power%-consumption"
     }
