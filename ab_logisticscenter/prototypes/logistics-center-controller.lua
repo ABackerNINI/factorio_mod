@@ -33,6 +33,7 @@ data:extend({
         corpse = "small-remnants",
         dying_explosion = "medium-explosion",
         item_slot_count = config.lc_item_slot_count,
+        map_color = {r = 0, g = 1, b = 0},
         sprites = {
 			north = make_sprite(),
 			east = make_sprite(),
@@ -137,12 +138,11 @@ data:extend({
         enabled = true,
         energy_required = 1,
         ingredients = {
-			{"advanced-circuit",100},
-			-- {"constant-combinator",20},
+			{"constant-combinator",10},
 			{"steel-plate",10},
 			{"iron-plate",10},
 			{"copper-plate",10},
-			{"radar",10}
+			{"radar",5}
 		},
         result = names.logistics_center_controller
     }

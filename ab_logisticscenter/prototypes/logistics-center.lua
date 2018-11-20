@@ -37,6 +37,7 @@ data:extend({
         corpse = "big-remnants",
         dying_explosion = "medium-explosion",
         item_slot_count = config.lc_item_slot_count,
+        map_color = {r = 0, g = 1, b = 0},
         sprites = {
 			north = make_sprite(),
 			east = make_sprite(),
@@ -130,7 +131,6 @@ data:extend({
 			}
 		},
         circuit_wire_max_distance = 10,
-        map_color = {r = 0, g = 1, b = 0},
         vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.65 }
     }
 })
