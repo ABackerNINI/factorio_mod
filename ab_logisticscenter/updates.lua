@@ -306,6 +306,8 @@ function global_data_migrations()
     --tenth change,global.global_data_version = 10
     --bug fix:default max_control [big_number->lc_capacity]@add_item()
     if global.global_data_version < 11 then
+        game.print({config.locale_print_when_global_data_migrate,10})
+        
         for k,v in pairs(global.items_stock.items) do
             if v.max_control == config.big_number then
                 v.max_control = global.technologies.lc_capacity
