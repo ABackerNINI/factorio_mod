@@ -101,6 +101,35 @@ local function position_to_string(p)
     return p.x .. "," .. p.y
 end
 
+--add item
+local function add_item(name)
+    --find the smallest index not in use
+    local indexs = {}
+    for k,v in pairs(global.items_stock.items) do
+        indexs[v.index] = 1
+    end
+    
+    --default index = config.lc_item_slot_count + 1
+    local index = config.lc_item_slot_count + 1
+    for i=1,config.lc_item_slot_count do
+        if indexs[i] == nil then
+            index = i
+            break
+        end
+    end
+
+    -- add item
+    local item = {index = index,stock = 0,enable = true,max_control = global.technologies.lc_capacity}
+    global.items_stock.items[name] = item
+    global.items_stock.index = global.items_stock.index + 1
+    return item
+end
+
+--del item
+local function del_item(name)
+    global.items_stock.items[name] = nil
+end
+
 local function remove_cc(index)
     --remove invalid chest
     global.cc_entities.entities[index] = nil
@@ -202,6 +231,49 @@ local function update_signals(item_name)
         local control_behavior = v.lc.get_or_create_control_behavior()
         if control_behavior.enabled then
             control_behavior.set_signal(item.index,signal)
+        end
+    end
+end
+
+--update lc controller
+local function update_lc_controller()
+    if global.lcc_entity.parameters == nil then
+        return
+    end
+
+    local signals = global.lcc_entity.parameters.parameters
+    local item1 = nil --item the contoller set
+    local item2 = nil --item to replace
+    for k,v in pairs(signals) do
+        if v.signal.type == "item" and v.signal.name ~= nil then
+            item1 = global.items_stock.items[v.signal.name]
+            if item1 == nil and v.count ~= -1 then
+                item1 = add_item(v.signal.name)
+            end
+
+            if item1 ~= nil then
+                item2 = nil
+                for k2,v2 in pairs(global.items_stock.items) do
+                    if v2.index == v.index then
+                        item2 = v2
+                        break
+                    end
+                end
+                if item2 ~= nil then 
+                    item2.index = item1.index
+                end
+
+                item1.index = v.index
+                if v.count == 1 then --no limit,just change the signal place
+                    item1.max_control = global.technologies.lc_capacity
+                elseif v.count == -1 then --delete item if item stock is zero
+                    if item1.stock == 0 then
+                        del_item(v.signal.name)
+                    end
+                else --set limit and change the signal place
+                    item1.max_control = math_min(v.count,global.technologies.lc_capacity)
+                end
+            end
         end
     end
 end
@@ -312,8 +384,14 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
             if global.lcc_entity.entities[index] == nil --or global.lcc_entity.entities[index].valid == false 
             then
                 if global.lcc_entity.parameters ~= nil then
+                    --set parameters
                     local control_behavior = entity.get_or_create_control_behavior()
-                    control_behavior.parameters = global.lcc_entity.parameters 
+                    control_behavior.parameters = global.lcc_entity.parameters
+
+                    --update lc controller
+                    if global.lcc_entity.count == 0 then
+                        update_lc_controller()
+                    end
                 end
                     
                 global.lcc_entity.entities[index] = entity
@@ -365,35 +443,6 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
         end
     end
 end)
-
---add item
-local function add_item(name)
-    --find the smallest index not in use
-    local indexs = {}
-    for k,v in pairs(global.items_stock.items) do
-        indexs[v.index] = 1
-    end
-    
-    --default index = config.lc_item_slot_count + 1
-    local index = config.lc_item_slot_count + 1
-    for i=1,config.lc_item_slot_count do
-        if indexs[i] == nil then
-            index = i
-            break
-        end
-    end
-
-    -- add item
-    local item = {index = index,stock = 0,enable = true,max_control = global.technologies.lc_capacity}
-    global.items_stock.items[name] = item
-    global.items_stock.index = global.items_stock.index + 1
-    return item
-end
-
---del item
-local function del_item(name)
-    global.items_stock.items[name] = nil
-end
 
 --check all collecter chests
 script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
@@ -571,48 +620,6 @@ script.on_event(defines.events.on_gui_opened,function(event)
         update_all_signals()
     end
 end)
-
-local function update_lc_controller()
-    if global.lcc_entity.parameters == nil then
-        return
-    end
-
-    local signals = global.lcc_entity.parameters.parameters
-    local item1 = nil --item the contoller set
-    local item2 = nil --item to replace
-    for k,v in pairs(signals) do
-        if v.signal.type == "item" and v.signal.name ~= nil then
-            item1 = global.items_stock.items[v.signal.name]
-            if item1 == nil and v.count ~= -1 then
-                item1 = add_item(v.signal.name)
-            end
-
-            if item1 ~= nil then
-                item2 = nil
-                for k2,v2 in pairs(global.items_stock.items) do
-                    if v2.index == v.index then
-                        item2 = v2
-                        break
-                    end
-                end
-                if item2 ~= nil then 
-                    item2.index = item1.index
-                end
-
-                item1.index = v.index
-                if v.count == 1 then --no limit,just change the signal place
-                    item1.max_control = global.technologies.lc_capacity
-                elseif v.count == -1 then --delete item if item stock is zero
-                    if item1.stock == 0 then
-                        del_item(v.signal.name)
-                    end
-                else --set limit and change the signal place
-                    item1.max_control = math_min(v.count,global.technologies.lc_capacity)
-                end
-            end
-        end
-    end
-end
 
 --on closed the logistics center controller
 script.on_event(defines.events.on_gui_closed,function(event)
