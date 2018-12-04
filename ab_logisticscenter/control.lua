@@ -42,8 +42,10 @@ local function init_globals()
         entities = {}
     }
 
+    --{entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
     global.lcc_entity = global.lcc_entity or {
-        entity = nil
+        entity = nil,
+        --entities = {}
     }
 
     global.technologies = global.technologies or {
@@ -448,28 +450,30 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
 
                         --stock.get_item(name)
                         local item = global.items_stock.items[name]
-                        if item == nil then
-                            item = add_item(name)
-                        end
+                        -- if item == nil then
+                        --     item = add_item(name)
+                        -- end
 
-                        --calc shortage
-                        count = count - inventory.get_item_count(name)
-                        --enough stock?
-                        count = math_min(count,item.stock)
-                        --enough energy?
-                        count = math_min(count,math_floor(eei.energy/power_consumption))
+                        if item ~= nil then
+                            --calc shortage
+                            count = count - inventory.get_item_count(name)
+                            --enough stock?
+                            count = math_min(count,item.stock)
+                            --enough energy?
+                            count = math_min(count,math_floor(eei.energy/power_consumption))
 
-                        if count > 0 then
-                            crc_item_stack.name = name
-                            crc_item_stack.count = count
-                            --in case the inventory is full
-                            local inserted_count = inventory.insert(crc_item_stack)
-                            item.stock = item.stock - inserted_count
-                            eei.energy = eei.energy - inserted_count * power_consumption
-                            update_signals(name)
+                            if count > 0 then
+                                crc_item_stack.name = name
+                                crc_item_stack.count = count
+                                --in case the inventory is full
+                                local inserted_count = inventory.insert(crc_item_stack)
+                                item.stock = item.stock - inserted_count
+                                eei.energy = eei.energy - inserted_count * power_consumption
+                                update_signals(name)
 
-                            if eei.energy < power_consumption then
-                                break
+                                if eei.energy < power_consumption then
+                                    break
+                                end
                             end
                         end
                     end
