@@ -530,6 +530,10 @@ script.on_event(defines.events.on_gui_opened,function(event)
 end)
 
 local function update_lc_controller()
+    if global.lcc_entity.entity == nil then
+        return
+    end
+
     local control_behavior = global.lcc_entity.entity.get_or_create_control_behavior()
     local signals = control_behavior.parameters.parameters
     local item1 = nil --item the contoller set
