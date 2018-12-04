@@ -303,5 +303,18 @@ function global_data_migrations()
         global.global_data_version = 10
     end
 
+    --tenth change,global.global_data_version = 10
+    --bug fix:default max_control [big_number->lc_capacity]@add_item()
+    if global.global_data_version < 11 then
+        for k,v in pairs(global.items_stock.items) do
+            if v.max_control == config.big_number then
+                v.max_control = global.technologies.lc_capacity
+            end
+        end
+
+        --set global_data_version
+        global.global_data_version = 11
+    end
+
     global.global_data_version = config.global_data_version
 end
