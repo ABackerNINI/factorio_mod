@@ -348,7 +348,7 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
 end)
 
 local function add_item(name)
-    local item = {index = global.items_stock.index,stock = 0,enable = true,max_control = config.big_number}
+    local item = {index = global.items_stock.index,stock = 0,enable = true,max_control = global.technologies.lc_capacity}
     global.items_stock.items[name] = item
     global.items_stock.index = global.items_stock.index + 1
     return item
