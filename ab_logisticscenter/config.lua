@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 11,
+        global_data_version = 12,
 
         --TECHNOLOGIES
         --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
@@ -66,7 +66,6 @@ function get_config()
         locale_print_after_tech_lc_capacity_researched = "ab-logisticscenter-text.print-after-tech-lc-capacity-researched",
         locale_print_after_tech_power_consumption_researched = "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
         locale_print_when_global_data_migrate = "ab-logisticscenter-text.print-when-global-data-migrate",
-        locale_print_when_secend_lcc_built = "ab-logisticscenter-text.print-when-secend-lcc-built",
 
 
         --FOR GLOBAL DATA MIGRATIONS

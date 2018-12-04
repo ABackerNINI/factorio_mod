@@ -318,5 +318,27 @@ function global_data_migrations()
         global.global_data_version = 11
     end
 
+    --eleventh change,global.global_data_version = 11
+    --new feature:multy-lcc support
+    if global.global_data_version < 12 then
+        game.print({config.locale_print_when_global_data_migrate,11})
+        
+        --global.lcc_entity
+        --OLD {entity}
+        --NEW {count,parameters,entities={[index] = entity}
+        if global.lcc_entity.entity == nil then
+            global.lcc_entity.count = 0
+        else
+            global.lcc_entity.count = 1
+            global.lcc_entity.parameters = global.lcc_entity.entity.get_or_create_control_behavior().parameters
+            global.lcc_entity.entities = {}
+            global.lcc_entity.entities[1] = global.lcc_entity.entity
+            global.lcc_entity.entity = nil
+        end
+
+        --set global_data_version
+        global.global_data_version = 12
+    end
+
     global.global_data_version = config.global_data_version
 end

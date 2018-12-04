@@ -42,10 +42,11 @@ local function init_globals()
         entities = {}
     }
 
-    --{entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
+    --{count,parameters,entities={[index] = entity}
     global.lcc_entity = global.lcc_entity or {
-        entity = nil,
-        --entities = {}
+        count = 0,
+        parameters = nil,
+        entities = {}
     }
 
     global.technologies = global.technologies or {
@@ -306,10 +307,19 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         --recalc distance
         recalc_distance()
     elseif name == names.logistics_center_controller then
-        if global.lcc_entity.entity == nil then
-            global.lcc_entity.entity = entity
-        else
-            game.print({config.locale_print_when_secend_lcc_built})
+        --caution:loop with big_number
+        for index = 1,config.big_number do 
+            if global.lcc_entity.entities[index] == nil --or global.lcc_entity.entities[index].valid == false 
+            then
+                if global.lcc_entity.parameters ~= nil then
+                    local control_behavior = entity.get_or_create_control_behavior()
+                    control_behavior.parameters = global.lcc_entity.parameters 
+                end
+                    
+                global.lcc_entity.entities[index] = entity
+                global.lcc_entity.count = global.lcc_entity.count + 1
+                break
+            end
         end
     end
 end)
@@ -338,13 +348,20 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
         --recalc distance
         recalc_distance()
     elseif name == names.logistics_center_contoller then
-        if entity == global.lcc_entity.entity then
+        --caution:loop with big_number
+        for index = 1,config.big_number do
+            if global.lcc_entity.entities[index] == entity then
+                global.lcc_entity.entities[index] = nil
+                global.lcc_entity.count = global.lcc_entity.count - 1
+                break
+            end
+        end
+
+        if global.lcc_entity.count == 0 then
             --reset all max_control
             for k,v in pairs(global.items_stock.items) do
                 v.max_control = global.technologies.lc_capacity
             end
-
-            global.lcc_entity.entity = nil
         end
     end
 end)
@@ -556,12 +573,11 @@ script.on_event(defines.events.on_gui_opened,function(event)
 end)
 
 local function update_lc_controller()
-    if global.lcc_entity.entity == nil then
+    if global.lcc_entity.parameters == nil then
         return
     end
 
-    local control_behavior = global.lcc_entity.entity.get_or_create_control_behavior()
-    local signals = control_behavior.parameters.parameters
+    local signals = global.lcc_entity.parameters.parameters
     local item1 = nil --item the contoller set
     local item2 = nil --item to replace
     for k,v in pairs(signals) do
@@ -602,7 +618,17 @@ end
 script.on_event(defines.events.on_gui_closed,function(event)
     local entity = event.entity
 
-    if entity ~= nil and entity == global.lcc_entity.entity then
+    if entity ~= nil and entity.name == names.logistics_center_controller then
+        local parameters = entity.get_or_create_control_behavior().parameters
+        --update all other lccs
+        for k,v in pairs(global.lcc_entity.entities) do
+            v.get_or_create_control_behavior().parameters = parameters
+        end
+
+        --update global parameters
+        global.lcc_entity.parameters = parameters
+
+        --update lc controller
         update_lc_controller()
     end
 end)
