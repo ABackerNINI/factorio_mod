@@ -425,7 +425,7 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
     
         --recalc distance
         recalc_distance()
-    elseif name == names.logistics_center_contoller then
+    elseif entity.name == names.logistics_center_controller then
         --caution:loop with big_number
         for index = 1,config.big_number do
             if global.lcc_entity.entities[index] == entity then
