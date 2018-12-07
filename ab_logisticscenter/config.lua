@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 12,
+        global_data_version = 13,
 
         --TECHNOLOGIES
         --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
