@@ -1,0 +1,10 @@
+{
+    "name": "ab_railschedule",
+    "version": "0.16.0",
+    "title": "ab-rail-schedule",
+    "author": "ABacker",
+    "description": "ab mod:rail schedule",
+    "factorio_version": "0.16",
+    "dependencies": ["base >= 0.16.0"]
+  }
+  
