@@ -3,3 +3,4 @@
 写打怪得积分,积分换物品mod
 写能量块mod
 改风能发电机mod
+map_regenerate_mod
