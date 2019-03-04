@@ -1,10 +1,10 @@
 {
     "name": "ab_loaderunlock",
-    "version": "0.16.0",
+    "version": "0.17.1",
     "title": "ab-loader-unlock",
     "author": "ABacker",
     "description": "ab mod:loader unlock",
-    "factorio_version": "0.16",
-    "dependencies": ["base >= 0.16.0"]
+    "factorio_version": "0.17",
+    "dependencies": ["base >= 0.17.0"]
   }
   
