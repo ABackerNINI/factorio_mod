@@ -819,9 +819,17 @@ script.on_event(defines.events.on_research_finished, function(event)
         for i = 1,4 do
             if research.name == tech_lc_capacity_names[i] then
                 global.technologies.tech_lc_capacity_real_level = global.technologies.tech_lc_capacity_real_level + 1
-                global.technologies.lc_capacity = 
-                    config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
-                    config.tech_lc_capacity_increment[i] * (global.technologies.tech_lc_capacity_real_level - (i - 1) * 10)
+
+                --fixed wrong lc capacity after calling research_all_technologies() through Lua script or in sandbox mode
+                if global.technologies.tech_lc_capacity_real_level < (i - 1) * 10 then
+                    global.technologies.lc_capacity = 
+                        config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
+                        config.tech_lc_capacity_increment[i] * (global.technologies.tech_lc_capacity_real_level - (i - 1)) * 10
+                else
+                    global.technologies.lc_capacity = 
+                        config.default_lc_capacity + tech_lc_capacity_increment_sum[i] + 
+                        config.tech_lc_capacity_increment[i] * (global.technologies.tech_lc_capacity_real_level - (i - 1) * 10)
+                end
 
                 --update max_control
                 for k,v in pairs(global.items_stock.items) do
@@ -838,9 +846,18 @@ script.on_event(defines.events.on_research_finished, function(event)
         for i = 1,4 do
             if research.name == tech_power_consumption_names[i] then
                 global.technologies.tech_power_consumption_real_level = global.technologies.tech_power_consumption_real_level + 1
-                local power_consumption_percentage = 1 - 
-                    (tech_power_consumption_decrement_sum[i] + 
-                     config.tech_power_consumption_decrement[i] * (global.technologies.tech_power_consumption_real_level - (i - 1) * 10))
+                local power_consumption_percentage
+                
+                --fixed wrong power consumption after calling research_all_technologies() through Lua script or in sandbox mode
+                if global.technologies.tech_power_consumption_real_level < (i - 1) * 10 then--fix with calling research_all_technologies() through Lua script
+                    power_consumption_percentage = 1 - 
+                        (tech_power_consumption_decrement_sum[i] + 
+                        config.tech_power_consumption_decrement[i] * (global.technologies.tech_power_consumption_real_level - (i - 1)) * 10)
+                else
+                    power_consumption_percentage = 1 - 
+                        (tech_power_consumption_decrement_sum[i] + 
+                        config.tech_power_consumption_decrement[i] * (global.technologies.tech_power_consumption_real_level - (i - 1) * 10))
+                end
 
                     global.technologies.cc_power_consumption = 
                         math_ceil(config.default_cc_power_consumption * power_consumption_percentage)
