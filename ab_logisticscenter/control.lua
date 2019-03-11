@@ -730,16 +730,18 @@ script.on_event(defines.events.on_player_created, function(event)
         setting = 1
     end
 
-    local items = {
-        {names.logistics_center,setting},
-        {names.collecter_chest_1_1,50},
-        {names.requester_chest_1_1,50}
-    }
+    if setting > 0 then
+        local items = {
+            {names.logistics_center,setting},
+            {names.collecter_chest_1_1,50},
+            {names.requester_chest_1_1,50}
+        }
 
-    local inventory = player.get_inventory(defines.inventory.player_main)
-    if inventory ~= nil then
-        for k,v in pairs(items) do
-            inventory.insert({name = v[1], count = v[2]})
+        local inventory = player.get_inventory(defines.inventory.player_main)
+        if inventory ~= nil then
+            for k,v in pairs(items) do
+                inventory.insert({name = v[1], count = v[2]})
+            end
         end
     end
 end)
