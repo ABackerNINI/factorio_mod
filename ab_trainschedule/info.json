@@ -1,9 +1,9 @@
 {
-    "name": "ab_railschedule",
+    "name": "ab_trainschedule",
     "version": "0.16.0",
-    "title": "ab-rail-schedule",
+    "title": "ab-train-schedule",
     "author": "ABacker",
-    "description": "ab mod:rail schedule",
+    "description": "ab mod:train schedule",
     "factorio_version": "0.16",
     "dependencies": ["base >= 0.16.0"]
   }
