@@ -1,0 +1,10 @@
+Version: 0.17.1
+Date: 03.11.2019
+    Changes:
+        - Update to fit factorio v0.17.
+    Bugfixes:
+        - Fixed that crash in sandbox mode,fail to get player's invertory.
+
+Version: 0.16.0
+Date: since 10.19.2018
+    Alpha versions.
