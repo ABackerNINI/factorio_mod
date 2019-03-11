@@ -3,6 +3,7 @@ local LC = "__ab_logisticscenter__"
 require("config")
 
 local names = get_names()
+local startup_settings = get_startup_settings()
 
 local function make_tech(index,icon,unit)
     local prerequisites = {} 
@@ -30,7 +31,7 @@ local function make_tech(index,icon,unit)
 end
 
 local unit_1 = {
-    count = 1000,
+    count = 100 * startup_settings.tech_cost,
     ingredients = {
         {"automation-science-pack",2},
         {"logistic-science-pack",1}
@@ -39,7 +40,7 @@ local unit_1 = {
 }
 
 local unit_2 = {
-    count = 1500,
+    count = 150 * startup_settings.tech_cost,
     ingredients = {
         {"automation-science-pack",3},
         {"logistic-science-pack",2},
@@ -49,7 +50,7 @@ local unit_2 = {
 }
 
 local unit_3 = {
-    count = 2000,
+    count = 200 * startup_settings.tech_cost,
     ingredients = {
         {"automation-science-pack",3},
         {"logistic-science-pack",2},
@@ -61,7 +62,7 @@ local unit_3 = {
 }
 
 local unit_4 = {
-    count = 3000,
+    count = 300 * startup_settings.tech_cost,
     ingredients = {
         {"automation-science-pack",3},
         {"logistic-science-pack",3},

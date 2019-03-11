@@ -6,6 +6,14 @@ data:extend({
       setting_type = "startup",
       default_value = 1,
       allowed_values =  {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+    },    
+    {
+      type = "int-setting",
+      name = "ab-logistics-center-tech-cost",
+      order = "ab-l-a",
+      setting_type = "startup",
+      default_value = 3,
+      allowed_values =  {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 50, 100}
     },
     {
       type = "string-setting",

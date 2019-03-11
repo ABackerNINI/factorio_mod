@@ -105,6 +105,7 @@ end
 function get_startup_settings()
     return {
         quick_start = settings.startup["ab-logistics-center-quick-start"].value,
+        tech_cost = settings.startup["ab-logistics-center-tech-cost"].value,
         item_type_limitation = settings.startup["ab-logistics-center-item-type-limitation"].value
     }
 end
