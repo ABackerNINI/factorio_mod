@@ -101,3 +101,10 @@ function get_names()
         tech_power_consumption_pattern = "ab%-lc%-tech%-power%-consumption"
     }
 end
+
+function get_startup_settings()
+    return {
+        quick_start = settings.startup["ab-logistics-center-quick-start"].value,
+        item_type_limitation = settings.startup["ab-logistics-center-item-type-limitation"].value
+    }
+end

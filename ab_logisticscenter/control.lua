@@ -3,6 +3,7 @@ require("updates")
 
 local config = get_config()
 local names = get_names()
+local startup_settings = get_startup_settings()
 
 local math_ceil = math.ceil
 local math_floor = math.floor
@@ -444,8 +445,8 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
     end
 end)
 
---check all collecter chests
-script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
+--check all collector chests, all items
+local function check_ccs_on_nth_tick_all(nth_tick_event)
     if global.lc_entities.count < 1 then return end
 
     local crc_item_stack = {name = nil,count = 0}
@@ -476,8 +477,6 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
                         
                         --enough energy?
                         count = math_min(count,math_floor(eei.energy/power_consumption))
-                        -- --enough capacity?
-                        -- count = math_min(count,global.technologies.lc_capacity - item.stock)
                         --calc max_control
                         count = math_min(count,item.max_control - item.stock)
 
@@ -507,10 +506,144 @@ script.on_nth_tick(config.check_cc_on_nth_tick, function(nth_tick_event)
     else
         global.runtime_vars.cc_checked_index = 0
     end
-end)
+end
+
+--check all collector chests, ores only
+local function check_ccs_on_nth_tick_ores_only(nth_tick_event)
+    if global.lc_entities.count < 1 then return end
+
+    local crc_item_stack = {name = nil,count = 0}
+    local ore_entity
+
+    local index_begin = global.runtime_vars.cc_checked_index + 1
+    local index_end = index_begin + global.runtime_vars.cc_check_per_round
+
+    --check(index_begin,index_end)
+    for idx = index_begin,index_end,1 do
+        -- game.print("cc:"..index_begin.." "..index_end)
+        local index = idx
+        if index > global.cc_entities.index then index = index - global.cc_entities.index end
+        local v = global.cc_entities.entities[index]
+        if v ~= nil then 
+            if v.entity.valid then
+                local inventory = v.entity.get_output_inventory()
+                if not inventory.is_empty() then
+                    local power_consumption = v.nearest_lc.power_consumption
+                    local contents = inventory.get_contents()
+                    local eei = v.nearest_lc.eei
+
+                    for name,count in pairs(contents) do
+                        ore_entity = game.entity_prototypes[name]
+                        if ore_entity ~= nil and ore_entity.type == "resource" then --game.item_prototypes[name] ~= nil?
+                            --stock.get_item(name)
+                            local item = global.items_stock.items[name]
+                            if item == nil then
+                                item = add_item(name)
+                            end
+                            
+                            --enough energy?
+                            count = math_min(count,math_floor(eei.energy/power_consumption))
+                            --calc max_control
+                            count = math_min(count,item.max_control - item.stock)
+
+                            if count > 0 then
+                                crc_item_stack.name = name
+                                crc_item_stack.count = count
+                                inventory.remove(crc_item_stack)
+                                item.stock = item.stock + count
+                                eei.energy = eei.energy - count * power_consumption
+                                update_signals(name)
+
+                                if eei.energy < power_consumption then
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                remove_cc(index)
+            end
+        end
+    end
+
+    --calc checked_index
+    if global.cc_entities.index ~= 0 then
+        global.runtime_vars.cc_checked_index = index_end % global.cc_entities.index
+    else
+        global.runtime_vars.cc_checked_index = 0
+    end
+end
+
+--check all collector chests, except ores
+local function check_ccs_on_nth_tick_except_ores(nth_tick_event)
+    if global.lc_entities.count < 1 then return end
+
+    local crc_item_stack = {name = nil,count = 0}
+    local ore_entity
+
+    local index_begin = global.runtime_vars.cc_checked_index + 1
+    local index_end = index_begin + global.runtime_vars.cc_check_per_round
+
+    --check(index_begin,index_end)
+    for idx = index_begin,index_end,1 do
+        -- game.print("cc:"..index_begin.." "..index_end)
+        local index = idx
+        if index > global.cc_entities.index then index = index - global.cc_entities.index end
+        local v = global.cc_entities.entities[index]
+        if v ~= nil then 
+            if v.entity.valid then
+                local inventory = v.entity.get_output_inventory()
+                if not inventory.is_empty() then
+                    local power_consumption = v.nearest_lc.power_consumption
+                    local contents = inventory.get_contents()
+                    local eei = v.nearest_lc.eei
+
+                    for name,count in pairs(contents) do
+                        ore_entity = game.entity_prototypes[name]
+                        if ore_entity == nil or game.entity_prototypes[name].type ~= "resource" then
+                            --stock.get_item(name)
+                            local item = global.items_stock.items[name]
+                            if item == nil then
+                                item = add_item(name)
+                            end
+                            
+                            --enough energy?
+                            count = math_min(count,math_floor(eei.energy/power_consumption))
+                            --calc max_control
+                            count = math_min(count,item.max_control - item.stock)
+
+                            if count > 0 then
+                                crc_item_stack.name = name
+                                crc_item_stack.count = count
+                                inventory.remove(crc_item_stack)
+                                item.stock = item.stock + count
+                                eei.energy = eei.energy - count * power_consumption
+                                update_signals(name)
+
+                                if eei.energy < power_consumption then
+                                    break
+                                end
+                            end
+                        end
+                    end
+                end
+            else
+                remove_cc(index)
+            end
+        end
+    end
+
+    --calc checked_index
+    if global.cc_entities.index ~= 0 then
+        global.runtime_vars.cc_checked_index = index_end % global.cc_entities.index
+    else
+        global.runtime_vars.cc_checked_index = 0
+    end
+end
 
 --check all requester chests
-script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
+local function check_rcs_on_nth_tick(nth_tick_event)
     if global.lc_entities.count < 1 then return end
 
     local crc_item_stack = {name = nil,count = 0}
@@ -578,7 +711,18 @@ script.on_nth_tick(config.check_rc_on_nth_tick,function(nth_tick_event)
     else
         global.runtime_vars.rc_checked_index = 0
     end
-end)
+end
+
+--check all collecter chests
+if startup_settings.item_type_limitation == nil or startup_settings.item_type_limitation == "all" then
+    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
+elseif startup_settings.item_type_limitation == "ores only" then
+    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_ores_only)
+else
+    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_except_ores)
+end
+--check all requester chests
+script.on_nth_tick(config.check_rc_on_nth_tick, check_rcs_on_nth_tick)
 
 --update all signals
 local function update_all_signals()
@@ -724,15 +868,15 @@ end)
 --on player created
 script.on_event(defines.events.on_player_created, function(event)
     local player = game.players[event.player_index]
-    local setting = settings.startup["ab-logistics-center-quick-start"].value
+    local quick_start = startup_settings.quick_start
 
-    if setting == nil then
-        setting = 1
+    if quick_start == nil then
+        quick_start = 1
     end
 
-    if setting > 0 then
+    if quick_start > 0 then
         local items = {
-            {names.logistics_center,setting},
+            {names.logistics_center,quick_start},
             {names.collecter_chest_1_1,50},
             {names.requester_chest_1_1,50}
         }

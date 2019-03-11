@@ -15,4 +15,4 @@ data:extend({
       default_value = "all",
       allowed_values =  {"all","ores only", "except ores"}
     }
-  })
+})
