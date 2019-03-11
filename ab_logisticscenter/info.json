@@ -1,9 +1,11 @@
 {
     "name": "ab_logisticscenter",
     "version": "0.17.1",
-    "title": "ab-logistics-center",
+    "title": "ab logistics center",
     "author": "ABacker",
-    "description": "ab mod:logistics center",
+    "homepage": "https://mods.factorio.com/mod/ab_logisticscenter",
+    "contact": "https://github.com/ABackerNINI/factorio_mod",
+    "description": "ab mod:consume power to teleport items.",
     "factorio_version": "0.17",
     "dependencies": ["base >= 0.17.0"]
   }
