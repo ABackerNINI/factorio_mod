@@ -1,9 +1,11 @@
 {
     "name": "ab_loaderunlock",
-    "version": "0.17.1",
-    "title": "ab-loader-unlock",
+    "version": "0.17.2",
+    "title": "ab loader unlock",
     "author": "ABacker",
-    "description": "ab mod:loader unlock",
+    "homepage": "https://mods.factorio.com/mod/ab_loaderunlock",
+    "contact": "https://github.com/ABackerNINI/factorio_mod",
+    "description": "Unlock three buildin loaders:loader,fast-loader,express-loader.",
     "factorio_version": "0.17",
     "dependencies": ["base >= 0.17.0"]
   }
