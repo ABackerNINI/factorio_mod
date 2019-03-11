@@ -73,7 +73,7 @@ data:extend({
         stack_size = 50,
         icon = LC .. "/graphics/icons/requester-chest.png",
         icon_size = 32,
-        flags = {"goes-to-quickbar"},
+        --flags = {"goes-to-quickbar"},
         subgroup = "logistics",
         order = "l[a]",
         place_result = names.requester_chest_1_1,

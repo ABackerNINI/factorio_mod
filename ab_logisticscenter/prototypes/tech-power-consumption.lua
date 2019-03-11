@@ -32,8 +32,8 @@ end
 local unit_1 = {
     count = 1000,
     ingredients = {
-        {"science-pack-1",2},
-        {"science-pack-2",1}
+        {"automation-science-pack",2},
+        {"logistic-science-pack",1}
     },
     time = 30
 }
@@ -41,9 +41,9 @@ local unit_1 = {
 local unit_2 = {
     count = 1500,
     ingredients = {
-        {"science-pack-1",3},
-        {"science-pack-2",2},
-        {"science-pack-3",1}
+        {"automation-science-pack",3},
+        {"logistic-science-pack",2},
+        {"chemical-science-pack",1}
     },
     time = 40
 }
@@ -51,10 +51,10 @@ local unit_2 = {
 local unit_3 = {
     count = 2000,
     ingredients = {
-        {"science-pack-1",3},
-        {"science-pack-2",2},
-        {"science-pack-3",2},
-        {"high-tech-science-pack",1},
+        {"automation-science-pack",3},
+        {"logistic-science-pack",2},
+        {"chemical-science-pack",2},
+        {"utility-science-pack",1},
         {"military-science-pack",1}
     },
     time = 50
@@ -63,10 +63,10 @@ local unit_3 = {
 local unit_4 = {
     count = 3000,
     ingredients = {
-        {"science-pack-1",3},
-        {"science-pack-2",3},
-        {"science-pack-3",3},
-        {"high-tech-science-pack",1},
+        {"automation-science-pack",3},
+        {"logistic-science-pack",3},
+        {"chemical-science-pack",3},
+        {"utility-science-pack",1},
         {"military-science-pack",1},
         {"production-science-pack",2},
         {"space-science-pack",1}
