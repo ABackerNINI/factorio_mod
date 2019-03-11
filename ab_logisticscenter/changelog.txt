@@ -1,3 +1,11 @@
+Version: 0.17.2
+Date: 03.12.2019
+    Changes:
+        - Changed Quick-Start setting to int-setting, now can choose 0 - 10 logistics centers.
+        - Added a new setting Item-Type-Limitation to limite item types can be teleported, "all", "ores only", "except ores".
+    Bugfixes:
+        - Fixed wrong logistics center capacity and power consumption after calling research_all_technologies() through Lua script or in sandbox mode.
+
 Version: 0.17.1
 Date: 03.11.2019
     Changes:
