@@ -1,0 +1,13 @@
+Version: 0.17.2
+Date: 03.11.2019
+    Changes:
+        - Change some informations and locales.
+
+Version: 0.17.1
+Date: 03.04.2019
+    Changes:
+        - Update to fit factorio v0.17.
+
+Version: 0.16.0
+Date: since 11.20.2018
+    Alpha versions.
