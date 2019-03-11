@@ -1,0 +1,8 @@
+###0.17.2
+    change some informations and locales.
+
+###0.17.1
+    update to fit factorio v0.17.
+
+###0.16.0
+    alpha versions.
