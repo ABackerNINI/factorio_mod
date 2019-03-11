@@ -3,7 +3,7 @@ local LC = "__ab_logisticscenter__"
 require("config")
 
 local names = get_names()
-local config = get_config()
+local startup_settings = get_startup_settings()
 
 data:extend({
     {
@@ -11,7 +11,7 @@ data:extend({
         name = names.requester_chest_1_1,
 
         logistic_mode = "requester",
-        logistic_slots_count = config.rc_logistic_slots_count,
+        logistic_slots_count = startup_settings.rc_logistic_slots_count,
         render_not_in_network_icon = false,
 
         icon = LC .. "/graphics/icons/requester-chest.png",

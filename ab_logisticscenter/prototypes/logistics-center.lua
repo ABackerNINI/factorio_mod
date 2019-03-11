@@ -3,7 +3,7 @@ local LC = "__ab_logisticscenter__"
 require("config")
 
 local names = get_names()
-local config = get_config()
+local startup_settings = get_startup_settings()
 
 local hsl = 1.5
 local hcl = 1.4
@@ -36,7 +36,7 @@ data:extend({
         max_health = 250,
         corpse = "big-remnants",
         dying_explosion = "medium-explosion",
-        item_slot_count = config.lc_item_slot_count,
+        item_slot_count = startup_settings.lc_item_slot_count,
         map_color = {r = 0, g = 1, b = 0},
         sprites = {
 			north = make_sprite(),

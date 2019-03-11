@@ -52,8 +52,9 @@ local function init_globals()
 
     global.technologies = global.technologies or {
         lc_capacity = config.default_lc_capacity,
-        cc_power_consumption = config.default_cc_power_consumption,
-        rc_power_consumption = config.default_rc_power_consumption,
+        cc_power_consumption = startup_settings.default_cc_power_consumption,
+        rc_power_consumption = startup_settings.default_rc_power_consumption,
+        power_consumption_percentage = 1,
         tech_lc_capacity_real_level = 0,
         tech_power_consumption_real_level = 0
     }
@@ -79,8 +80,31 @@ script.on_configuration_changed(function(config_changed_data)
 
     --in case global tables were altered in global_data_migrations()
     --and cc/rc counts may change after migrations
-    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * config.check_cc_percentage)
-    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * config.check_rc_percentage)
+    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
+
+    --recalc power consumption if configuration changed
+    local default_power_consumption_changed = false
+
+    if global.technologies.cc_power_consumption ~= math_ceil(startup_settings.default_cc_power_consumption * global.technologies.power_consumption_percentage) or
+        global.technologies.rc_power_consumption ~= math_ceil(startup_settings.default_rc_power_consumption * global.technologies.power_consumption_percentage) then
+        default_power_consumption_changed = true
+    end
+
+    global.technologies.cc_power_consumption = 
+        math_ceil(startup_settings.default_cc_power_consumption * global.technologies.power_consumption_percentage)
+    global.technologies.rc_power_consumption = 
+        math_ceil(startup_settings.default_rc_power_consumption * global.technologies.power_consumption_percentage)
+
+    if default_power_consumption_changed == true then
+        game.print(
+            {
+                config.locale_print_after_power_consumption_configuration_changed,
+                global.technologies.cc_power_consumption,
+                global.technologies.rc_power_consumption
+            }
+        )
+    end
 
     --check if item were removed
     for k,v in pairs(global.items_stock.items) do
@@ -111,8 +135,8 @@ local function add_item(name)
     end
     
     --default index = config.lc_item_slot_count + 1
-    local index = config.lc_item_slot_count + 1
-    for i=1,config.lc_item_slot_count do
+    local index = startup_settings.lc_item_slot_count + 1
+    for i=1,startup_settings.lc_item_slot_count do
         if indexs[i] == nil then
             index = i
             break
@@ -141,7 +165,7 @@ local function remove_cc(index)
     empty_stack.data[empty_stack.count] = index
 
     --recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * config.check_cc_percentage)
+    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
 end
 
 local function remove_rc(index)
@@ -154,7 +178,7 @@ local function remove_rc(index)
     empty_stack.data[empty_stack.count] = index
 
     --recalc cpr
-    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * config.check_rc_percentage)
+    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
 end
 
 --find nearest lc
@@ -219,13 +243,13 @@ local function update_signals(item_name)
     --pack the signal
     local signal = nil
     local item = global.items_stock.items[item_name]
-    if item.index < config.lc_item_slot_count then
+    if item.index < startup_settings.lc_item_slot_count then
         -- if item.stock > 0 then --won't crash if signal.count == 0
             signal = {signal = {type = "item",name = item_name},count = item.stock}
         -- end
     end
 
-    --TODO if item.index > config.lc_item_slot_count
+    --TODO if item.index > startup_settings.lc_item_slot_count
 
     --set the signal to the lc(s) which control_behavior are enabled
     for _,v in pairs(global.lc_entities.entities) do
@@ -317,7 +341,7 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         global.cc_entities.index = global.cc_entities.index + 1
 
         --recalc cpr
-        global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * config.check_cc_percentage)
+        global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
     --if string.match(name,names.requester_chest_pattern) ~= nil then --this is not recommanded
     elseif name == names.requester_chest_1_1 --or
             -- name == names.requester_chest_3_6 or
@@ -351,7 +375,7 @@ script.on_event({defines.events.on_built_entity,defines.events.on_robot_built_en
         global.rc_entities.index = global.rc_entities.index + 1
 
         --recalc cpr
-        global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * config.check_rc_percentage)
+        global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
     elseif name == names.logistics_center then
         --disable signal output of the lc on default except the very first one
         --this will cause a problem that signals don't show up immediately after control-behavior enabled
@@ -663,7 +687,7 @@ local function check_rcs_on_nth_tick(nth_tick_event)
                 local eei = v.nearest_lc.eei
                 local power_consumption = v.nearest_lc.power_consumption
 
-                for i = 1,config.rc_logistic_slots_count do
+                for i = 1,startup_settings.rc_logistic_slots_count do
                     local request_slot = v.entity.get_request_slot(i)
                     if request_slot ~= nil then
                         local name = request_slot.name
@@ -715,14 +739,14 @@ end
 
 --check all collecter chests
 if startup_settings.item_type_limitation == nil or startup_settings.item_type_limitation == "all" then
-    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
+    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
 elseif startup_settings.item_type_limitation == "ores only" then
-    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_ores_only)
+    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_ores_only)
 else
-    script.on_nth_tick(config.check_cc_on_nth_tick, check_ccs_on_nth_tick_except_ores)
+    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_except_ores)
 end
 --check all requester chests
-script.on_nth_tick(config.check_rc_on_nth_tick, check_rcs_on_nth_tick)
+script.on_nth_tick(startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
 
 --update all signals
 local function update_all_signals()
@@ -734,7 +758,7 @@ local function update_all_signals()
         if item.enable == true then
             -- game.print(item_name)
             
-            if item.index < config.lc_item_slot_count then
+            if item.index < startup_settings.lc_item_slot_count then
                 -- if item.stock > 0 then --won't crash if signal.count == 0
                     signal = {signal = {type = "item",name = item_name},count = item.stock,index = item.index}
                 -- end
@@ -744,7 +768,7 @@ local function update_all_signals()
         i = i + 1
     end
    
-    --TODO if item.index > config.lc_item_slot_count
+    --TODO if item.index > startup_settings.lc_item_slot_count
 
     --set the signals to the lc(s) which control_behavior are enabled
     local parameters = {parameters = signals}
@@ -859,15 +883,17 @@ script.on_event(defines.events.on_research_finished, function(event)
                         config.tech_power_consumption_decrement[i] * (global.technologies.tech_power_consumption_real_level - (i - 1) * 10))
                 end
 
-                    global.technologies.cc_power_consumption = 
-                        math_ceil(config.default_cc_power_consumption * power_consumption_percentage)
+                global.technologies.power_consumption_percentage = power_consumption_percentage
 
-                    global.technologies.rc_power_consumption = 
-                        math_ceil(config.default_rc_power_consumption * power_consumption_percentage)
+                global.technologies.cc_power_consumption = 
+                    math_ceil(startup_settings.default_cc_power_consumption * power_consumption_percentage)
+
+                global.technologies.rc_power_consumption = 
+                    math_ceil(startup_settings.default_rc_power_consumption * power_consumption_percentage)
 
                 game.print(
                     {
-                        "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
+                        config.locale_print_after_tech_power_consumption_researched,
                         global.technologies.cc_power_consumption,
                         global.technologies.rc_power_consumption
                     }

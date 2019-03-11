@@ -1,6 +1,6 @@
 function get_config()
     return {
-        global_data_version = 13,
+        global_data_version = 14,
 
         --TECHNOLOGIES
         --increment of lc_capacity of each research,default = {19000,30000,50000,100000}
@@ -11,22 +11,12 @@ function get_config()
 
 
         --DEFAULT CONFIGS
+
         --capacity of the logistics center of each item,default = 10000
         default_lc_capacity = 10000, --[10K] 
 
-        --power consumption of collector chests per distance per item transferring,default = 1000
-        default_cc_power_consumption = 1000,  --J
-
-        --power consumption of requester chests per distance per item transferring,default = 100
-        default_rc_power_consumption = 100,   --J
-
 
         --ENTITY PROPERTIES
-        --logistic slots count of requester chests,default = 5
-        rc_logistic_slots_count = 5,
-
-        --item slot count of logistics center,default = 200
-        lc_item_slot_count = 500,
 
         --basic power consumption of the electric energy interface,default = 2000000
         eei_basic_power_consumption = 2000000, --W [2MW]
@@ -39,19 +29,6 @@ function get_config()
 
 
         --RUNTIME CONFIGS
-        --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
-
-        --check all collecter chests every nth tick,default = 5
-        check_cc_on_nth_tick = 5,
-
-        --check all requester chests every nth tick,default = 3
-        check_rc_on_nth_tick = 3,
-
-        --check 20% collecter chests every 'check_cc_on_nth_tick',default = 0.015
-        check_cc_percentage = 0.015,
-
-        --check 20% requester chests every 'check_rc_on_nth_tick',default = 0.015
-        check_rc_percentage = 0.015,
 
         --update all signals ever nth tick,default = 600
         -- update_all_signals_on_nth_tick = 600,
@@ -65,15 +42,8 @@ function get_config()
         locale_flying_text_when_build_chest = "ab-logisticscenter-text.flying-text-when-building-chest",
         locale_print_after_tech_lc_capacity_researched = "ab-logisticscenter-text.print-after-tech-lc-capacity-researched",
         locale_print_after_tech_power_consumption_researched = "ab-logisticscenter-text.print-after-tech-power-consumption-researched",
+        locale_print_after_power_consumption_configuration_changed = "ab-logisticscenter-text.locale-print-after-power-consumption-configuration-changed",
         locale_print_when_global_data_migrate = "ab-logisticscenter-text.print-when-global-data-migrate",
-
-
-        --FOR GLOBAL DATA MIGRATIONS
-        --power consumption of collector chests per distance per item transferring,default = 1000
-        cc_power_consumption = 1000,  --J
-
-        --power consumption of requester chests per distance per item transferring,default = 100
-        rc_power_consumption = 100,   --J
     }
 end
 
@@ -103,9 +73,43 @@ function get_names()
 end
 
 function get_startup_settings()
-    return {
+    local startup_settings = {
         quick_start = settings.startup["ab-logistics-center-quick-start"].value,
+
         tech_cost = settings.startup["ab-logistics-center-tech-cost"].value,
-        item_type_limitation = settings.startup["ab-logistics-center-item-type-limitation"].value
+
+        item_type_limitation = settings.startup["ab-logistics-center-item-type-limitation"].value,
+
+        --logistic slots count of requester chests,default = 5
+        rc_logistic_slots_count = settings.startup["ab-logistics-center-rc-logistic-slots-count"].value,
+
+        --item slot count of logistics center,default = 500
+        lc_item_slot_count = settings.startup["ab-logistics-center-lc-item-slot-count"].value,
+
+        --power consumption of collector chests per distance per item transferring,default = 1000
+        default_cc_power_consumption = settings.startup["ab-logistics-center-default-cc-power-consumption"].value, --J
+
+        --power consumption of requester chests per distance per item transferring,default = 100
+        default_rc_power_consumption = settings.startup["ab-logistics-center-default-rc-power-consumption"].value, --J
+
+        --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
+
+        --check collecter chests every nth tick,default = 5
+        check_cc_on_nth_tick = settings.startup["ab-logistics-center-check-cc-on-nth-tick"].value,
+
+        --check requester chests every nth tick,default = 3
+        check_rc_on_nth_tick = settings.startup["ab-logistics-center-check-rc-on-nth-tick"].value,
+
+        --check 1.5%(on default) collecter chests every 'check_cc_on_nth_tick',default = 0.015
+        check_cc_percentages = settings.startup["ab-logistics-center-check-cc-percentages"].value,
+
+        --check 1.5%(on default) requester chests every 'check_rc_on_nth_tick',default = 0.015
+        check_rc_percentages = settings.startup["ab-logistics-center-check-rc-percentages"].value,
     }
+    
+    if startup_settings.check_cc_on_nth_tick == startup_settings.check_rc_on_nth_tick then
+        startup_settings.check_rc_on_nth_tick = startup_settings.check_rc_on_nth_tick + 1
+    end
+
+    return startup_settings
 end

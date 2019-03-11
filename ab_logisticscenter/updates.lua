@@ -32,9 +32,9 @@ local function find_nearest_lc(entity)
             eei = eei
         }
         if entity.name == names.collecter_chest then
-            ret.power_consumption = nearest_distance * config.cc_power_consumption
+            ret.power_consumption = nearest_distance * 1000--config.cc_power_consumption
         else
-            ret.power_consumption = nearest_distance * config.rc_power_consumption
+            ret.power_consumption = nearest_distance * 100--config.rc_power_consumption
         end
         return ret
     else
@@ -155,7 +155,7 @@ function global_data_migrations()
         --NEW {power_consumption,lc_pos_str}
         for k,v in pairs(global.cc_entities.entities) do
             if v.nearest_lc ~= nil then
-                local power_consumption = v.nearest_lc.distance * config.cc_power_consumption
+                local power_consumption = v.nearest_lc.distance * 1000--config.cc_power_consumption
                 v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
             end
         end
@@ -165,7 +165,7 @@ function global_data_migrations()
         --NEW {power_consumption,lc_pos_str}
         for k,v in pairs(global.rc_entities.entities) do
             if v.nearest_lc ~= nil then
-                local power_consumption = v.nearest_lc.distance * config.rc_power_consumption
+                local power_consumption = v.nearest_lc.distance * 100--config.rc_power_consumption
                 v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
             end
         end
@@ -233,9 +233,9 @@ function global_data_migrations()
         --OLD nil
         --NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
         global.technologies = {
-            lc_capacity = config.default_lc_capacity,
-            cc_power_consumption = config.default_cc_power_consumption,
-            rc_power_consumption = config.default_rc_power_consumption,
+            lc_capacity = 10000,--config.default_lc_capacity,
+            cc_power_consumption = 1000,--config.default_cc_power_consumption,
+            rc_power_consumption = 100,--config.default_rc_power_consumption,
             tech_lc_capacity_real_level = 0,
             tech_power_consumption_real_level = 0
         }
@@ -271,9 +271,9 @@ function global_data_migrations()
         --OLD nil
         --NEW {cc_check_per_round,cc_checked_index,rc_check_per_round,rc_checked_index}
         global.runtime_vars = {
-            cc_check_per_round = math.ceil(global.cc_entities.index * config.check_cc_percentage),
+            cc_check_per_round = math.ceil(global.cc_entities.index * 0.015),--config.check_cc_percentage),
             cc_checked_index = 0,
-            rc_check_per_round = math.ceil(global.rc_entities.index * config.check_rc_percentage),
+            rc_check_per_round = math.ceil(global.rc_entities.index * 0.015),--config.check_rc_percentage),
             rc_checked_index = 0
         }
 
@@ -309,7 +309,7 @@ function global_data_migrations()
         game.print({config.locale_print_when_global_data_migrate,10})
         
         for k,v in pairs(global.items_stock.items) do
-            if v.max_control == config.big_number then
+            if v.max_control == 1000000000 then--config.big_number then
                 v.max_control = global.technologies.lc_capacity
             end
         end
@@ -353,6 +353,19 @@ function global_data_migrations()
 
         --set global_data_version
         global.global_data_version = 13
+    end
+
+    
+    --13-th change,global.global_data_version = 13
+    --add settings Power Consumption
+    if global.global_data_version < 14 then
+        game.print({config.locale_print_when_global_data_migrate,13})
+        
+        --add global.technologies.power_consumption_percentage
+        global.technologies.power_consumption_percentage = 1
+
+        --set global_data_version
+        global.global_data_version = 15
     end
 
     global.global_data_version = config.global_data_version
