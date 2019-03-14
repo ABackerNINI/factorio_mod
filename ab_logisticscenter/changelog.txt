@@ -1,3 +1,4 @@
+---------------------------------------------------------------------------------------------------
 Version: 0.17.2
 Date: 03.12.2019
     Changes:
@@ -14,14 +15,14 @@ Date: 03.12.2019
         - Added a new setting Check Requester Chests Percentages.
     Bugfixes:
         - Fixed wrong logistics center capacity and power consumption after calling research_all_technologies() through Lua script or in sandbox mode.
-
+---------------------------------------------------------------------------------------------------
 Version: 0.17.1
 Date: 03.11.2019
     Changes:
         - Update to fit factorio v0.17.
     Bugfixes:
         - Fixed that crash in sandbox mode,fail to get player's invertory.
-
+---------------------------------------------------------------------------------------------------
 Version: 0.16.0
 Date: since 10.19.2018
     Alpha versions.
