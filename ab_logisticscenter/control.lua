@@ -752,7 +752,9 @@ script.on_event(defines.events.on_player_created, function(event)
     end
 
     local inventory = player.get_inventory(defines.inventory.player_main)
-    for k,v in pairs(items) do
-		inventory.insert({name = v[1], count = v[2]})
-	end
+    if inventory ~= nil then
+        for k,v in pairs(items) do
+            inventory.insert({name = v[1], count = v[2]})
+        end
+    end
 end)
