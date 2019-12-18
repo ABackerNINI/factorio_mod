@@ -445,8 +445,11 @@ script.on_event({defines.events.on_pre_player_mined_item,defines.events.on_robot
         -- game.print("pre-mined:"..p_str)
 
         --destroy the electric energy interface
-        global.lc_entities.entities[p_str].eei.destroy()
-        global.lc_entities.entities[p_str] = nil
+        local eei = global.lc_entities.entities[p_str].eei
+        if eei ~= nil then --it may be nil accidentally and I do not figure out why.
+            eei.destroy()
+            global.lc_entities.entities[p_str] = nil
+        end
     
         --recalc distance
         recalc_distance()

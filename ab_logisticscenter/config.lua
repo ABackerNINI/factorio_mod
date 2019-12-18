@@ -22,7 +22,7 @@ function get_config()
         eei_basic_power_consumption = 2000000, --W [2MW]
 
         --input flow limit of the electric energy interface,default = 0
-        eei_input_flow_limit = 0, --W [no limit]
+        eei_input_flow_limit = 1000000000, --W [no limit]
         
         --buffer capacity of the electric energy interface,default = 1000000000
         eei_buffer_capacity  = 1000000000,  --J [1GJ]
@@ -30,7 +30,7 @@ function get_config()
 
         --RUNTIME CONFIGS
 
-        --update all signals ever nth tick,default = 600
+        --update all signals every nth tick,default = 600
         -- update_all_signals_on_nth_tick = 600,
 
 
