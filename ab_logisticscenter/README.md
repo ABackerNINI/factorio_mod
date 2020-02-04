@@ -34,4 +34,4 @@ Setting `Item Type Limitation` has three options: "all", "ores only", "except or
 * This mod do not support multi-forces with multi-players. That means if you and your friends are in different forces, your items will be teleported together.
 
 # Announcement
-The images of entities are copied from other mods, including `BlackMarket` and `BobGreenHouse`. So if you have proper images, contact me on (Github)[https://mods.factorio.com/mod/ab_logisticscenter] or the mod (Discussion Board)[https://mods.factorio.com/mod/ab_logisticscenter/discussion].
+The images of entities are copied from other mods, including `BlackMarket` and `BobGreenHouse`. So if you have proper images, contact me on [Github](https://mods.factorio.com/mod/ab_logisticscenter) or the mod [Discussion Board](https://mods.factorio.com/mod/ab_logisticscenter/discussion).
