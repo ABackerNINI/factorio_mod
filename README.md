@@ -1,5 +1,5 @@
 # factorio_mod
-    Have fun with these mods.
+Have fun with these mods.
 
 ## Mods
 
