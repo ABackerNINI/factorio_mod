@@ -1,5 +1,4 @@
 -- loader recipe unlock
-
 if data.raw.recipe["loader"] ~= nil then
     data.raw.recipe["loader"].enabled = true
 end
@@ -14,7 +13,6 @@ end
 
 -- loader flags clear
 -- it has a flag "hidden",clear it or you can't use auto-upgrade
-
 if data.raw.item["loader"] ~= nil then
     data.raw.item["loader"].flags = {}
 end

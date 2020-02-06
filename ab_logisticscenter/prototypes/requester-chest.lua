@@ -18,37 +18,33 @@ data:extend({
         icon_size = 32,
         inventory_size = 48,
         max_health = 350,
-        flags = {"placeable-neutral", "placeable-player", "player-creation"},
-        minable = {hardness = 0.5, mining_time = 1, result = names.requester_chest_1_1},
+        flags = { "placeable-neutral", "placeable-player", "player-creation" },
+        minable = { hardness = 0.5, mining_time = 1, result = names.requester_chest_1_1 },
         fast_replaceable_group = "container",
-        selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
-        collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
+        selection_box = { {-0.5, -0.5 }, { 0.5, 0.5 } },
+        collision_box = { {-0.4, -0.4 }, { 0.4, 0.4 } },
         open_sound = { filename = "__base__/sound/metallic-chest-open.ogg" },
         close_sound = { filename = "__base__/sound/metallic-chest-close.ogg" },
-        vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
-        picture = 
-        {
-			filename = LC .. "/graphics/entity/requester-chest.png",
-			priority = "extra-high",
-			width = 48,
-			height = 34,
-			shift = {0.1875, 0}
+        vehicle_impact_sound = { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
+        picture =         {
+            filename = LC .. "/graphics/entity/requester-chest.png",
+            priority = "extra-high",
+            width = 48,
+            height = 34,
+            shift = { 0.1875, 0 }
         },
-        circuit_wire_connection_point =
-        {
-            shadow =
-            {
-                red = {0.734375, 0.453125},
-                green = {0.609375, 0.515625},
+        circuit_wire_connection_point =         {
+            shadow =             {
+                red = { 0.734375, 0.453125 },
+                green = { 0.609375, 0.515625 },
             },
-            wire =
-            {
-                red = {0.40625, 0.21875},
-                green = {0.40625, 0.375},
+            wire =             {
+                red = { 0.40625, 0.21875 },
+                green = { 0.40625, 0.375 },
             }
         },
         circuit_wire_max_distance = 9,
-        localised_description = {"item-description.ab-lc-collecter-chest"}
+        localised_description = { "item-description.ab-lc-collecter-chest" }
     }
 })
 
@@ -59,8 +55,8 @@ data:extend({
         enabled = true,
         energy_required = 1,
         ingredients = {
-            {"steel-plate",10},
-            {"copper-plate",20}
+            { "steel-plate", 10 },
+            { "copper-plate", 20 }
         },
         result = names.requester_chest_1_1
     }

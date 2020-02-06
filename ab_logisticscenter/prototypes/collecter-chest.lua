@@ -4,9 +4,9 @@ require("config")
 
 local names = get_names()
 
-local function make_prototype(name,icon,inventory_size,max_health,width,height,picture,ingredients)
-    local hwidth = width/2
-    local hheight = height/2
+local function make_prototype(name, icon, inventory_size, max_health, width, height, picture, ingredients)
+    local hwidth = width / 2
+    local hheight = height / 2
     data:extend({
         {
             type = "container",
@@ -15,33 +15,30 @@ local function make_prototype(name,icon,inventory_size,max_health,width,height,p
             icon_size = 32,
             inventory_size = inventory_size,
             max_health = max_health,
-            flags = {"placeable-neutral", "placeable-player", "player-creation"},
-            minable = {hardness = 0.5, mining_time = 1, result = name},
+            flags = { "placeable-neutral", "placeable-player", "player-creation" },
+            minable = { hardness = 0.5, mining_time = 1, result = name },
             fast_replaceable_group = "container",
-            selection_box = {{-hwidth, -hheight}, {hwidth, hheight}},
-            collision_box = {{-hwidth + 0.1, -hheight + 0.1}, {hwidth - 0.1, hheight - 0.1}},
+            selection_box = { {-hwidth, -hheight }, { hwidth, hheight } },
+            collision_box = { {-hwidth + 0.1, -hheight + 0.1 }, { hwidth - 0.1, hheight - 0.1 } },
             open_sound = { filename = "__base__/sound/metallic-chest-open.ogg" },
             close_sound = { filename = "__base__/sound/metallic-chest-close.ogg" },
-            vehicle_impact_sound =  { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
+            vehicle_impact_sound = { filename = "__base__/sound/car-metal-impact.ogg", volume = 0.5 },
             picture = picture,
-            circuit_wire_connection_point =
-            {
-                shadow =
-                {
-                    red = {0.734375, 0.453125},
-                    green = {0.609375, 0.515625},
+            circuit_wire_connection_point =             {
+                shadow =                 {
+                    red = { 0.734375, 0.453125 },
+                    green = { 0.609375, 0.515625 },
                 },
-                wire =
-                {
-                    red = {0.40625, 0.21875},
-                    green = {0.40625, 0.375},
+                wire =                 {
+                    red = { 0.40625, 0.21875 },
+                    green = { 0.40625, 0.375 },
                 }
             },
             circuit_wire_max_distance = 9,
-            localised_description = {"item-description.ab-lc-collecter-chest"}
+            localised_description = { "item-description.ab-lc-collecter-chest" }
         }
     })
-    
+
     data:extend({
         {
             type = "recipe",
@@ -52,7 +49,7 @@ local function make_prototype(name,icon,inventory_size,max_health,width,height,p
             result = name
         }
     })
-    
+
     data:extend({
         {
             type = "item",
@@ -70,18 +67,17 @@ end
 
 -----------------------------------------------------------------------------------------------------------------
 local icon_1_1 = LC .. "/graphics/icons/collecter-chest.png"
-local picture_1_1 = 
-{
+local picture_1_1 = {
     filename = LC .. "/graphics/entity/collecter-chest.png",
     priority = "extra-high",
     width = 48,
     height = 34,
-    shift = {0.1875, 0}
+    shift = { 0.1875, 0 }
 }
 local ingredients_1_1 = {
-    {"steel-plate",10},
-    {"copper-plate",20}
+    { "steel-plate", 10 },
+    { "copper-plate", 20 }
 }
 
 -- name,icon,inventory_size,max_health,width,height,picture,ingredients
-make_prototype(names.collecter_chest_1_1,icon_1_1,48,250,1,1,picture_1_1,ingredients_1_1)
+make_prototype(names.collecter_chest_1_1, icon_1_1, 48, 250, 1, 1, picture_1_1, ingredients_1_1)

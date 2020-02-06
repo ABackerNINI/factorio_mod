@@ -2,10 +2,10 @@ require("config")
 local config = get_config()
 local names = get_names()
 
-local function calc_distance_between_two_points(p1,p2)
-    local dx = math.abs(p1.x-p2.x)
-    local dy = math.abs(p1.y-p2.y)
-    return math.sqrt(dx*dx+dy*dy)
+local function calc_distance_between_two_points(p1, p2)
+    local dx = math.abs(p1.x - p2.x)
+    local dy = math.abs(p1.y - p2.y)
+    return math.sqrt(dx * dx + dy * dy)
 end
 
 local function position_to_string(p)
@@ -18,15 +18,15 @@ local function find_nearest_lc(entity)
 
     local eei = nil
     local nearest_distance = 1000000000 -- should big enough
-    for k,v in pairs(global.lc_entities.entities) do
-        local distance = calc_distance_between_two_points(entity.position,v.lc.position)
+    for k, v in pairs(global.lc_entities.entities) do
+        local distance = calc_distance_between_two_points(entity.position, v.lc.position)
         if distance < nearest_distance then
             nearest_distance = distance
             eei = v.eei
         end
     end
 
-    if eei ~= nil then 
+    if eei ~= nil then
         local ret = {
             power_consumption = 0,
             eei = eei
@@ -47,14 +47,14 @@ end
 -- call after lc entity being created or destoried 
 local function recalc_distance()
     -- recalc cc
-    for index,v in pairs(global.cc_entities.entities) do
+    for index, v in pairs(global.cc_entities.entities) do
         if v.entity.valid then
             v.nearest_lc = find_nearest_lc(v.entity)
         end
     end
 
     -- recalc rc
-    for index,v in pairs(global.rc_entities.entities) do
+    for index, v in pairs(global.rc_entities.entities) do
         if v.entity.valid then
             v.nearest_lc = find_nearest_lc(v.entity)
         end
@@ -67,23 +67,22 @@ function global_data_migrations()
     -- if global.global_data_version == nil or global.global_data_version < config.global_data_version then
     --     game.print("")
     -- end
-
     -- first change,global.global_data_version = nil
     -- code opt.
     if global.global_data_version == nil and global.cc_entities ~= nil and global.cc_entities.index ~= nil then
-        game.print({config.locale_print_when_global_data_migrate,1})
+        game.print({ config.locale_print_when_global_data_migrate, 1 })
         -- global.cc_entities
         -- OLD {index,entities = {["index_str"] = {index,entity,nearest_lc = {distance,lc_pos_str}}}}
         -- NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
         local new_cc_entities = {
             count = 0,
-            empty_stack = {count = 0,data = {}},
+            empty_stack = { count = 0, data = {} },
             entities = {}
         }
         local cc_count = 0
-        for k,v in pairs(global.cc_entities.entities) do
+        for k, v in pairs(global.cc_entities.entities) do
             cc_count = cc_count + 1
-            new_cc_entities.entities[cc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
+            new_cc_entities.entities[cc_count] = { entity = v.entity, nearest_lc = v.nearest_lc }
         end
         new_cc_entities.count = cc_count
         global.cc_entities = nil
@@ -94,13 +93,13 @@ function global_data_migrations()
         -- NEW {count,empty_stack,entities = {[index] = {entity,nearest_lc = {distance,lc_pos_str}}}}
         local new_rc_entities = {
             count = 0,
-            empty_stack = {count = 0,data = {}},
+            empty_stack = { count = 0, data = {} },
             entities = {}
         }
         local rc_count = 0
-        for k,v in pairs(global.rc_entities.entities) do
+        for k, v in pairs(global.rc_entities.entities) do
             rc_count = rc_count + 1
-            new_rc_entities.entities[rc_count] = {entity = v.entity,nearest_lc = v.nearest_lc}
+            new_rc_entities.entities[rc_count] = { entity = v.entity, nearest_lc = v.nearest_lc }
         end
         new_rc_entities.count = rc_count
         global.rc_entities = nil
@@ -113,13 +112,13 @@ function global_data_migrations()
     -- secend change,global.global_data_version = nil
     -- code frame change:classes-version->plain-version
     if global.global_data_version == nil or global.global_data_version < 3 then
-        game.print({config.locale_print_when_global_data_migrate,2})
+        game.print({ config.locale_print_when_global_data_migrate, 2 })
         -- cc_entities.empty_stack
         -- OLD Stack:new{p,data}
         -- NEW {count,data}
         local new_cc_es_count = 0
-        local new_cc_empty_stack = {count = 0,data = {}}
-        for k,v in pairs(global.cc_entities.entities) do
+        local new_cc_empty_stack = { count = 0, data = {} }
+        for k, v in pairs(global.cc_entities.entities) do
             if v == nil then
                 new_cc_es_count = new_cc_es_count + 1
                 new_cc_empty_stack.data[new_cc_es_count] = k
@@ -132,8 +131,8 @@ function global_data_migrations()
         -- OLD Stack:new{p,data}
         -- NEW {count,data}
         local new_rc_es_count = 0
-        local new_rc_empty_stack = {count = 0,data = {}}
-        for k,v in pairs(global.rc_entities.entities) do
+        local new_rc_empty_stack = { count = 0, data = {} }
+        for k, v in pairs(global.rc_entities.entities) do
             if v == nil then
                 new_rc_es_count = new_rc_es_count + 1
                 new_rc_empty_stack.data[new_rc_es_count] = k
@@ -149,27 +148,27 @@ function global_data_migrations()
     -- third change,global.global_data_version = nil
     -- code opt:distance->power_consumption.no need to calc the power_comsumption every time
     if global.global_data_version == nil or global.global_data_version < 4 then
-        game.print({config.locale_print_when_global_data_migrate,3})
+        game.print({ config.locale_print_when_global_data_migrate, 3 })
         -- cc_entities.entities.nearest_lc
         -- OLD {distance,lc_pos_str}
         -- NEW {power_consumption,lc_pos_str}
-        for k,v in pairs(global.cc_entities.entities) do
+        for k, v in pairs(global.cc_entities.entities) do
             if v.nearest_lc ~= nil then
                 local power_consumption = v.nearest_lc.distance * 1000-- config.cc_power_consumption
-                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
+                v.nearest_lc = { power_consumption = power_consumption, lc_pos_str = v.nearest_lc.lc_pos_str }
             end
         end
 
         -- rc_entities.entities.nearest_lc
         -- OLD {distance,lc_pos_str}
         -- NEW {power_consumption,lc_pos_str}
-        for k,v in pairs(global.rc_entities.entities) do
+        for k, v in pairs(global.rc_entities.entities) do
             if v.nearest_lc ~= nil then
                 local power_consumption = v.nearest_lc.distance * 100-- config.rc_power_consumption
-                v.nearest_lc = {power_consumption = power_consumption,lc_pos_str = v.nearest_lc.lc_pos_str}
+                v.nearest_lc = { power_consumption = power_consumption, lc_pos_str = v.nearest_lc.lc_pos_str }
             end
         end
-    
+
         -- set global_data_version
         global.global_data_version = 4
     end
@@ -177,15 +176,13 @@ function global_data_migrations()
     -- fourth change,global.global_data_version = 4
     -- code opt:lc_pos_str->eei.no need to get the eei every time
     if global.global_data_version < 5 then
-        game.print({config.locale_print_when_global_data_migrate,4})
+        game.print({ config.locale_print_when_global_data_migrate, 4 })
         -- cc_entities.entities.nearest_lc
         -- OLD {power_consumption,lc_pos_str}
         -- NEW {power_consumption,eei}
-
         -- rc_entities.entities.nearest_lc
         -- OLD {power_consumption,lc_pos_str}
         -- NEW {power_consumption,eei}
-
         recalc_distance()
 
         -- set global_data_version
@@ -194,18 +191,18 @@ function global_data_migrations()
 
     -- fifth change,global.global_data_version = 5
     if global.global_data_version < 6 then
-        game.print({config.locale_print_when_global_data_migrate,5})
+        game.print({ config.locale_print_when_global_data_migrate, 5 })
         -- cc_entities
         -- OLD {count,empty_stack,entities}
         -- NEW {index,empty_stack,entities}
         local ordered_cc_entities = {}
         local index = 1
-        for _,v in pairs(global.cc_entities.entities) do
+        for _, v in pairs(global.cc_entities.entities) do
             ordered_cc_entities[index] = v
             index = index + 1
         end
 
-        local new_cc_entities = {index = index,empty_stack={count = 0,data = {}},entities=ordered_cc_entities}
+        local new_cc_entities = { index = index, empty_stack = { count = 0, data = {} }, entities = ordered_cc_entities }
         global.cc_entities = new_cc_entities
 
         -- rc_entities
@@ -213,12 +210,12 @@ function global_data_migrations()
         -- NEW {index,empty_stack,entities}
         local ordered_rc_entities = {}
         index = 1
-        for _,v in pairs(global.rc_entities.entities) do
+        for _, v in pairs(global.rc_entities.entities) do
             ordered_rc_entities[index] = v
             index = index + 1
         end
 
-        local new_rc_entities = {index = index,empty_stack={count = 0,data = {}},entities=ordered_rc_entities}
+        local new_rc_entities = { index = index, empty_stack = { count = 0, data = {} }, entities = ordered_rc_entities }
         global.rc_entities = new_rc_entities
 
         -- set global_data_version
@@ -228,14 +225,14 @@ function global_data_migrations()
     -- sixth change,global.global_data_version = 6
     -- new feature:two technologies
     if global.global_data_version < 7 then
-        game.print({config.locale_print_when_global_data_migrate,6})
+        game.print({ config.locale_print_when_global_data_migrate, 6 })
         -- global.technologies
         -- OLD nil
         -- NEW {lc_capacity,cc_power_consumption,rc_power_consumption}
         global.technologies = {
-            lc_capacity = 10000,-- config.default_lc_capacity,
-            cc_power_consumption = 1000,-- config.default_cc_power_consumption,
-            rc_power_consumption = 100,-- config.default_rc_power_consumption,
+            lc_capacity = 10000, -- config.default_lc_capacity,
+            cc_power_consumption = 1000, -- config.default_cc_power_consumption,
+            rc_power_consumption = 100, -- config.default_rc_power_consumption,
             tech_lc_capacity_real_level = 0,
             tech_power_consumption_real_level = 0
         }
@@ -247,11 +244,11 @@ function global_data_migrations()
     -- seventh change,global.global_data_version = 7
     -- bug fix:in case player disables some mods which adds items
     if global.global_data_version < 8 then
-        game.print({config.locale_print_when_global_data_migrate,7})
+        game.print({ config.locale_print_when_global_data_migrate, 7 })
         -- global.items_stock.items
         -- OLD {["item_name"] = {index,stock}
         -- NEW {["item_name"] = {index,stock,enable}
-        for k,v in pairs(global.items_stock.items) do
+        for k, v in pairs(global.items_stock.items) do
             if game.item_prototypes[k] ~= nil then
                 v.enable = true
             else
@@ -266,14 +263,14 @@ function global_data_migrations()
     -- eighth change,global.global_data_version = 8
     -- bug fix:mutiplayer desyncs.check https://wiki.factorio.com/Tutorial:Modding_tutorial/Gangsir#Multiplayer_and_desyncs
     if global.global_data_version < 9 then
-        game.print({config.locale_print_when_global_data_migrate,8})
+        game.print({ config.locale_print_when_global_data_migrate, 8 })
         -- global.runtime_vars
         -- OLD nil
         -- NEW {cc_check_per_round,cc_checked_index,rc_check_per_round,rc_checked_index}
         global.runtime_vars = {
-            cc_check_per_round = math.ceil(global.cc_entities.index * 0.015),-- config.check_cc_percentage),
+            cc_check_per_round = math.ceil(global.cc_entities.index * 0.015), -- config.check_cc_percentage),
             cc_checked_index = 0,
-            rc_check_per_round = math.ceil(global.rc_entities.index * 0.015),-- config.check_rc_percentage),
+            rc_check_per_round = math.ceil(global.rc_entities.index * 0.015), -- config.check_rc_percentage),
             rc_checked_index = 0
         }
 
@@ -284,7 +281,7 @@ function global_data_migrations()
     -- ninth change,global.global_data_version = 9
     -- add logistics center controller
     if global.global_data_version < 10 then
-        game.print({config.locale_print_when_global_data_migrate,9})
+        game.print({ config.locale_print_when_global_data_migrate, 9 })
         -- global.lcc_entity
         -- OLD nil
         -- NEW {entity}
@@ -295,7 +292,7 @@ function global_data_migrations()
         -- global.items_stock.items
         -- OLD {["item_name"] = {index,stock,enable}}
         -- NEW {["item_name"] = {index,stock,enable,max_control}}
-        for k,v in pairs(global.items_stock.items) do
+        for k, v in pairs(global.items_stock.items) do
             v.max_control = global.technologies.lc_capacity
         end
 
@@ -306,9 +303,9 @@ function global_data_migrations()
     -- tenth change,global.global_data_version = 10
     -- bug fix:default max_control [big_number->lc_capacity]@add_item()
     if global.global_data_version < 11 then
-        game.print({config.locale_print_when_global_data_migrate,10})
-        
-        for k,v in pairs(global.items_stock.items) do
+        game.print({ config.locale_print_when_global_data_migrate, 10 })
+
+        for k, v in pairs(global.items_stock.items) do
             if v.max_control == 1000000000 then-- config.big_number then
                 v.max_control = global.technologies.lc_capacity
             end
@@ -321,8 +318,8 @@ function global_data_migrations()
     -- eleventh change,global.global_data_version = 11
     -- new feature:multi-lcc support
     if global.global_data_version < 12 then
-        game.print({config.locale_print_when_global_data_migrate,11})
-        
+        game.print({ config.locale_print_when_global_data_migrate, 11 })
+
         -- global.lcc_entity
         -- OLD {entity}
         -- NEW {count,parameters,entities={[index] = entity}
@@ -345,8 +342,8 @@ function global_data_migrations()
     -- twelfth change,global.global_data_version = 12
     -- bug fix:multi-lcc support,forget to init global.lcc_entity.entities if global.lcc_entity.entity == nil.
     if global.global_data_version < 13 then
-        game.print({config.locale_print_when_global_data_migrate,12})
-        
+        game.print({ config.locale_print_when_global_data_migrate, 12 })
+
         if global.lcc_entity.entities == nil then
             global.lcc_entity.entities = {}
         end
@@ -355,12 +352,11 @@ function global_data_migrations()
         global.global_data_version = 13
     end
 
-    
     -- 13-th change,global.global_data_version = 13
     -- add settings Power Consumption
     if global.global_data_version < 14 then
-        game.print({config.locale_print_when_global_data_migrate,13})
-        
+        game.print({ config.locale_print_when_global_data_migrate, 13 })
+
         -- add global.technologies.power_consumption_percentage
         global.technologies.power_consumption_percentage = 1
 
