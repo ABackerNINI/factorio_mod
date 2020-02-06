@@ -4,15 +4,13 @@ function get_config()
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGIES
         -- increment of lc_capacity of each research, default = {19000, 30000, 50000, 100000}
-        tech_lc_capacity_increment = { 19000, 30000, 50000, 100000 },
+        tech_lc_capacity_increment = {19000, 30000, 50000, 100000},
         -- decrement of cc/rc power_consumption percentages of each research, default = {0.015, 0.015, 0.015, 0.015}
-        tech_power_consumption_decrement = { 0.015, 0.015, 0.015, 0.015 },
-
+        tech_power_consumption_decrement = {0.015, 0.015, 0.015, 0.015},
         -------------------------------------------------------------------------------------------
         -- DEFAULT CONFIGS
         -- capacity of the logistics center of each item, default = 10000
         default_lc_capacity = 10000, -- [10K]
-
         -------------------------------------------------------------------------------------------
         -- ENTITY PROPERTIES
         -- basic power consumption of the electric energy interface, default = 2000000
@@ -21,7 +19,6 @@ function get_config()
         eei_input_flow_limit = 10000000000, -- W [10GW]
         -- buffer capacity of the electric energy interface, default = 1000000000
         eei_buffer_capacity = 1000000000, -- J [1GJ]
-
         -------------------------------------------------------------------------------------------
         -- RUNTIME CONFIGS
         -- update all signals every nth tick, default = 600
@@ -29,7 +26,6 @@ function get_config()
         -------------------------------------------------------------------------------------------
         -- COMMON
         big_number = 1000000000,
-
         -------------------------------------------------------------------------------------------
         -- LOCALES
         locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
