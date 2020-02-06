@@ -12,7 +12,7 @@ This mod adds four entities: Logistics Center, Collector Chest, Requester Chest,
   
 * Step 2, place a `collector chest`, put some items in it. And if everything goes right, the items will be teleported to the logistics center. Open the logistics center, and you will see the item signals. Though you can't take them out directly from the logistics center like a container.
   
-* Step 3, place a `requester chest`, set the request items to what you just put into at step 2, and the requester chest will request from the logistics center, gets items teleported into it. 
+* Step 3, place a `requester chest`, set the request items to what you just put into at step 2, and the requester chest will request from the logistics center, gets items teleported into it.
 
 * Moreover, build a `logistics center controller` to limit the max number the logistics center can store for each item. And rearrange signal positions.
 
