@@ -1,7 +1,11 @@
-# Introduction
+# Logistics Center
+
+## Introduction
+
 Consume power to teleport items.
 
-# Usage
+## Usage
+
 This mod adds four entities: Logistics Center, Collector Chest, Requester Chest, Logistics Center Controller.
 
 * Step 1, place a `logistics center`.  Before that, you need to make sure that you have enough power supply to get the logistics center charged, 1GJ for the first charge, 2MJ per second by default, and much more power for items teleportation depending on the distance and items count.  
@@ -14,7 +18,8 @@ This mod adds four entities: Logistics Center, Collector Chest, Requester Chest,
 
 It works like the robots logistics, some kind of.
 
-# Mod Settings
+## Mod Settings
+
 * Logistics Center Quick Start
 * Tech Cost
 * Item Type Limitation
@@ -29,9 +34,11 @@ It works like the robots logistics, some kind of.
 
 Setting `Item Type Limitation` has three options: "all", "ores only", "except ores" which will give you quite different gaming experience.
 
-# Known Issues
-* This mod do not support multi-surfaces right now. Which means you should NOT use `Logistics Center`, `Collector Chest`, `Requester Chest` in other surfaces, use them only in the main world. For example, do NOT use them in Factorissimo2 buildings.
-* This mod do not support multi-forces with multi-players. That means if you and your friends are in different forces, your items will be teleported together.
+## Known Issues
 
-# Announcement
+* This mod does not support multi-surfaces right now. Which means you should NOT use `Logistics Center`, `Collector Chest`, `Requester Chest` in other surfaces, use them only in the main world. For example, do NOT use them in Factorissimo2 buildings.
+* This mod does not support multi-forces with multi-players. That means if you and your friends are in different forces, your items will be teleported together.
+
+## Announcement
+
 The images of entities are copied from other mods, including `BlackMarket` and `BobGreenHouse`. So if you have proper images, contact me on [Github](https://mods.factorio.com/mod/ab_logisticscenter) or the mod [Discussion Board](https://mods.factorio.com/mod/ab_logisticscenter/discussion).
