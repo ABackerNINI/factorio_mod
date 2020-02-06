@@ -60,7 +60,7 @@ local function make_prototype(name,icon,inventory_size,max_health,width,height,p
             stack_size = 50,
             icon = icon,
             icon_size = 32,
-            --flags = {"goes-to-quickbar"},
+            -- flags = {"goes-to-quickbar"},
             subgroup = "logistics",
             order = "l[a]",
             place_result = name,
@@ -83,5 +83,5 @@ local ingredients_1_1 = {
     {"copper-plate",20}
 }
 
---name,icon,inventory_size,max_health,width,height,picture,ingredients
+-- name,icon,inventory_size,max_health,width,height,picture,ingredients
 make_prototype(names.collecter_chest_1_1,icon_1_1,48,250,1,1,picture_1_1,ingredients_1_1)

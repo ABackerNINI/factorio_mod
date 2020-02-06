@@ -2,17 +2,17 @@
 Version: 0.18.0
 Date: 04. 02. 2020
   Changes:
-    - Update to fit factorio v0.18.
+    - Updated to fit factorio v0.18.
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.2
 Date: 11. 03. 2019
   Changes:
-    - Change some informations and locales.
+    - Changed some informations and locales.
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.1
 Date: 04. 03. 2019
   Changes:
-    - Update to fit factorio v0.17.
+    - Updated to fit factorio v0.17.
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.0
 Date: 20. 11. 2018

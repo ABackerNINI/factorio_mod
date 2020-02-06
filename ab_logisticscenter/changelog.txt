@@ -1,8 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.1
+Date: 06. 02. 2020
+  Changes:
+    - Changed eei_input_flow_limit from 1GW to 10GW.
+---------------------------------------------------------------------------------------------------
 Version: 0.18.0
 Date: 02. 02. 2020
   Changes:
-    - Update to fit factorio v0.18.
+    - Updated to fit factorio v0.18.
 ---------------------------------------------------------------------------------------------------
 Version: 0.17.4
 Date: 19. 12. 2019
@@ -35,7 +40,7 @@ Date: 12. 03. 2019
 Version: 0.17.1
 Date: 11. 03. 2019
   Changes:
-    - Update to fit factorio v0.17.
+    - Updated to fit factorio v0.17.
   Bugfixes:
     - Fixed that crash in sandbox mode,fail to get player's invertory.
 ---------------------------------------------------------------------------------------------------

@@ -56,7 +56,7 @@ data:extend({
         allowed_values =  {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 180, 200, 300, 500, 1000, 2000, 3000, 5000}
     },
 
-    --Warning: these settings are important.Modify them unless you know exactly what will happen if modified.
+    -- Warning: these settings are important.Modify them unless you know exactly what will happen if modified.
     {
         type = "int-setting",
         name = "ab-logistics-center-check-cc-on-nth-tick",

@@ -155,7 +155,7 @@ data:extend({
         stack_size = 50,
         icon = LC .. "/graphics/icons/logistics-center-controller.png",
         icon_size = 32,
-        --flags = {"goes-to-quickbar"},
+        -- flags = {"goes-to-quickbar"},
         subgroup = "logistics",
         order = "g[l]",
         place_result = names.logistics_center_controller,
