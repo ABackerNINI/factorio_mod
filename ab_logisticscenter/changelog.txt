@@ -3,6 +3,7 @@ Version: 0.18.1
 Date: 06. 02. 2020
   Changes:
     - Changed eei_input_flow_limit from 1GW to 10GW.
+    - Changed clearing all signals when logistics center signal is disabled.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.0
 Date: 02. 02. 2020

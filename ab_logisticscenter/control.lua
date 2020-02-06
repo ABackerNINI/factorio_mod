@@ -808,6 +808,8 @@ local function update_all_signals()
         local control_behavior = v.lc.get_or_create_control_behavior()
         if control_behavior.enabled then
             control_behavior.parameters = parameters
+        else
+            control_behavior.parameters = nil
         end
     end
 end
