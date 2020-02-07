@@ -2,7 +2,7 @@ local LC = '__ab_logisticscenter__'
 
 require('config')
 
-local names = get_names()
+local names = g_names
 
 data:extend(
     {

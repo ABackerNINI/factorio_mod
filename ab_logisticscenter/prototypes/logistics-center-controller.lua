@@ -2,8 +2,8 @@ local LC = '__ab_logisticscenter__'
 
 require('config')
 
-local names = get_names()
-local startup_settings = get_startup_settings()
+local names = g_names
+local startup_settings = g_startup_settings
 
 local hsl = 0.5
 local hcl = 0.4

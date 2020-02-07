@@ -2,7 +2,7 @@ local LC = '__ab_logisticscenter__'
 
 require('config')
 
-local names = get_names()
+local names = g_names
 
 local function make_prototype(name, icon, inventory_size, max_health, width, height, picture, ingredients)
     local hwidth = width / 2

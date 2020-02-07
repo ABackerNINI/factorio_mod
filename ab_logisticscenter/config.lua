@@ -1,4 +1,4 @@
-function get_config()
+local function get_config()
     return {
         global_data_version = 14,
         -------------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ function get_config()
     }
 end
 
-function get_names()
+local function get_names()
     return {
         -- item/entity
         collecter_chest_1_1 = 'ab-lc-collecter-chest-1_1',
@@ -59,7 +59,7 @@ function get_names()
     }
 end
 
-function get_startup_settings()
+local function get_startup_settings()
     local startup_settings = {
         quick_start = settings.startup['ab-logistics-center-quick-start'].value,
         tech_cost = settings.startup['ab-logistics-center-tech-cost'].value,
@@ -89,3 +89,7 @@ function get_startup_settings()
 
     return startup_settings
 end
+
+g_config = get_config() 
+g_names = get_names()
+g_startup_settings = get_startup_settings()

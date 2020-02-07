@@ -1,6 +1,7 @@
 require('config')
-local config = get_config()
-local names = get_names()
+
+local config = g_config
+local names = g_names
 
 local function calc_distance_between_two_points(p1, p2)
     local dx = math.abs(p1.x - p2.x)
