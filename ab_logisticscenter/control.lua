@@ -88,8 +88,11 @@ script.on_init(
 )
 
 -- will be called on every save and load
--- script.on_load(function()
--- end)
+-- script.on_load(
+--     function()
+--     end
+-- )
+
 script.on_configuration_changed(
     function(config_changed_data)
         global_data_migrations()
@@ -219,7 +222,7 @@ local function find_nearest_lc(entity)
             power_consumption = 0,
             eei = eei
         }
-        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then     -- this is not recommanded
+        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then this is not recommanded
         if entity.name == names.collecter_chest_1_1 then -- or
             -- entity.name == names.collecter_chest_3_6 or
             -- entity.name == names.collecter_chest_6_3
@@ -257,14 +260,12 @@ local function recalc_distance()
 end
 
 -- update signals
-local function update_signals(item_name)
+local function update_signals(item, item_name)
     -- pack the signal
     local signal = nil
-    local item = global.items_stock.items[item_name]
+    -- local item = global.items_stock.items[item_name]
     if item.index < startup_settings.lc_item_slot_count then
-        -- if item.stock > 0 then     -- won't crash if signal.count == 0
         signal = {signal = {type = 'item', name = item_name}, count = item.stock}
-    -- end
     end
 
     -- TODO if item.index > startup_settings.lc_item_slot_count
@@ -327,9 +328,9 @@ script.on_event(
         local entity = event.created_entity
         local name = entity.name
 
-        -- if string.match(name,names.collecter_chest_pattern) ~= nil then     -- this is not recommanded
+        -- if string.match(name,names.collecter_chest_pattern) ~= nil then                    -- this is not recommanded
         if name == names.collecter_chest_1_1 then -- or
-            -- if string.match(name,names.requester_chest_pattern) ~= nil then     -- this is not recommanded
+            -- if string.match(name,names.requester_chest_pattern) ~= nil then                    -- this is not recommanded
             -- name == names.collecter_chest_3_6 or
             -- name == names.collecter_chest_6_3
             -- add cc to the watch-list
@@ -496,9 +497,9 @@ local function check_ccs_on_nth_tick_all(nth_tick_event)
     local index_end = index_begin + global.runtime_vars.cc_check_per_round
 
     -- check(index_begin,index_end)
-    for idx = index_begin, index_end, 1 do
+    for index = index_begin, index_end, 1 do
         -- game.print("cc:"..index_begin.." "..index_end)
-        local index = idx
+        -- local index = idx
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
@@ -529,7 +530,7 @@ local function check_ccs_on_nth_tick_all(nth_tick_event)
                             inventory.remove(crc_item_stack)
                             item.stock = item.stock + count
                             eei.energy = eei.energy - count * power_consumption
-                            update_signals(name)
+                            update_signals(item,name)
 
                             if eei.energy < power_consumption then
                                 break
@@ -564,9 +565,9 @@ local function check_ccs_on_nth_tick_ores_only(nth_tick_event)
     local index_end = index_begin + global.runtime_vars.cc_check_per_round
 
     -- check(index_begin,index_end)
-    for idx = index_begin, index_end, 1 do
+    for index = index_begin, index_end, 1 do
         -- game.print("cc:"..index_begin.." "..index_end)
-        local index = idx
+        -- local index = idx
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
@@ -599,7 +600,7 @@ local function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                                 inventory.remove(crc_item_stack)
                                 item.stock = item.stock + count
                                 eei.energy = eei.energy - count * power_consumption
-                                update_signals(name)
+                                update_signals(item,name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -635,9 +636,9 @@ local function check_ccs_on_nth_tick_except_ores(nth_tick_event)
     local index_end = index_begin + global.runtime_vars.cc_check_per_round
 
     -- check(index_begin,index_end)
-    for idx = index_begin, index_end, 1 do
+    for index = index_begin, index_end, 1 do
         -- game.print("cc:"..index_begin.." "..index_end)
-        local index = idx
+        -- local index = idx
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
@@ -670,7 +671,7 @@ local function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                                 inventory.remove(crc_item_stack)
                                 item.stock = item.stock + count
                                 eei.energy = eei.energy - count * power_consumption
-                                update_signals(name)
+                                update_signals(item,name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -705,9 +706,9 @@ local function check_rcs_on_nth_tick(nth_tick_event)
     local index_end = index_begin + global.runtime_vars.rc_check_per_round
 
     -- check(index_begin,index_end)
-    for idx = index_begin, index_end, 1 do
+    for index = index_begin, index_end, 1 do
         -- game.print("rc:"..index_begin.." "..index_end)
-        local index = idx
+        -- local index = idx
         if index > global.rc_entities.index then
             index = index - global.rc_entities.index
         end
@@ -744,7 +745,7 @@ local function check_rcs_on_nth_tick(nth_tick_event)
                                 local inserted_count = inventory.insert(crc_item_stack)
                                 item.stock = item.stock - inserted_count
                                 eei.energy = eei.energy - inserted_count * power_consumption
-                                update_signals(name)
+                                update_signals(item,name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -788,7 +789,7 @@ local function update_all_signals()
         if item.enable == true then
             -- game.print(item_name)
             if item.index < startup_settings.lc_item_slot_count then
-                -- if item.stock > 0 then     -- won't crash if signal.count == 0
+                -- if item.stock > 0 then                    -- won't crash if signal.count == 0
                 signal = {signal = {type = 'item', name = item_name}, count = item.stock, index = item.index}
             -- end
             end
@@ -830,9 +831,15 @@ script.on_event(
 
         if entity ~= nil and entity.name == names.logistics_center_controller then
             local parameters = entity.get_or_create_control_behavior().parameters
+
             -- update all other lccs
-            for k, v in pairs(global.lcc_entity.entities) do
-                v.get_or_create_control_behavior().parameters = parameters
+            for _, v in pairs(global.lcc_entity.entities) do
+                local control_behavior = v.get_or_create_control_behavior()
+                if control_behavior.enabled == true then
+                    control_behavior.parameters = parameters
+                else
+                    control_behavior.parameters = nil
+                end
             end
 
             -- update global parameters
