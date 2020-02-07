@@ -328,9 +328,9 @@ script.on_event(
         local entity = event.created_entity
         local name = entity.name
 
-        -- if string.match(name,names.collecter_chest_pattern) ~= nil then                    -- this is not recommanded
+        -- if string.match(name,names.collecter_chest_pattern) ~= nil then  --- this is not recommanded
         if name == names.collecter_chest_1_1 then -- or
-            -- if string.match(name,names.requester_chest_pattern) ~= nil then                    -- this is not recommanded
+            -- if string.match(name,names.requester_chest_pattern) ~= nil then  --- this is not recommanded
             -- name == names.collecter_chest_3_6 or
             -- name == names.collecter_chest_6_3
             -- add cc to the watch-list
@@ -530,7 +530,7 @@ local function check_ccs_on_nth_tick_all(nth_tick_event)
                             inventory.remove(crc_item_stack)
                             item.stock = item.stock + count
                             eei.energy = eei.energy - count * power_consumption
-                            update_signals(item,name)
+                            update_signals(item, name)
 
                             if eei.energy < power_consumption then
                                 break
@@ -600,7 +600,7 @@ local function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                                 inventory.remove(crc_item_stack)
                                 item.stock = item.stock + count
                                 eei.energy = eei.energy - count * power_consumption
-                                update_signals(item,name)
+                                update_signals(item, name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -671,7 +671,7 @@ local function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                                 inventory.remove(crc_item_stack)
                                 item.stock = item.stock + count
                                 eei.energy = eei.energy - count * power_consumption
-                                update_signals(item,name)
+                                update_signals(item, name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -745,7 +745,7 @@ local function check_rcs_on_nth_tick(nth_tick_event)
                                 local inserted_count = inventory.insert(crc_item_stack)
                                 item.stock = item.stock - inserted_count
                                 eei.energy = eei.energy - inserted_count * power_consumption
-                                update_signals(item,name)
+                                update_signals(item, name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -780,34 +780,38 @@ end
 script.on_nth_tick(startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
 
 -- update all signals
-local function update_all_signals()
-    -- pack all the signals
-    local signals = {}
-    local i = 1
-    for item_name, item in pairs(global.items_stock.items) do
-        local signal = nil
-        if item.enable == true then
-            -- game.print(item_name)
-            if item.index < startup_settings.lc_item_slot_count then
-                -- if item.stock > 0 then                    -- won't crash if signal.count == 0
-                signal = {signal = {type = 'item', name = item_name}, count = item.stock, index = item.index}
-            -- end
-            end
-        end
-        signals[i] = signal
-        i = i + 1
-    end
-
+local function update_lc_signals(entity)
     -- TODO if item.index > startup_settings.lc_item_slot_count
     -- set the signals to the lc(s) which control_behavior are enabled
-    local parameters = {parameters = signals}
-    for _, v in pairs(global.lc_entities.entities) do
-        local control_behavior = v.lc.get_or_create_control_behavior()
-        if control_behavior.enabled then
-            control_behavior.parameters = parameters
-        else
-            control_behavior.parameters = nil
+    -- local parameters = {parameters = signals}
+    -- for _, v in pairs(global.lc_entities.entities) do
+    --     local control_behavior = v.lc.get_or_create_control_behavior()
+    --     if control_behavior.enabled then
+    --         control_behavior.parameters = parameters
+    --     else
+    --         control_behavior.parameters = nil
+    --     end
+    -- end
+    local control_behavior = entity.get_or_create_control_behavior()
+    if control_behavior.enabled then
+        -- pack all the signals
+        local signals = {}
+        local i = 1
+        for item_name, item in pairs(global.items_stock.items) do
+            local signal = nil
+            if item.enable == true then
+                -- game.print(item_name)
+                if item.index < startup_settings.lc_item_slot_count then
+                    signal = {signal = {type = 'item', name = item_name}, count = item.stock, index = item.index}
+                end
+            end
+            signals[i] = signal
+            i = i + 1
         end
+        local parameters = {parameters = signals}
+        control_behavior.parameters = parameters
+    else
+        control_behavior.parameters = nil
     end
 end
 
@@ -818,35 +822,51 @@ script.on_event(
         local entity = event.entity
 
         if entity ~= nil and entity.name == names.logistics_center then
-            update_all_signals()
+            -- update_all_signals()
+            local control_behavior = entity.get_or_create_control_behavior()
+            if control_behavior.enabled then
+                update_lc_signals(entity)
+            else
+                control_behavior.parameters = nil
+            end
         end
     end
 )
 
--- on closed the logistics center controller
+-- on closed the `logistics center` and `logistics center controller`
 script.on_event(
     defines.events.on_gui_closed,
     function(event)
         local entity = event.entity
 
-        if entity ~= nil and entity.name == names.logistics_center_controller then
-            local parameters = entity.get_or_create_control_behavior().parameters
-
-            -- update all other lccs
-            for _, v in pairs(global.lcc_entity.entities) do
-                local control_behavior = v.get_or_create_control_behavior()
-                if control_behavior.enabled == true then
-                    control_behavior.parameters = parameters
+        if entity ~= nil then
+            if entity ~= nil and entity.name == names.logistics_center then -- Logistics Center
+                -- update_all_signals()
+                local control_behavior = entity.get_or_create_control_behavior()
+                if control_behavior.enabled then
+                    update_lc_signals(entity)
                 else
                     control_behavior.parameters = nil
                 end
+            elseif entity.name == names.logistics_center_controller then -- Logistics Center Controller
+                local parameters = entity.get_or_create_control_behavior().parameters
+
+                -- update all other lccs
+                for _, v in pairs(global.lcc_entity.entities) do
+                    local control_behavior = v.get_or_create_control_behavior()
+                    if control_behavior.enabled == true then
+                        control_behavior.parameters = parameters
+                    else
+                        control_behavior.parameters = nil
+                    end
+                end
+
+                -- update global parameters
+                global.lcc_entity.parameters = parameters
+
+                -- update lc controller
+                update_lc_controller()
             end
-
-            -- update global parameters
-            global.lcc_entity.parameters = parameters
-
-            -- update lc controller
-            update_lc_controller()
         end
     end
 )
