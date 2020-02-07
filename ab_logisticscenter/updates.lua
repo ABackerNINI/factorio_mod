@@ -363,7 +363,7 @@ function global_data_migrations()
         global.technologies.power_consumption_percentage = 1
 
         -- set global_data_version
-        global.global_data_version = 15
+        global.global_data_version = 14
     end
 
     global.global_data_version = config.global_data_version
