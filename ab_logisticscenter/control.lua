@@ -66,7 +66,7 @@ end
 script.on_nth_tick(startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
 
 -- on opened the logistics center
-script.on_event(defines.events.on_gui_opened, on_gui_opend)
+script.on_event(defines.events.on_gui_opened, on_gui_opened)
 
 -- on closed the `logistics center` and `logistics center controller`
 script.on_event(defines.events.on_gui_closed, on_gui_closed)
