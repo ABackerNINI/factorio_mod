@@ -7,5 +7,8 @@
     "contact": "https://github.com/ABackerNINI/factorio_mod",
     "description": "Consume power to teleport items.",
     "factorio_version": "0.18",
-    "dependencies": ["base >= 0.18.0"]
+    "dependencies": [
+        "base >= 0.18.0",
+        "? ab_loaderunlock >= 0.18.0"
+    ]
 }
