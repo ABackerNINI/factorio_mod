@@ -5,19 +5,22 @@ local config = g_config
 
 local math_ceil = math.ceil
 
--- find nearest lc
+-- Find nearest lc
 function find_nearest_lc(entity)
     if global.lc_entities.count == 0 then
         return nil
     end
 
+    local surface = entity.surface.index
     local eei = nil
     local nearest_distance = config.big_number -- should big enough
     for k, v in pairs(global.lc_entities.entities) do
-        local distance = calc_distance_between_two_points(entity.position, v.lc.position)
-        if distance < nearest_distance then
-            nearest_distance = distance
-            eei = v.eei
+        if surface == v.lc.surface.index then
+            local distance = calc_distance_between_two_points(entity.position, v.lc.position)
+            if distance < nearest_distance then
+                nearest_distance = distance
+                eei = v.eei
+            end
         end
     end
 
@@ -36,7 +39,7 @@ function find_nearest_lc(entity)
         end
         return ret
     else
-        game.print("[ab_logisticscenter]:error,didn't find@find_nearest_lc")
+        -- game.print("[ab_logisticscenter]: error, didn't find@find_nearest_lc")
         return nil
     end
 end

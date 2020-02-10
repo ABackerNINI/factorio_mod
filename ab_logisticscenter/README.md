@@ -36,8 +36,8 @@ Setting `Item Type Limitation` has three options: "all", "ores only", "except or
 
 ## Known Issues
 
-* This mod does not support multi-surfaces right now. Which means you should NOT use `Logistics Center`, `Collector Chest`, `Requester Chest` in other surfaces, use them only in the main world. For example, do NOT use them inside Factorissimo2 buildings.
 * This mod does not support multi-forces with multi-players. That means if you and your friends are in different forces, your items will be teleported together.
+* [RESOLVED] This mod does not support multi-surfaces right now. Which means you should NOT use `Logistics Center`, `Collector Chest`, `Requester Chest` in other surfaces, use them only in the main world. For example, do NOT use them inside Factorissimo2 buildings.
 
 ## Announcement
 

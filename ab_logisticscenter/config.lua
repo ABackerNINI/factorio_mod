@@ -29,6 +29,7 @@ local function get_config()
         -------------------------------------------------------------------------------------------
         -- LOCALES
         locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
+        locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
         locale_print_after_tech_lc_capacity_researched = 'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
         locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
         locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.locale-print-after-power-consumption-configuration-changed',
@@ -90,6 +91,6 @@ local function get_startup_settings()
     return startup_settings
 end
 
-g_config = get_config() 
+g_config = get_config()
 g_names = get_names()
 g_startup_settings = get_startup_settings()

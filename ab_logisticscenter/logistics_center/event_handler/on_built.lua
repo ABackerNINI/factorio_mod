@@ -9,6 +9,26 @@ local names = g_names
 local config = g_config
 local startup_settings = g_startup_settings
 
+local function show_flying_text(entity, nearest_lc)
+    local text = {}
+    if nearest_lc ~= nil then
+        text = {
+            config.locale_flying_text_when_build_chest,
+            string.format('%.1f', calc_distance_between_two_points(entity.position, nearest_lc.eei.position))
+        }
+    else
+        text = {
+            config.locale_flying_text_when_building_chest_no_nearest_lc
+        }
+    end
+    entity.surface.create_entity {
+        name = 'flying-text',
+        position = {x = entity.position.x, y = entity.position.y - 1},
+        color = {r = 228 / 255, g = 236 / 255, b = 0},
+        text = text
+    }
+end
+
 function on_built(event)
     local entity = event.created_entity
     local name = entity.name
@@ -18,6 +38,7 @@ function on_built(event)
         -- if string.match(name,names.requester_chest_pattern) ~= nil then  --- this is not recommanded
         -- name == names.collecter_chest_3_6 or
         -- name == names.collecter_chest_6_3
+
         -- add cc to the watch-list
         local index = global.cc_entities.index
         local empty_stack = global.cc_entities.empty_stack
@@ -25,20 +46,12 @@ function on_built(event)
             index = empty_stack.data[empty_stack.count]
             empty_stack.count = empty_stack.count - 1
         end
-        global.cc_entities.entities[index] = {entity = entity, nearest_lc = find_nearest_lc(entity)}
+
+        local nearest_lc = find_nearest_lc(entity)
+        global.cc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
 
         -- show flying text
-        if global.cc_entities.entities[index].nearest_lc ~= nil then
-            entity.surface.create_entity {
-                name = 'flying-text',
-                position = {x = entity.position.x, y = entity.position.y - 1},
-                color = {r = 228 / 255, g = 236 / 255, b = 0},
-                text = {
-                    config.locale_flying_text_when_build_chest,
-                    string.format('%.1f', calc_distance_between_two_points(entity.position, global.cc_entities.entities[index].nearest_lc.eei.position))
-                }
-            }
-        end
+        show_flying_text(entity, nearest_lc)
 
         global.cc_entities.index = global.cc_entities.index + 1
 
@@ -47,6 +60,7 @@ function on_built(event)
     elseif name == names.requester_chest_1_1 then -- or
         -- name == names.requester_chest_3_6 or
         -- name == names.requester_chest_6_3
+
         -- add rc to the watch-list
         local index = global.rc_entities.index
         local empty_stack = global.rc_entities.empty_stack
@@ -54,20 +68,12 @@ function on_built(event)
             index = empty_stack.data[empty_stack.count]
             empty_stack.count = empty_stack.count - 1
         end
-        global.rc_entities.entities[index] = {entity = entity, nearest_lc = find_nearest_lc(entity)}
+
+        local nearest_lc = find_nearest_lc(entity)
+        global.rc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
 
         -- show flying text
-        if global.rc_entities.entities[index].nearest_lc ~= nil then
-            entity.surface.create_entity {
-                name = 'flying-text',
-                position = {x = entity.position.x, y = entity.position.y - 1},
-                color = {r = 228 / 255, g = 236 / 255, b = 0},
-                text = {
-                    config.locale_flying_text_when_build_chest,
-                    string.format('%.1f', calc_distance_between_two_points(entity.position, global.rc_entities.entities[index].nearest_lc.eei.position))
-                }
-            }
-        end
+        show_flying_text(entity, nearest_lc)
 
         global.rc_entities.index = global.rc_entities.index + 1
 

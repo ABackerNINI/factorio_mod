@@ -23,37 +23,39 @@ function check_ccs_on_nth_tick_all(nth_tick_event)
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
-        local v = global.cc_entities.entities[index]
-        if v ~= nil then
-            if v.entity.valid then
-                local inventory = v.entity.get_output_inventory()
-                if not inventory.is_empty() then
-                    local power_consumption = v.nearest_lc.power_consumption
-                    local contents = inventory.get_contents()
-                    local eei = v.nearest_lc.eei
+        local chest = global.cc_entities.entities[index]
+        if chest ~= nil then
+            if chest.entity.valid then
+                if chest.nearest_lc ~= nil then
+                    local inventory = chest.entity.get_output_inventory()
+                    if not inventory.is_empty() then
+                        local eei = chest.nearest_lc.eei
+                        local power_consumption = chest.nearest_lc.power_consumption
+                        local contents = inventory.get_contents()
 
-                    for name, count in pairs(contents) do
-                        -- stock.get_item(name)
-                        local item = global.items_stock.items[name]
-                        if item == nil then
-                            item = add_item(name)
-                        end
+                        for name, count in pairs(contents) do
+                            -- stock.get_item(name)
+                            local item = global.items_stock.items[name]
+                            if item == nil then
+                                item = add_item(name)
+                            end
 
-                        -- enough energy?
-                        count = math_min(count, math_floor(eei.energy / power_consumption))
-                        -- calc max_control
-                        count = math_min(count, item.max_control - item.stock)
+                            -- enough energy?
+                            count = math_min(count, math_floor(eei.energy / power_consumption))
+                            -- calc max_control
+                            count = math_min(count, item.max_control - item.stock)
 
-                        if count > 0 then
-                            crc_item_stack.name = name
-                            crc_item_stack.count = count
-                            inventory.remove(crc_item_stack)
-                            item.stock = item.stock + count
-                            eei.energy = eei.energy - count * power_consumption
-                            update_lc_signal(item, name)
+                            if count > 0 then
+                                crc_item_stack.name = name
+                                crc_item_stack.count = count
+                                count = inventory.remove(crc_item_stack)
+                                item.stock = item.stock + count
+                                eei.energy = eei.energy - count * power_consumption
+                                update_lc_signal(item, name)
 
-                            if eei.energy < power_consumption then
-                                break
+                                if eei.energy < power_consumption then
+                                    break
+                                end
                             end
                         end
                     end
@@ -91,39 +93,41 @@ function check_ccs_on_nth_tick_ores_only(nth_tick_event)
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
-        local v = global.cc_entities.entities[index]
-        if v ~= nil then
-            if v.entity.valid then
-                local inventory = v.entity.get_output_inventory()
-                if not inventory.is_empty() then
-                    local power_consumption = v.nearest_lc.power_consumption
-                    local contents = inventory.get_contents()
-                    local eei = v.nearest_lc.eei
+        local chest = global.cc_entities.entities[index]
+        if chest ~= nil then
+            if chest.entity.valid then
+                if chest.nearest_lc ~= nil then
+                    local inventory = chest.entity.get_output_inventory()
+                    if not inventory.is_empty() then
+                        local eei = chest.nearest_lc.eei
+                        local power_consumption = chest.nearest_lc.power_consumption
+                        local contents = inventory.get_contents()
 
-                    for name, count in pairs(contents) do
-                        ore_entity = game.entity_prototypes[name]
-                        if ore_entity ~= nil and ore_entity.type == 'resource' then -- game.item_prototypes[name] ~= nil?
-                            -- stock.get_item(name)
-                            local item = global.items_stock.items[name]
-                            if item == nil then
-                                item = add_item(name)
-                            end
+                        for name, count in pairs(contents) do
+                            ore_entity = game.entity_prototypes[name]
+                            if ore_entity ~= nil and ore_entity.type == 'resource' then -- game.item_prototypes[name] ~= nil?
+                                -- stock.get_item(name)
+                                local item = global.items_stock.items[name]
+                                if item == nil then
+                                    item = add_item(name)
+                                end
 
-                            -- enough energy?
-                            count = math_min(count, math_floor(eei.energy / power_consumption))
-                            -- calc max_control
-                            count = math_min(count, item.max_control - item.stock)
+                                -- enough energy?
+                                count = math_min(count, math_floor(eei.energy / power_consumption))
+                                -- calc max_control
+                                count = math_min(count, item.max_control - item.stock)
 
-                            if count > 0 then
-                                crc_item_stack.name = name
-                                crc_item_stack.count = count
-                                inventory.remove(crc_item_stack)
-                                item.stock = item.stock + count
-                                eei.energy = eei.energy - count * power_consumption
-                                update_lc_signal(item, name)
+                                if count > 0 then
+                                    crc_item_stack.name = name
+                                    crc_item_stack.count = count
+                                    count = inventory.remove(crc_item_stack)
+                                    item.stock = item.stock + count
+                                    eei.energy = eei.energy - count * power_consumption
+                                    update_lc_signal(item, name)
 
-                                if eei.energy < power_consumption then
-                                    break
+                                    if eei.energy < power_consumption then
+                                        break
+                                    end
                                 end
                             end
                         end
@@ -162,39 +166,41 @@ function check_ccs_on_nth_tick_except_ores(nth_tick_event)
         if index > global.cc_entities.index then
             index = index - global.cc_entities.index
         end
-        local v = global.cc_entities.entities[index]
-        if v ~= nil then
-            if v.entity.valid then
-                local inventory = v.entity.get_output_inventory()
-                if not inventory.is_empty() then
-                    local power_consumption = v.nearest_lc.power_consumption
-                    local contents = inventory.get_contents()
-                    local eei = v.nearest_lc.eei
+        local chest = global.cc_entities.entities[index]
+        if chest ~= nil then
+            if chest.entity.valid then
+                if chest.nearest_lc ~= nil then
+                    local inventory = chest.entity.get_output_inventory()
+                    if not inventory.is_empty() then
+                        local eei = chest.nearest_lc.eei
+                        local power_consumption = chest.nearest_lc.power_consumption
+                        local contents = inventory.get_contents()
 
-                    for name, count in pairs(contents) do
-                        ore_entity = game.entity_prototypes[name]
-                        if ore_entity == nil or game.entity_prototypes[name].type ~= 'resource' then
-                            -- stock.get_item(name)
-                            local item = global.items_stock.items[name]
-                            if item == nil then
-                                item = add_item(name)
-                            end
+                        for name, count in pairs(contents) do
+                            ore_entity = game.entity_prototypes[name]
+                            if ore_entity == nil or game.entity_prototypes[name].type ~= 'resource' then
+                                -- stock.get_item(name)
+                                local item = global.items_stock.items[name]
+                                if item == nil then
+                                    item = add_item(name)
+                                end
 
-                            -- enough energy?
-                            count = math_min(count, math_floor(eei.energy / power_consumption))
-                            -- calc max_control
-                            count = math_min(count, item.max_control - item.stock)
+                                -- enough energy?
+                                count = math_min(count, math_floor(eei.energy / power_consumption))
+                                -- calc max_control
+                                count = math_min(count, item.max_control - item.stock)
 
-                            if count > 0 then
-                                crc_item_stack.name = name
-                                crc_item_stack.count = count
-                                inventory.remove(crc_item_stack)
-                                item.stock = item.stock + count
-                                eei.energy = eei.energy - count * power_consumption
-                                update_lc_signal(item, name)
+                                if count > 0 then
+                                    crc_item_stack.name = name
+                                    crc_item_stack.count = count
+                                    count = inventory.remove(crc_item_stack)
+                                    item.stock = item.stock + count
+                                    eei.energy = eei.energy - count * power_consumption
+                                    update_lc_signal(item, name)
 
-                                if eei.energy < power_consumption then
-                                    break
+                                    if eei.energy < power_consumption then
+                                        break
+                                    end
                                 end
                             end
                         end
