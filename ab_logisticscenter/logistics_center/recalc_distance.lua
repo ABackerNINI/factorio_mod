@@ -1,5 +1,5 @@
-require('find_nearest_lc')
 require('chest')
+require('find_nearest_lc')
 
 -- recalc distance from cc/rc to the nearest lc
 -- call after lc entity being created or destoried
