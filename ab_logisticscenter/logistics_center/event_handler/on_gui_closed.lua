@@ -34,6 +34,12 @@ function on_gui_closed(event)
             -- update lc controller
             update_lc_controller()
             update_all_lc_signals()
+        elseif entity.name == names.requester_chest_1_1 then -- Requester Chest
+            -- game.players[event.player_index].gui.center.clear()
+            -- game.players[event.player_index].gui.top.clear()
+            -- game.players[event.player_index].gui.left.clear()
+            -- game.players[event.player_index].gui.goal.clear()
+            -- game.players[event.player_index].gui.screen.clear()
         end
     end
 end

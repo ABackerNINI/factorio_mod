@@ -5,11 +5,11 @@ local startup_settings = g_startup_settings
 
 -- INIT FUNCTIONS
 -- init globals
--- call on mod init.should call it only once
+-- Call on mod init. should call it only once
 function init_globals()
     global.global_data_version = config.global_data_version
 
-    -- {index,items = {["item_name"] = {index,stock,enable,max_control}}}
+    -- {index, items = {["item_name"] = {index, stock, enable, max_control}}}
     global.items_stock =
         global.items_stock or
         {
@@ -17,8 +17,7 @@ function init_globals()
             items = {}
         }
 
-    -- multi-lc causes a severe bug on energy consumption
-    -- {count,entities = {["pos_str"] = {lc,eei}}}
+    -- {count, entities = {["pos_str"] = {lc, eei}}}
     global.lc_entities =
         global.lc_entities or
         {
@@ -26,7 +25,7 @@ function init_globals()
             entities = {}
         }
 
-    -- {index,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
+    -- {index, empty_stack, entities = {[index] = {entity, nearest_lc = {power_consumption, eei}}}}
     global.cc_entities =
         global.cc_entities or
         {
@@ -35,7 +34,7 @@ function init_globals()
             entities = {}
         }
 
-    -- {index,empty_stack,entities = {[index] = {entity,nearest_lc = {power_consumption,eei}}}}
+    -- {index, empty_stack, entities = {[index] = {entity, nearest_lc = {power_consumption, eei}}}}
     global.rc_entities =
         global.rc_entities or
         {
@@ -44,7 +43,7 @@ function init_globals()
             entities = {}
         }
 
-    -- {count,parameters,entities={[index] = entity}
+    -- {count, parameters, entities = {[index] = entity}
     global.lcc_entity =
         global.lcc_entity or
         {
