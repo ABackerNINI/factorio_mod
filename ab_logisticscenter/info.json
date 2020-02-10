@@ -5,7 +5,7 @@
     "author": "ABacker",
     "homepage": "https://mods.factorio.com/mod/ab_logisticscenter",
     "contact": "https://github.com/ABackerNINI/factorio_mod",
-    "description": "Consume power to teleport items.",
+    "description": "Consume power to teleport items. A replace of robots logistics, configurable and UPS friendly.",
     "factorio_version": "0.18",
     "dependencies": [
         "base >= 0.18.0",
