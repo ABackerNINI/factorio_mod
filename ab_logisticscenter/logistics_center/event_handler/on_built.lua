@@ -87,7 +87,9 @@ function on_built(event)
         end
 
         -- will confilct when entity on diffrent surfaces?
-        global.lc_entities.entities[position_to_string(entity.position)] = {
+        -- global.lc_entities.entities[position_to_string(entity.position)] = {
+        local p_str = surface_and_position_to_string(entity.surface.index, entity.position)
+        global.lc_entities.entities[p_str] = {
             lc = entity,
             -- create the electric energy interface
             eei = entity.surface.create_entity {

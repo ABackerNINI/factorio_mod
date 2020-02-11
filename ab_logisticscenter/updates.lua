@@ -67,6 +67,10 @@ end
 -- global data migrations
 -- call only in script.on_configuration_changed()
 function global_data_migrations()
+    if global.global_data_version ~= nil and global.global_data_version ~= config.global_data_version then
+        game.print('ab_logisticscenter: global_data_version: ' .. global.global_data_version)
+    end
+
     -- if global.global_data_version == nil or global.global_data_version < config.global_data_version then
     --     game.print("")
     -- end
@@ -365,6 +369,27 @@ function global_data_migrations()
 
         -- set global_data_version
         global.global_data_version = 14
+    end
+
+    -- 14-th change,global.global_data_version = 14
+    -- fix multi-surface position string conflict
+    if global.global_data_version < 15 then
+        game.print({config.locale_print_when_global_data_migrate, 14})
+
+        -- global.lc_entities
+        -- OLD {count, entities = {["pos_str"] = {lc, eei}}}
+        -- NEW {count, entities = {["surface_and_pos_str"] = {lc, eei}}}
+        -- OLD pos_str: p.x .. ',' .. p.y
+        -- NEW surface_and_pos_str: surface_index .. ',' .. p.x .. ',' .. p.y
+        local new_entities = {}
+        for k, v in pairs(global.lc_entities.entities) do
+            new_entities[v.lc.surface.index .. ',' .. k] = v
+        end
+        global.lc_entities.entities = nil
+        global.lc_entities.entities = new_entities
+
+        -- set global_data_version
+        global.global_data_version = 15
     end
 
     global.global_data_version = config.global_data_version

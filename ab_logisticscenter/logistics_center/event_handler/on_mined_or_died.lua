@@ -17,13 +17,20 @@ function on_mined_or_died(event)
     if entity.name == names.logistics_center then
         global.lc_entities.count = global.lc_entities.count - 1
 
-        local p_str = position_to_string(entity.position)
+        -- local p_str = position_to_string(entity.position)
+        local p_str = surface_and_position_to_string(entity.surface.index, entity.position)
         -- game.print("pre-mined:"..p_str)
         -- destroy the electric energy interface
-        local eei = global.lc_entities.entities[p_str].eei
-        if eei ~= nil then -- it may be nil accidentally and I do not figure out why.
-            eei.destroy()
-            global.lc_entities.entities[p_str] = nil
+        local lc = global.lc_entities.entities[p_str]
+        if lc ~= nil then
+            local eei = lc.eei
+            if eei ~= nil then
+                eei.destroy()
+                global.lc_entities.entities[p_str] = nil
+            end
+        else
+            game.print('ab_logistics_center: nil lc ' .. p_str .. '@on_mined_or_died')
+            game.print('ab_logistics_center: please report this bug on the mod portal, thanks.')
         end
 
         -- recalc distance

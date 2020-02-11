@@ -22,7 +22,7 @@ local check_ccs_on_nth_tick_all = check_ccs_on_nth_tick_all
 local check_ccs_on_nth_tick_ores_only = check_ccs_on_nth_tick_ores_only
 local check_ccs_on_nth_tick_except_ores = check_ccs_on_nth_tick_except_ores
 -- local check_player_request = check_player_request
-local check_requester_chest = check_requester_chest
+local check_rcs_on_nth_tick = check_rcs_on_nth_tick
 
 local on_built = on_built
 local on_configuration_changed = on_configuration_changed
@@ -45,7 +45,7 @@ script.on_init(
 -- )
 
 -- on configuration changed
-script.on_configuration_changed(on_configuartion_changed)
+script.on_configuration_changed(on_configuration_changed)
 
 -- on built
 script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, on_built)

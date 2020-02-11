@@ -17,7 +17,7 @@ function init_globals()
             items = {}
         }
 
-    -- {count, entities = {["pos_str"] = {lc, eei}}}
+    -- {count, entities = {["surface_and_pos_str"] = {lc, eei}}}
     global.lc_entities =
         global.lc_entities or
         {
