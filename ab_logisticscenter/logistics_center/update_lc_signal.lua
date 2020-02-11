@@ -66,11 +66,10 @@ function update_all_lc_signals()
     --     i = i + 1
     -- end
 
-    local parameters = pack_signals()
 
     -- TODO if item.index > startup_settings.lc_item_slot_count
     -- set the signals to the lc(s) which control_behavior are enabled
-    local parameters = {parameters = signals}
+    local parameters = pack_signals()
     for _, v in pairs(global.lc_entities.entities) do
         local control_behavior = v.lc.get_or_create_control_behavior()
         if control_behavior.enabled then
