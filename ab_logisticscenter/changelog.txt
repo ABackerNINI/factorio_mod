@@ -1,9 +1,15 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.18.3
+Version: 0.18.4
 Date: 11. 02. 2020
+  Changes:
+    - Changed some descriptions.
+    - Changed default values of check_cc_on_nth_tick/check_rc_on_nth_tick to 50/30.
+    - Added tips when first init.
+    - Added a new setting Logistics Center Power Consumption Per Second.
   Bugfixes:
     - Fixed multi-surface position string conflict.
     - Fixed on_configuration_changed event.
+    - Fixed locale 'en'.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.3
 Date: 11. 02. 2020

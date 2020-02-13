@@ -32,11 +32,7 @@ local on_mined_or_died = on_mined_or_died
 local on_player_created = on_player_created
 local on_research_finished = on_research_finished
 
-script.on_init(
-    function()
-        init_globals()
-    end
-)
+script.on_init(init_globals)
 
 -- will be called on every save and load
 -- script.on_load(
@@ -48,10 +44,34 @@ script.on_init(
 script.on_configuration_changed(on_configuration_changed)
 
 -- on built
-script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity}, on_built)
+script.on_event(
+    {
+        defines.events.on_built_entity,
+        defines.events.on_robot_built_entity
+    },
+    on_built
+)
+script.on_event(
+    {
+        defines.events.script_raised_built,
+        defines.events.script_raised_revive
+    },
+    function(event)
+        local transfer_event = {created_entity = event.entity}
+        on_built(transfer_event)
+    end
+)
 
 -- on pre-mined-item/entity-died
-script.on_event({defines.events.on_pre_player_mined_item, defines.events.on_robot_pre_mined, defines.events.on_entity_died}, on_mined_or_died)
+script.on_event(
+    {
+        defines.events.on_pre_player_mined_item,
+        defines.events.on_robot_pre_mined,
+        defines.events.on_entity_died,
+        defines.events.script_raised_destroy
+    },
+    on_mined_or_died
+)
 
 -- check all collecter chests
 if startup_settings.item_type_limitation == nil or startup_settings.item_type_limitation == 'all' then

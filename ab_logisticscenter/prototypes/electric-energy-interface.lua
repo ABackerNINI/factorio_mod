@@ -4,6 +4,7 @@ require('config')
 
 local config = g_config
 local names = g_names
+local startup_settings = g_startup_settings
 
 local hsl = 1.5
 local hcl = 1.4
@@ -25,7 +26,7 @@ data:extend(
                 input_flow_limit = config.eei_input_flow_limit .. 'W',
                 buffer_capacity = config.eei_buffer_capacity .. 'J'
             },
-            energy_usage = config.eei_basic_power_consumption .. 'W',
+            energy_usage = startup_settings.lc_power_consumption .. 'KW',
             energy_production = '0MW'
         }
     }

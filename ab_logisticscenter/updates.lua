@@ -67,7 +67,7 @@ end
 -- global data migrations
 -- call only in script.on_configuration_changed()
 function global_data_migrations()
-    if global.global_data_version ~= nil and global.global_data_version ~= config.global_data_version then
+    if global.global_data_version ~= nil then -- and global.global_data_version ~= config.global_data_version then
         game.print('ab_logisticscenter: global_data_version: ' .. global.global_data_version)
     end
 

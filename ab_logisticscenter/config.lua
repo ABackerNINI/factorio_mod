@@ -14,7 +14,7 @@ local function get_config()
         -------------------------------------------------------------------------------------------
         -- ENTITY PROPERTIES
         -- basic power consumption of the electric energy interface, default = 2000000
-        eei_basic_power_consumption = 2000000, -- W [2MW]
+        -- eei_basic_power_consumption = 2000000, --- W [2MW]
         -- input flow limit of the electric energy interface, default = 10000000000
         eei_input_flow_limit = 10000000000, -- W [10GW]
         -- buffer capacity of the electric energy interface, default = 1000000000
@@ -32,8 +32,9 @@ local function get_config()
         locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
         locale_print_after_tech_lc_capacity_researched = 'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
         locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
-        locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.locale-print-after-power-consumption-configuration-changed',
-        locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate'
+        locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',
+        locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate',
+        locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init'
     }
 end
 
@@ -69,6 +70,8 @@ local function get_startup_settings()
         rc_logistic_slots_count = settings.startup['ab-logistics-center-rc-logistic-slots-count'].value,
         -- item slot count of logistics center, default = 500
         lc_item_slot_count = settings.startup['ab-logistics-center-lc-item-slot-count'].value,
+        -- power consumption of logistics center per second, default = 2000
+        lc_power_consumption = settings.startup['ab-logistics-center-lc-power-consumption'].value, -- KW
         -- power consumption of collector chests per distance per item transferring, default = 1000
         default_cc_power_consumption = settings.startup['ab-logistics-center-default-cc-power-consumption'].value, -- J
         -- power consumption of requester chests per distance per item transferring, default = 100
