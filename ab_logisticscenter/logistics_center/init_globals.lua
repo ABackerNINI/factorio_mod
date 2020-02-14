@@ -17,7 +17,7 @@ function init_globals()
             items = {}
         }
 
-    -- {count, entities = {["surface_and_pos_str"] = {lc, eei}}}
+    -- {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index}}}
     global.lc_entities =
         global.lc_entities or
         {
@@ -49,6 +49,14 @@ function init_globals()
         {
             count = 0,
             parameters = nil,
+            entities = {}
+        }
+
+    -- {count, entities = {[index] = {energy_bar, bar_index, eei}}}
+    global.energy_bar_entities =
+        global.energy_bar_entities or
+        {
+            count = 0, -- how many energy_bars need to display
             entities = {}
         }
 

@@ -392,5 +392,22 @@ function global_data_migrations()
         global.global_data_version = 15
     end
 
-    global.global_data_version = config.global_data_version
+    -- 15-th change,global.global_data_version = 15
+    -- add lc energy_bar
+    if global.global_data_version < 16 then
+        game.print({config.locale_print_when_global_data_migrate, 15})
+
+        -- global.lc_entities
+        -- OLD nil
+        -- NEW {count, entities = {energy_bar, energy_bar_index, eei}}
+        global.energy_bar_entities = {
+            count = 0,
+            entities = {}
+        }
+
+        -- set global_data_version
+        global.global_data_version = 16
+    end
+
+    -- global.global_data_version = config.global_data_version
 end

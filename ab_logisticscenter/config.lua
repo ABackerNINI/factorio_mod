@@ -1,6 +1,6 @@
 local function get_config()
     return {
-        global_data_version = 15,
+        global_data_version = 16,
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGIES
         -- increment of lc_capacity of each research, default = {19000, 30000, 50000, 100000}
@@ -16,7 +16,7 @@ local function get_config()
         -- basic power consumption of the electric energy interface, default = 2000000
         -- eei_basic_power_consumption = 2000000, --- W [2MW]
         -- input flow limit of the electric energy interface, default = 10000000000
-        eei_input_flow_limit = 10000000000, -- W [10GW]
+        eei_input_flow_limit = 1000000000, -- W [1GW]
         -- buffer capacity of the electric energy interface, default = 1000000000
         eei_buffer_capacity = 1000000000, -- J [1GJ]
         -------------------------------------------------------------------------------------------
@@ -53,6 +53,7 @@ local function get_names()
         -- technology
         tech_lc_capacity = 'ab-lc-tech-lc-capacity',
         tech_power_consumption = 'ab-lc-tech-power-consumption',
+        distance_flying_text = 'distance-flying-text',
         -- match pattern string
         collecter_chest_pattern = 'ab%-lc%-collecter%-chest',
         requester_chest_pattern = 'ab%-lc%-collecter%-chest',

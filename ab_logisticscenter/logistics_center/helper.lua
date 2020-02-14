@@ -2,8 +2,8 @@ function position_to_string(p)
     return p.x .. ',' .. p.y
 end
 
-function surface_and_position_to_string(surface_index,p)
-    return surface_index .. ',' .. p.x .. ',' .. p.y
+function surface_and_position_to_string(entity)
+    return entity.surface.index .. ',' .. entity.position.x .. ',' .. entity.position.y
 end
 
 function calc_distance_between_two_points(p1, p2)

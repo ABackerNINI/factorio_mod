@@ -8,3 +8,5 @@ require('prototypes.electric-energy-interface')
 -- technology
 require('prototypes.tech-logistics-center-capacity')
 require('prototypes.tech-power-consumption')
+require('prototypes.distance-flying-text')
+require('prototypes.energy_bars')

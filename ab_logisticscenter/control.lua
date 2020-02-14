@@ -10,9 +10,10 @@ require('logistics_center.event_handler.on_built')
 require('logistics_center.event_handler.on_configuration_changed')
 require('logistics_center.event_handler.on_gui_closed')
 require('logistics_center.event_handler.on_gui_opened')
-require('logistics_center.event_handler.on_mined_or_died')
+require('logistics_center.event_handler.on_destroy')
 require('logistics_center.event_handler.on_player_created')
 require('logistics_center.event_handler.on_research_finished')
+require('logistics_center.event_handler.on_rotated')
 
 local config = g_config
 local names = g_names
@@ -28,9 +29,10 @@ local on_built = on_built
 local on_configuration_changed = on_configuration_changed
 local on_gui_closed = on_gui_closed
 local on_gui_opened = on_gui_opened
-local on_mined_or_died = on_mined_or_died
+local on_destroy = on_destroy
 local on_player_created = on_player_created
 local on_research_finished = on_research_finished
+local on_rotated = on_rotated
 
 script.on_init(init_globals)
 
@@ -65,12 +67,12 @@ script.on_event(
 -- on pre-mined-item/entity-died
 script.on_event(
     {
-        defines.events.on_pre_player_mined_item,
+        defines.events.on_pre_player_mined_item, -- on_player_mined_entity
         defines.events.on_robot_pre_mined,
         defines.events.on_entity_died,
         defines.events.script_raised_destroy
     },
-    on_mined_or_died
+    on_destroy
 )
 
 -- check all collecter chests
@@ -84,6 +86,8 @@ end
 
 -- check all requester chests
 script.on_nth_tick(startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
+
+script.on_event(defines.events.on_player_rotated_entity, on_rotated)
 
 -- on opened the logistics center
 script.on_event(defines.events.on_gui_opened, on_gui_opened)
