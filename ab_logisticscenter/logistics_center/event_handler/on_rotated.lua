@@ -1,5 +1,5 @@
 require('config')
-local ebar = require('logistics_center.energy_bar')
+local EB = require('logistics_center.energy_bar')
 
 local names = g_names
 local config = g_config
@@ -11,9 +11,9 @@ local function on_rotated_logistics_center(entity)
     local lc = global.lc_entities.entities[p_str]
 
     if lc.energy_bar_index == nil then
-        ebar:add(lc)
+        EB:add(lc)
     else
-        ebar:remove(lc)
+        EB:remove(lc)
     end
 end
 

@@ -1,9 +1,10 @@
 require('config')
 
+-- energy bar
+EB = {}
+
 local names = g_names
 local config = g_config
-
-energy_bar = {}
 
 -- Check energy bars on every nth tick
 local function energy_bar_check_on_nth_tick(tick)
@@ -16,7 +17,7 @@ local function energy_bar_check_on_nth_tick(tick)
             v.energy_bar =
                 v.eei.surface.create_entity {
                 name = names.energy_bar .. bar_index,
-                position = {x = v.eei.position.x, y = v.eei.position.y + 1}
+                position = {x = v.eei.position.x, y = v.eei.position.y + 0.9}
             }
             v.bar_index = bar_index
         end
@@ -24,13 +25,13 @@ local function energy_bar_check_on_nth_tick(tick)
 end
 
 -- Create energy bar for the logistics center
-function energy_bar:add(g_lc)
+function EB:add(g_lc)
     local bar_max = 13.0
     local bar_index = math.ceil(bar_max * g_lc.eei.energy / config.eei_buffer_capacity)
     local eb =
         g_lc.eei.surface.create_entity {
         name = names.energy_bar .. bar_index,
-        position = {x = g_lc.eei.position.x, y = g_lc.eei.position.y + 1}
+        position = {x = g_lc.eei.position.x, y = g_lc.eei.position.y + 0.9}
     }
 
     -- caution: loop with big number
@@ -56,7 +57,7 @@ function energy_bar:add(g_lc)
 end
 
 -- Destory energy bar for the logistics center
-function energy_bar:remove(g_lc)
+function EB:remove(g_lc)
     if g_lc.energy_bar_index ~= nil then
         local g_ebs = global.energy_bar_entities.entities
         g_ebs[g_lc.energy_bar_index].energy_bar.destroy()
@@ -71,4 +72,4 @@ function energy_bar:remove(g_lc)
     end
 end
 
-return energy_bar
+return EB

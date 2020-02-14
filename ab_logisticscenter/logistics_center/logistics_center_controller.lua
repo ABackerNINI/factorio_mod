@@ -1,9 +1,11 @@
-require('item')
+ITEM = require('item')
+
+LCC = {}
 
 local math_min = math.min
 
 -- update lc controller
-function update_lc_controller()
+function LCC:update()
     if global.lcc_entity.parameters == nil then
         return
     end
@@ -15,7 +17,7 @@ function update_lc_controller()
         if v.signal.type == 'item' and v.signal.name ~= nil then
             item1 = global.items_stock.items[v.signal.name]
             if item1 == nil and v.count ~= -1 then
-                item1 = add_item(v.signal.name)
+                item1 = ITEM:add_item(v.signal.name)
             end
 
             if item1 ~= nil then
@@ -44,3 +46,5 @@ function update_lc_controller()
         end
     end
 end
+
+return LCC

@@ -1,6 +1,6 @@
-require('logistics_center.item')
-require('logistics_center.chest')
-require('logistics_center.update_lc_signal')
+local ITEM = require('logistics_center.item')
+local CHEST = require('logistics_center.chest')
+local LC = require('logistics_center.logistics_center')
 
 local math_floor = math.floor
 local math_min = math.min
@@ -37,7 +37,7 @@ function check_ccs_on_nth_tick_all(nth_tick_event)
                             -- stock.get_item(name)
                             local item = global.items_stock.items[name]
                             if item == nil then
-                                item = add_item(name)
+                                item = ITEM:add_item(name)
                             end
 
                             -- enough energy?
@@ -51,7 +51,7 @@ function check_ccs_on_nth_tick_all(nth_tick_event)
                                 count = inventory.remove(crc_item_stack)
                                 item.stock = item.stock + count
                                 eei.energy = eei.energy - count * power_consumption
-                                update_lc_signal(item, name)
+                                LC:update_lc_signal(item, name)
 
                                 if eei.energy < power_consumption then
                                     break
@@ -61,7 +61,7 @@ function check_ccs_on_nth_tick_all(nth_tick_event)
                     end
                 end
             else
-                remove_cc(index)
+                CHEST:remove_cc(index)
             end
         end
     end
@@ -109,7 +109,7 @@ function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                                 -- stock.get_item(name)
                                 local item = global.items_stock.items[name]
                                 if item == nil then
-                                    item = add_item(name)
+                                    item = ITEM:add_item(name)
                                 end
 
                                 -- enough energy?
@@ -123,7 +123,7 @@ function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                                     count = inventory.remove(crc_item_stack)
                                     item.stock = item.stock + count
                                     eei.energy = eei.energy - count * power_consumption
-                                    update_lc_signal(item, name)
+                                    LC:update_lc_signal(item, name)
 
                                     if eei.energy < power_consumption then
                                         break
@@ -134,7 +134,7 @@ function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                     end
                 end
             else
-                remove_cc(index)
+                CHEST:remove_cc(index)
             end
         end
     end
@@ -182,7 +182,7 @@ function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                                 -- stock.get_item(name)
                                 local item = global.items_stock.items[name]
                                 if item == nil then
-                                    item = add_item(name)
+                                    item = ITEM:add_item(name)
                                 end
 
                                 -- enough energy?
@@ -196,7 +196,7 @@ function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                                     count = inventory.remove(crc_item_stack)
                                     item.stock = item.stock + count
                                     eei.energy = eei.energy - count * power_consumption
-                                    update_lc_signal(item, name)
+                                    LC:update_lc_signal(item, name)
 
                                     if eei.energy < power_consumption then
                                         break
@@ -207,7 +207,7 @@ function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                     end
                 end
             else
-                remove_cc(index)
+                CHEST:remove_cc(index)
             end
         end
     end

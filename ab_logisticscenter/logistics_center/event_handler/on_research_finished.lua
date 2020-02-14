@@ -1,5 +1,5 @@
-require('logistics_center.recalc_distance')
-require('logistics_center.update_lc_controller')
+local LC = require('logistics_center.logistics_center')
+local LCC = require('logistics_center.logistics_center_controller')
 
 local math_ceil = math.ceil
 
@@ -53,7 +53,7 @@ function on_research_finished(event)
                 for k, v in pairs(global.items_stock.items) do
                     v.max_control = global.technologies.lc_capacity
                 end
-                update_lc_controller()
+                LCC:update()
 
                 game.print(
                     {
@@ -103,6 +103,6 @@ function on_research_finished(event)
         end
 
         -- recalc distance
-        recalc_distance()
+        LC:recalc_distance()
     end
 end

@@ -1,5 +1,5 @@
-require('logistics_center.update_lc_signal')
-require('logistics_center.update_lc_controller')
+local LC = require('logistics_center.logistics_center')
+local LCC = require('logistics_center.logistics_center_controller')
 
 local names = g_names
 
@@ -11,7 +11,7 @@ function on_gui_closed(event)
             -- update_all_signals()
             local control_behavior = entity.get_or_create_control_behavior()
             if control_behavior.enabled then
-                update_lc_signals(entity)
+                LC:update_lc_signals(entity)
             else
                 control_behavior.parameters = nil
             end
@@ -32,8 +32,8 @@ function on_gui_closed(event)
             global.lcc_entity.parameters = parameters
 
             -- update lc controller
-            update_lc_controller()
-            update_all_lc_signals()
+            LCC:update()
+            LC:update_all_lc_signals()
         elseif entity.name == names.requester_chest_1_1 then -- Requester Chest
             -- game.players[event.player_index].gui.center.clear()
             -- game.players[event.player_index].gui.top.clear()

@@ -1,7 +1,9 @@
+ITEM = {}
+
 local startup_settings = g_startup_settings
 
 -- add item
-function add_item(name)
+function ITEM:add_item(name)
     -- find the smallest index not in use
     local indexs = {}
     for k, v in pairs(global.items_stock.items) do
@@ -25,6 +27,8 @@ function add_item(name)
 end
 
 -- del item
-function del_item(name)
+function ITEM:del_item(name)
     global.items_stock.items[name] = nil
 end
+
+return ITEM

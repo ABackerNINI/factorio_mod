@@ -72,7 +72,7 @@ local unit_4 = {
     time = 60
 }
 
-make_tech(1, LC .. '/graphics/technology/logistics-center-capacity.png', unit_1)
-make_tech(2, LC .. '/graphics/technology/logistics-center-capacity.png', unit_2)
-make_tech(3, LC .. '/graphics/technology/logistics-center-capacity.png', unit_3)
-make_tech(4, LC .. '/graphics/technology/logistics-center-capacity.png', unit_4)
+make_tech(1, LC_PATH .. '/graphics/technology/logistics-center-capacity.png', unit_1)
+make_tech(2, LC_PATH .. '/graphics/technology/logistics-center-capacity.png', unit_2)
+make_tech(3, LC_PATH .. '/graphics/technology/logistics-center-capacity.png', unit_3)
+make_tech(4, LC_PATH .. '/graphics/technology/logistics-center-capacity.png', unit_4)

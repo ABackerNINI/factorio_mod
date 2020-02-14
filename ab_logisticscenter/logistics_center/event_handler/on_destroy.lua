@@ -1,7 +1,7 @@
 require('config')
 require('logistics_center.helper')
-require('logistics_center.recalc_distance')
-local ebar = require('logistics_center.energy_bar')
+local LC = require('logistics_center.logistics_center')
+local EB = require('logistics_center.energy_bar')
 
 local names = g_names
 local config = g_config
@@ -16,11 +16,11 @@ local function on_destroy_logistics_center(entity)
     -- destroy the electric energy interface
     lc.eei.destroy()
     -- destroy the energy bar
-    ebar:remove(lc)
+    EB:remove(lc)
     global.lc_entities.entities[p_str] = nil
 
     -- recalc distance
-    recalc_distance()
+    LC:recalc_distance()
 end
 
 local function on_destroy_logistics_center_controller(entity)

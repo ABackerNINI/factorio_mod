@@ -5,7 +5,7 @@ data:extend(
         {
             type = 'simple-entity',
             name = g_names.logistics_center_animation,
-            icon = LC .. '/graphics/icons/logistics-center.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             flags = {'not-on-map'},
             selectable_in_game = false,
@@ -19,32 +19,32 @@ data:extend(
                 {
                     stripes = {
                         {
-                            filename = LC .. '/graphics/entity/animation/1-8.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/1-8.png',
                             width_in_frames = 4,
                             height_in_frames = 2
                         },
                         {
-                            filename = LC .. '/graphics/entity/animation/9-16.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/9-16.png',
                             width_in_frames = 4,
                             height_in_frames = 2
                         },
                         {
-                            filename = LC .. '/graphics/entity/animation/17-24.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/17-24.png',
                             width_in_frames = 4,
                             height_in_frames = 2
                         },
                         {
-                            filename = LC .. '/graphics/entity/animation/25-32.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/25-32.png',
                             width_in_frames = 4,
                             height_in_frames = 2
                         },
                         {
-                            filename = LC .. '/graphics/entity/animation/33-40.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/33-40.png',
                             width_in_frames = 4,
                             height_in_frames = 2
                         },
                         {
-                            filename = LC .. '/graphics/entity/animation/41-44.png',
+                            filename = LC_PATH .. '/graphics/entity/animation/41-44.png',
                             width_in_frames = 4,
                             height_in_frames = 1
                         }

@@ -8,7 +8,7 @@ data:extend(
         {
             type = 'electric-energy-interface',
             name = g_names.electric_energy_interface,
-            icon = LC .. '/graphics/icons/logistics-center.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             flags = {'not-on-map'},
             selectable_in_game = false,

@@ -1,7 +1,7 @@
 require('config')
 require('logistics_center.helper')
-require('logistics_center.find_nearest_lc')
-require('logistics_center.update_lc_controller')
+local LC = require('logistics_center.logistics_center')
+local LCC = require('logistics_center.logistics_center_controller')
 
 local math_ceil = math.ceil
 
@@ -47,7 +47,7 @@ function on_built(event)
             empty_stack.count = empty_stack.count - 1
         end
 
-        local nearest_lc = find_nearest_lc(entity)
+        local nearest_lc = LC:find_nearest_lc(entity)
         global.cc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
 
         -- show flying text
@@ -69,7 +69,7 @@ function on_built(event)
             empty_stack.count = empty_stack.count - 1
         end
 
-        local nearest_lc = find_nearest_lc(entity)
+        local nearest_lc = LC:find_nearest_lc(entity)
         global.rc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
 
         -- show flying text
@@ -107,7 +107,7 @@ function on_built(event)
         global.lc_entities.count = global.lc_entities.count + 1
 
         -- recalc distance
-        recalc_distance()
+        LC:recalc_distance()
     elseif name == names.logistics_center_controller then
         -- caution:loop with big_number
         for index = 1, 100000000 do
@@ -119,7 +119,7 @@ function on_built(event)
 
                     -- update lc controller
                     if global.lcc_entity.count == 0 then
-                        update_lc_controller()
+                        LCC:update()
                     end
                 end
 

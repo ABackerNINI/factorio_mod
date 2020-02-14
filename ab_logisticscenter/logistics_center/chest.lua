@@ -1,8 +1,12 @@
-local math_ceil = math.ceil
+require('config')
 
+-- chest
+CHEST = {}
+
+local math_ceil = math.ceil
 local startup_settings = g_startup_settings
 
-function remove_cc(index)
+function CHEST:remove_cc(index)
     -- remove invalid chest
     global.cc_entities.entities[index] = nil
 
@@ -15,7 +19,7 @@ function remove_cc(index)
     global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
 end
 
-function remove_rc(index)
+function CHEST:remove_rc(index)
     -- remove invalid chest
     global.rc_entities.entities[index] = nil
 
@@ -27,3 +31,5 @@ function remove_rc(index)
     -- recalc cpr
     global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
 end
+
+return CHEST

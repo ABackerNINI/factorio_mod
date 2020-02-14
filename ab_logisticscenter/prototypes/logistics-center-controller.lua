@@ -5,7 +5,7 @@ local hcl = 0.4
 
 local function make_sprite()
     return {
-        filename = LC .. '/graphics/entity/logistics-center-controller.png',
+        filename = LC_PATH .. '/graphics/entity/logistics-center-controller.png',
         width = 128,
         height = 128,
         frame_count = 1,
@@ -19,7 +19,7 @@ data:extend(
         {
             type = 'constant-combinator',
             name = g_names.logistics_center_controller,
-            icon = LC .. '/graphics/icons/logistics-center-controller.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center-controller.png',
             icon_size = 32,
             flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
             minable = {hardness = 1, mining_time = 3, result = g_names.logistics_center_controller},
@@ -149,7 +149,7 @@ data:extend(
             type = 'item',
             name = g_names.logistics_center_controller,
             stack_size = 50,
-            icon = LC .. '/graphics/icons/logistics-center-controller.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center-controller.png',
             icon_size = 32,
             -- flags = {"goes-to-quickbar"},
             subgroup = 'logistics',

@@ -68,9 +68,9 @@ local function make_prototype(name, icon, inventory_size, max_health, width, hei
 end
 
 -----------------------------------------------------------------------------------------------------------------
-local icon_1_1 = LC .. '/graphics/icons/collecter-chest.png'
+local icon_1_1 = LC_PATH .. '/graphics/icons/collecter-chest.png'
 local picture_1_1 = {
-    filename = LC .. '/graphics/entity/collecter-chest.png',
+    filename = LC_PATH .. '/graphics/entity/collecter-chest.png',
     priority = 'extra-high',
     width = 48,
     height = 34,

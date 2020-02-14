@@ -8,8 +8,8 @@ local height = 91
 
 local function make_sprite()
     return {
-        filename = LC .. '/graphics/entity/logistics-center.png',
-        -- filename = LC .. "/graphics/nothing.png",
+        filename = LC_PATH .. '/graphics/entity/logistics-center.png',
+        -- filename = LC_PATH .. "/graphics/nothing.png",
         width = width,
         height = height,
         frame_count = 1,
@@ -22,7 +22,7 @@ data:extend(
         {
             type = 'constant-combinator',
             name = g_names.logistics_center,
-            icon = LC .. '/graphics/icons/logistics-center.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             -- tint = {r=0.5,g=0.5,b=1,a=0},
             flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
@@ -156,7 +156,7 @@ data:extend(
             type = 'item',
             name = g_names.logistics_center,
             stack_size = 5,
-            icon = LC .. '/graphics/icons/logistics-center.png',
+            icon = LC_PATH .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             -- flags = {"goes-to-quickbar"},
             subgroup = 'logistics',

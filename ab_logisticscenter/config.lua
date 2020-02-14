@@ -92,4 +92,4 @@ end
 g_config = get_config()
 g_names = get_names()
 g_startup_settings = get_startup_settings()
-LC = '__ab_logisticscenter__'
+LC_PATH = '__ab_logisticscenter__'

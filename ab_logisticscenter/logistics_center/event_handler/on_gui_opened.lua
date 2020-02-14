@@ -1,5 +1,5 @@
 require('config')
-require('logistics_center.update_lc_signal')
+local LC = require('logistics_center.logistics_center')
 
 local names = g_names
 
@@ -11,7 +11,7 @@ function on_gui_opened(event)
             -- update_all_signals()
             local control_behavior = entity.get_or_create_control_behavior()
             if control_behavior.enabled then
-                update_lc_signals(entity)
+                LC:update_lc_signals(entity)
             else
                 control_behavior.parameters = nil
             end

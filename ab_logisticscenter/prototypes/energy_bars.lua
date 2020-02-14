@@ -9,14 +9,14 @@ local function make_bars()
                 {
                     type = 'simple-entity',
                     name = g_names.energy_bar .. index,
-                    icon = LC .. '/graphics/nothing.png',
+                    icon = LC_PATH .. '/graphics/nothing.png',
                     icon_size = 4,
                     flags = neutral_flags,
                     render_layer = 'entity-info-icon',
                     order = 'pb2' .. index,
                     pictures = {
                         {
-                            filename = LC .. '/graphics/energy_bar/liquid-square-' .. index .. '.png',
+                            filename = LC_PATH .. '/graphics/energy_bar/liquid-square-' .. index .. '.png',
                             width = 388,
                             height = 40,
                             scale = 0.25,
