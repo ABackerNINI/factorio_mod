@@ -13,7 +13,7 @@ function find_nearest_lc(entity)
 
     local surface = entity.surface.index
     local eei = nil
-    local nearest_distance = config.big_number -- should big enough
+    local nearest_distance = 1000000000 -- should big enough
     for k, v in pairs(global.lc_entities.entities) do
         if surface == v.lc.surface.index then
             local distance = calc_distance_between_two_points(entity.position, v.lc.position)

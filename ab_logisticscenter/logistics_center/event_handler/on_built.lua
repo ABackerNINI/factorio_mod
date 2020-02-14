@@ -110,7 +110,7 @@ function on_built(event)
         recalc_distance()
     elseif name == names.logistics_center_controller then
         -- caution:loop with big_number
-        for index = 1, config.big_number do
+        for index = 1, 100000000 do
             if global.lcc_entity.entities[index] == nil then -- or global.lcc_entity.entities[index].valid == false
                 if global.lcc_entity.parameters ~= nil then
                     -- set parameters

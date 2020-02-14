@@ -25,7 +25,7 @@ end
 
 local function on_destroy_logistics_center_controller(entity)
     -- caution: loop with big_number
-    for index = 1, config.big_number do
+    for index = 1, 100000000 do
         if global.lcc_entity.entities[index] == entity then
             global.lcc_entity.entities[index] = nil
             global.lcc_entity.count = global.lcc_entity.count - 1

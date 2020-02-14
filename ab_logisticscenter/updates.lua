@@ -313,7 +313,7 @@ function global_data_migrations()
         game.print({config.locale_print_when_global_data_migrate, 10})
 
         for k, v in pairs(global.items_stock.items) do
-            if v.max_control == 1000000000 then -- config.big_number then
+            if v.max_control == 1000000000 then
                 v.max_control = global.technologies.lc_capacity
             end
         end

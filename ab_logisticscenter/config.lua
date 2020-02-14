@@ -20,13 +20,6 @@ local function get_config()
         -- buffer capacity of the electric energy interface, default = 1000000000
         eei_buffer_capacity = 1000000000, -- J [1GJ]
         -------------------------------------------------------------------------------------------
-        -- RUNTIME CONFIGS
-        -- update all signals every nth tick, default = 600
-        -- update_all_signals_on_nth_tick = 600,
-        -------------------------------------------------------------------------------------------
-        -- COMMON
-        big_number = 1000000000,
-        -------------------------------------------------------------------------------------------
         -- LOCALES
         locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
         locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
