@@ -52,7 +52,13 @@ Any feedback on this mod is welcome.
 
 ## Announcement
 
-The images of entities are copied from other mods, including [BlackMarket](https://mods.factorio.com/mod/BlackMarket#) and [BobGreenHouse](https://mods.factorio.com/mod/bobgreenhouse). Let me know if this bothers you. So if you have proper images, contact me on [Github](https://github.com/ABackerNINI/factorio_mod) or the mod [Discussion Board](https://mods.factorio.com/mod/ab_logisticscenter/discussion). I will really appreciate it.
+The images of this mod are copied from other mods, including:
+    [BlackMarket](https://mods.factorio.com/mod/BlackMarket#)
+    [BobGreenHouse](https://mods.factorio.com/mod/bobgreenhouse)
+    [Turret Shields](https://mods.factorio.com/mod/Turret-Shields)
+Let me know if this bothers you.
+
+So if you have proper images, contact me on [Github](https://github.com/ABackerNINI/factorio_mod) or the mod [Discussion Board](https://mods.factorio.com/mod/ab_logisticscenter/discussion). I will really appreciate it.
 
 ## License
 
