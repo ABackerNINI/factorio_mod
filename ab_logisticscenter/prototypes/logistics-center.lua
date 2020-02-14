@@ -1,9 +1,4 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
-local startup_settings = g_startup_settings
 
 local hsl = 1.5
 local hcl = 1.4
@@ -26,18 +21,18 @@ data:extend(
     {
         {
             type = 'constant-combinator',
-            name = names.logistics_center,
+            name = g_names.logistics_center,
             icon = LC .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             -- tint = {r=0.5,g=0.5,b=1,a=0},
             flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
-            minable = {hardness = 1, mining_time = 10, result = names.logistics_center},
+            minable = {hardness = 1, mining_time = 10, result = g_names.logistics_center},
             selection_box = {{-hsl, -hsl}, {hsl, hsl}},
             collision_box = {{-hcl, -hcl}, {hcl, hcl}},
             max_health = 250,
             corpse = 'big-remnants',
             dying_explosion = 'medium-explosion',
-            item_slot_count = startup_settings.lc_item_slot_count,
+            item_slot_count = g_startup_settings.lc_item_slot_count,
             map_color = {r = 0, g = 1, b = 0},
             sprites = {
                 north = make_sprite(),
@@ -137,7 +132,7 @@ data:extend(
     {
         {
             type = 'recipe',
-            name = names.logistics_center,
+            name = g_names.logistics_center,
             enabled = true,
             energy_required = 1,
             ingredients = {
@@ -150,7 +145,7 @@ data:extend(
                 {'copper-plate', 100},
                 {'radar', 10}
             },
-            result = names.logistics_center
+            result = g_names.logistics_center
         }
     }
 )
@@ -159,14 +154,14 @@ data:extend(
     {
         {
             type = 'item',
-            name = names.logistics_center,
+            name = g_names.logistics_center,
             stack_size = 5,
             icon = LC .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             -- flags = {"goes-to-quickbar"},
             subgroup = 'logistics',
             order = 'g[l]',
-            place_result = names.logistics_center
+            place_result = g_names.logistics_center
         }
     }
 )

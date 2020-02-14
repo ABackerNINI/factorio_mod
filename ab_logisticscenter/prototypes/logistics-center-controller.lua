@@ -1,9 +1,4 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
-local startup_settings = g_startup_settings
 
 local hsl = 0.5
 local hcl = 0.4
@@ -23,17 +18,17 @@ data:extend(
     {
         {
             type = 'constant-combinator',
-            name = names.logistics_center_controller,
+            name = g_names.logistics_center_controller,
             icon = LC .. '/graphics/icons/logistics-center-controller.png',
             icon_size = 32,
             flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
-            minable = {hardness = 1, mining_time = 3, result = names.logistics_center_controller},
+            minable = {hardness = 1, mining_time = 3, result = g_names.logistics_center_controller},
             selection_box = {{-hsl, -hsl}, {hsl, hsl}},
             collision_box = {{-hcl, -hcl}, {hcl, hcl}},
             max_health = 250,
             corpse = 'small-remnants',
             dying_explosion = 'medium-explosion',
-            item_slot_count = startup_settings.lc_item_slot_count,
+            item_slot_count = g_startup_settings.lc_item_slot_count,
             map_color = {r = 0, g = 1, b = 0},
             sprites = {
                 north = make_sprite(),
@@ -133,7 +128,7 @@ data:extend(
     {
         {
             type = 'recipe',
-            name = names.logistics_center_controller,
+            name = g_names.logistics_center_controller,
             enabled = true,
             energy_required = 1,
             ingredients = {
@@ -143,7 +138,7 @@ data:extend(
                 {'copper-plate', 10},
                 {'radar', 5}
             },
-            result = names.logistics_center_controller
+            result = g_names.logistics_center_controller
         }
     }
 )
@@ -152,14 +147,14 @@ data:extend(
     {
         {
             type = 'item',
-            name = names.logistics_center_controller,
+            name = g_names.logistics_center_controller,
             stack_size = 50,
             icon = LC .. '/graphics/icons/logistics-center-controller.png',
             icon_size = 32,
             -- flags = {"goes-to-quickbar"},
             subgroup = 'logistics',
             order = 'g[l]',
-            place_result = names.logistics_center_controller
+            place_result = g_names.logistics_center_controller
         }
     }
 )

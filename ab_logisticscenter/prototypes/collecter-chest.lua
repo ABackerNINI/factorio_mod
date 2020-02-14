@@ -1,8 +1,4 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
 
 local function make_prototype(name, icon, inventory_size, max_health, width, height, picture, ingredients)
     local hwidth = width / 2
@@ -86,4 +82,4 @@ local ingredients_1_1 = {
 }
 
 -- name,icon,inventory_size,max_health,width,height,picture,ingredients
-make_prototype(names.collecter_chest_1_1, icon_1_1, 48, 250, 1, 1, picture_1_1, ingredients_1_1)
+make_prototype(g_names.collecter_chest_1_1, icon_1_1, 48, 250, 1, 1, picture_1_1, ingredients_1_1)

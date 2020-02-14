@@ -15,7 +15,7 @@ local function energy_bar_check_on_nth_tick(tick)
             v.energy_bar.destroy()
             v.energy_bar =
                 v.eei.surface.create_entity {
-                name = 'energy-bar2-' .. bar_index,
+                name = names.energy_bar .. bar_index,
                 position = {x = v.eei.position.x, y = v.eei.position.y + 1}
             }
             v.bar_index = bar_index
@@ -25,12 +25,11 @@ end
 
 -- Create energy bar for the logistics center
 function energy_bar:add(g_lc)
-
     local bar_max = 13.0
     local bar_index = math.ceil(bar_max * g_lc.eei.energy / config.eei_buffer_capacity)
     local eb =
         g_lc.eei.surface.create_entity {
-        name = 'energy-bar2-' .. bar_index,
+        name = names.energy_bar .. bar_index,
         position = {x = g_lc.eei.position.x, y = g_lc.eei.position.y + 1}
     }
 
@@ -48,7 +47,7 @@ function energy_bar:add(g_lc)
 
             g_energy_bar.count = g_energy_bar.count + 1
             if g_energy_bar.count == 1 then
-                game.print('check')
+                -- game.print('check')
                 script.on_nth_tick(20, energy_bar_check_on_nth_tick)
             end
             break

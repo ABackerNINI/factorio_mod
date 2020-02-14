@@ -1,14 +1,10 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
 
 data:extend(
     {
         {
             type = 'simple-entity',
-            name = names.logistics_center_animation,
+            name = g_names.logistics_center_animation,
             icon = LC .. '/graphics/icons/logistics-center.png',
             icon_size = 32,
             flags = {'not-on-map'},

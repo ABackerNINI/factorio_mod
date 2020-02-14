@@ -1,21 +1,16 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
-local startup_settings = g_startup_settings
 
 local function make_tech(index, icon, unit)
     local prerequisites = {}
     if index ~= 1 then
-        prerequisites = {names.tech_lc_capacity .. '-' .. (index * 10 - 19)}
+        prerequisites = {g_names.tech_lc_capacity .. '-' .. (index * 10 - 19)}
     end
 
     data:extend(
         {
             {
                 type = 'technology',
-                name = names.tech_lc_capacity .. '-' .. (index * 10 - 9),
+                name = g_names.tech_lc_capacity .. '-' .. (index * 10 - 9),
                 icon = icon,
                 icon_size = 128,
                 enable = true,
@@ -33,7 +28,7 @@ local function make_tech(index, icon, unit)
 end
 
 local unit_1 = {
-    count = 100 * startup_settings.tech_cost,
+    count = 100 * g_startup_settings.tech_cost,
     ingredients = {
         {'automation-science-pack', 2},
         {'logistic-science-pack', 1}
@@ -42,7 +37,7 @@ local unit_1 = {
 }
 
 local unit_2 = {
-    count = 150 * startup_settings.tech_cost,
+    count = 150 * g_startup_settings.tech_cost,
     ingredients = {
         {'automation-science-pack', 3},
         {'logistic-science-pack', 2},
@@ -52,7 +47,7 @@ local unit_2 = {
 }
 
 local unit_3 = {
-    count = 200 * startup_settings.tech_cost,
+    count = 200 * g_startup_settings.tech_cost,
     ingredients = {
         {'automation-science-pack', 3},
         {'logistic-science-pack', 3},
@@ -64,7 +59,7 @@ local unit_3 = {
 }
 
 local unit_4 = {
-    count = 300 * startup_settings.tech_cost,
+    count = 300 * g_startup_settings.tech_cost,
     ingredients = {
         {'automation-science-pack', 3},
         {'logistic-science-pack', 3},

@@ -1,24 +1,19 @@
-local LC = '__ab_logisticscenter__'
-
 require('config')
-
-local names = g_names
-local startup_settings = g_startup_settings
 
 data:extend(
     {
         {
             type = 'logistic-container',
-            name = names.requester_chest_1_1,
+            name = g_names.requester_chest_1_1,
             logistic_mode = 'requester',
-            logistic_slots_count = startup_settings.rc_logistic_slots_count,
+            logistic_slots_count = g_startup_settings.rc_logistic_slots_count,
             render_not_in_network_icon = false,
             icon = LC .. '/graphics/icons/requester-chest.png',
             icon_size = 32,
             inventory_size = 48,
             max_health = 350,
             flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
-            minable = {hardness = 0.5, mining_time = 1, result = names.requester_chest_1_1},
+            minable = {hardness = 0.5, mining_time = 1, result = g_names.requester_chest_1_1},
             fast_replaceable_group = 'container',
             selection_box = {{-0.5, -0.5}, {0.5, 0.5}},
             collision_box = {{-0.4, -0.4}, {0.4, 0.4}},
@@ -52,14 +47,14 @@ data:extend(
     {
         {
             type = 'recipe',
-            name = names.requester_chest_1_1,
+            name = g_names.requester_chest_1_1,
             enabled = true,
             energy_required = 1,
             ingredients = {
                 {'steel-plate', 10},
                 {'copper-plate', 20}
             },
-            result = names.requester_chest_1_1
+            result = g_names.requester_chest_1_1
         }
     }
 )
@@ -68,14 +63,14 @@ data:extend(
     {
         {
             type = 'item',
-            name = names.requester_chest_1_1,
+            name = g_names.requester_chest_1_1,
             stack_size = 50,
             icon = LC .. '/graphics/icons/requester-chest.png',
             icon_size = 32,
             -- flags = {"goes-to-quickbar"},
             subgroup = 'logistics',
             order = 'l[a]',
-            place_result = names.requester_chest_1_1
+            place_result = g_names.requester_chest_1_1
         }
     }
 )

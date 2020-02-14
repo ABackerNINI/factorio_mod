@@ -33,7 +33,7 @@ end
 
 local function get_names()
     return {
-        -- item/entity
+        -- ITEM/ENTITY NAMES
         collecter_chest_1_1 = 'ab-lc-collecter-chest-1_1',
         -- collecter_chest_3_6 = "ab-lc-collecter-chest-3_6",
         -- collecter_chest_6_3 = "ab-lc-collecter-chest-6_3",
@@ -43,11 +43,12 @@ local function get_names()
         electric_energy_interface = 'ab-lc-electric-energy-interface',
         -- logistics_center_d = "ab-lc-logistics-center-",
         -- logistics_center_animation = "ab-lc-logistics-center-animation",
-        -- technology
+        energy_bar = 'ab-lc-energy-bar',
+        -- TECHNOLOGY NAMES
         tech_lc_capacity = 'ab-lc-tech-lc-capacity',
         tech_power_consumption = 'ab-lc-tech-power-consumption',
         distance_flying_text = 'distance-flying-text',
-        -- match pattern string
+        -- MATCH PATTERN STRINGS
         collecter_chest_pattern = 'ab%-lc%-collecter%-chest',
         requester_chest_pattern = 'ab%-lc%-collecter%-chest',
         tech_lc_capacity_pattern = 'ab%-lc%-tech%-lc%-capacity',
@@ -91,3 +92,4 @@ end
 g_config = get_config()
 g_names = get_names()
 g_startup_settings = get_startup_settings()
+LC = '__ab_logisticscenter__'

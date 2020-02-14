@@ -15,10 +15,6 @@ require('logistics_center.event_handler.on_player_created')
 require('logistics_center.event_handler.on_research_finished')
 require('logistics_center.event_handler.on_rotated')
 
-local config = g_config
-local names = g_names
-local startup_settings = g_startup_settings
-
 local check_ccs_on_nth_tick_all = check_ccs_on_nth_tick_all
 local check_ccs_on_nth_tick_ores_only = check_ccs_on_nth_tick_ores_only
 local check_ccs_on_nth_tick_except_ores = check_ccs_on_nth_tick_except_ores
@@ -76,16 +72,16 @@ script.on_event(
 )
 
 -- check all collecter chests
-if startup_settings.item_type_limitation == nil or startup_settings.item_type_limitation == 'all' then
-    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
-elseif startup_settings.item_type_limitation == 'ores only' then
-    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_ores_only)
+if g_startup_settings.item_type_limitation == nil or g_startup_settings.item_type_limitation == 'all' then
+    script.on_nth_tick(g_startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
+elseif g_startup_settings.item_type_limitation == 'ores only' then
+    script.on_nth_tick(g_startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_ores_only)
 else
-    script.on_nth_tick(startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_except_ores)
+    script.on_nth_tick(g_startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_except_ores)
 end
 
 -- check all requester chests
-script.on_nth_tick(startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
+script.on_nth_tick(g_startup_settings.check_rc_on_nth_tick, check_rcs_on_nth_tick)
 
 script.on_event(defines.events.on_player_rotated_entity, on_rotated)
 
