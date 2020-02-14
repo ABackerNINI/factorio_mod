@@ -79,7 +79,7 @@ data:extend(
             -- Check collecter chest on nth tick
             type = 'int-setting',
             name = 'ab-logistics-center-check-cc-on-nth-tick',
-            order = 'ab-lc-w-i',
+            order = 'ab-lc-w-a',
             setting_type = 'startup',
             default_value = 50,
             allowed_values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000}
