@@ -22,7 +22,7 @@ local function show_flying_text(entity, nearest_lc)
         }
     end
     entity.surface.create_entity {
-        name = 'flying-text',
+        name = names.distance_flying_text,
         position = {x = entity.position.x, y = entity.position.y - 1},
         color = {r = 228 / 255, g = 236 / 255, b = 0},
         text = text
@@ -88,7 +88,7 @@ function on_built(event)
 
         -- will confilct when entity on diffrent surfaces?
         -- global.lc_entities.entities[position_to_string(entity.position)] = {
-        local p_str = surface_and_position_to_string(entity.surface.index, entity.position)
+        local p_str = surface_and_position_to_string(entity)
         global.lc_entities.entities[p_str] = {
             lc = entity,
             -- create the electric energy interface
