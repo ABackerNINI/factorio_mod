@@ -27,7 +27,8 @@ local function get_config()
         locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
         locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',
         locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate',
-        locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init'
+        locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init',
+        locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected'
     }
 end
 
