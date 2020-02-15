@@ -22,6 +22,7 @@
         "markdown",
         "php",
         "plaintext",
+        "properties",
         "pug",
         "python",
         "restructuredtext",
@@ -35,7 +36,16 @@
         "yml"
     ],
     "cSpell.words": [
+        "Bugfixes",
+        "Factorissimo",
+        "collecter",
+        "combinator",
+        "desyncs",
+        "factorio",
+        "leds",
+        "localised",
         "logisticscenter",
+        "quickbar",
         "recalc"
     ]
 }
