@@ -17,7 +17,7 @@ function LCC:update()
         if v.signal.type == 'item' and v.signal.name ~= nil then
             item1 = global.items_stock.items[v.signal.name]
             if item1 == nil and v.count ~= -1 then
-                item1 = ITEM:add_item(v.signal.name)
+                item1 = ITEM:add(v.signal.name)
             end
 
             if item1 ~= nil then
@@ -37,7 +37,7 @@ function LCC:update()
                     item1.max_control = global.technologies.lc_capacity
                 elseif v.count == -1 then -- delete item if item stock is zero
                     if item1.stock == 0 then
-                        del_item(v.signal.name)
+                        ITEM:remove(v.signal.name)
                     end
                 else -- set limit and change the signal place
                     item1.max_control = math_min(v.count, global.technologies.lc_capacity)

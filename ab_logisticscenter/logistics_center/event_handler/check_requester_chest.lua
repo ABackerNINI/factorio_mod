@@ -42,7 +42,7 @@ function check_rcs_on_nth_tick(nth_tick_event)
                             -- stock.get_item(name)
                             local item = global.items_stock.items[name]
                             -- if item == nil then
-                            --     item = ITEM:add_item(name)  --- do not add signals requested
+                            --     item = ITEM:add(name)  --- do not add signals requested
                             -- end
                             if item ~= nil then
                                 -- calc shortage

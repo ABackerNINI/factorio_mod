@@ -56,7 +56,7 @@ function init_globals()
     global.energy_bar_entities =
         global.energy_bar_entities or
         {
-            count = 0, -- how many energy_bars need to display
+            count = 0,
             entities = {}
         }
 

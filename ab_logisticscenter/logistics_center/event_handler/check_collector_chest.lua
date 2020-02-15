@@ -37,7 +37,7 @@ function check_ccs_on_nth_tick_all(nth_tick_event)
                             -- stock.get_item(name)
                             local item = global.items_stock.items[name]
                             if item == nil then
-                                item = ITEM:add_item(name)
+                                item = ITEM:add(name)
                             end
 
                             -- enough energy?
@@ -109,7 +109,7 @@ function check_ccs_on_nth_tick_ores_only(nth_tick_event)
                                 -- stock.get_item(name)
                                 local item = global.items_stock.items[name]
                                 if item == nil then
-                                    item = ITEM:add_item(name)
+                                    item = ITEM:add(name)
                                 end
 
                                 -- enough energy?
@@ -182,7 +182,7 @@ function check_ccs_on_nth_tick_except_ores(nth_tick_event)
                                 -- stock.get_item(name)
                                 local item = global.items_stock.items[name]
                                 if item == nil then
-                                    item = ITEM:add_item(name)
+                                    item = ITEM:add(name)
                                 end
 
                                 -- enough energy?
