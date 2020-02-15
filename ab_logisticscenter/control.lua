@@ -71,7 +71,7 @@ script.on_event(
     on_destroy
 )
 
--- check all collecter chests
+-- check all collector chests
 if g_startup_settings.item_type_limitation == nil or g_startup_settings.item_type_limitation == 'all' then
     script.on_nth_tick(g_startup_settings.check_cc_on_nth_tick, check_ccs_on_nth_tick_all)
 elseif g_startup_settings.item_type_limitation == 'ores only' then

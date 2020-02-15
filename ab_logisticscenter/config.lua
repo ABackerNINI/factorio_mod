@@ -16,9 +16,9 @@ local function get_config()
         -- basic power consumption of the electric energy interface, default = 2000000
         -- eei_basic_power_consumption = 2000000, --- W [2MW]
         -- input flow limit of the electric energy interface, default = 10000000000
-        eei_input_flow_limit = 1000000000, -- W [1GW]
+        eei_input_flow_limit = 50000000, -- W [0.05GW 50MW]
         -- buffer capacity of the electric energy interface, default = 1000000000
-        eei_buffer_capacity = 1000000000, -- J [1GJ]
+        eei_buffer_capacity  = 1000000000, -- J [1GJ]
         -------------------------------------------------------------------------------------------
         -- LOCALES
         locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',

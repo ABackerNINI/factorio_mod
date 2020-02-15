@@ -6,6 +6,7 @@ Date: 14. 02. 2020
     - Changed eei_input_flow_limit from 10GW to 1GW.
   Bugfixes:
     - Fixed setting disorder.
+    - Fixed power consumption and logistics center capacity technologies error with Creative Mod.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 11. 02. 2020
@@ -55,15 +56,15 @@ Version: 0.17.2
 Date: 12. 03. 2019
   Changes:
     - Changed Quick Start setting to int-setting, now can choose 0 - 10 logistics centers.
-    - Added a new setting Item Type Limitation to limite item types can be teleported, "all", "ores only", "except ores".
+    - Added a new setting Item Type Limitation to limit item types can be teleported, "all", "ores only", "except ores".
     - Added a new setting Tech Cost to determine how many times will it cost to research Logistics Center Technologies.
     - Added a new setting Logistic Slots Count of Requester Chest.
     - Added a new setting Item Slot Count of Logistics Center.
-    - Added a new setting Basic Power Consumption of Collecter Chest.
+    - Added a new setting Basic Power Consumption of Collector Chest.
     - Added a new setting Basic Power Consumption of Requester Chest.
-    - Added a new setting Check Collecter Chests on Nth Tick.
+    - Added a new setting Check Collector Chests on Nth Tick.
     - Added a new setting Check Requester Chests on Nth Tick.
-    - Added a new setting Check Collecter Chests Percentages.
+    - Added a new setting Check Collector Chests Percentages.
     - Added a new setting Check Requester Chests Percentages.
   Bugfixes:
     - Fixed wrong logistics center capacity and power consumption after calling research_all_technologies() through Lua script or in sandbox mode.
@@ -73,7 +74,7 @@ Date: 11. 03. 2019
   Changes:
     - Updated to fit factorio v0.17.
   Bugfixes:
-    - Fixed that crash in sandbox mode,fail to get player's invertory.
+    - Fixed that crash in sandbox mode,fail to get player's inventory.
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.0
 Date: 19. 10. 2018

@@ -47,7 +47,7 @@ local function find_nearest_lc(entity)
 end
 
 -- recalc distance from cc/rc to the nearest lc
--- call after lc entity being created or destoried
+-- call after lc entity being created or destroyed
 local function recalc_distance()
     -- recalc cc
     for index, v in pairs(global.cc_entities.entities) do
@@ -116,7 +116,7 @@ function global_data_migrations()
         global.global_data_version = 2
     end
 
-    -- secend change,global.global_data_version = nil
+    -- second change,global.global_data_version = nil
     -- code frame change:classes-version->plain-version
     if global.global_data_version == nil or global.global_data_version < 3 then
         game.print({config.locale_print_when_global_data_migrate, 2})
@@ -153,7 +153,7 @@ function global_data_migrations()
     end
 
     -- third change,global.global_data_version = nil
-    -- code opt:distance->power_consumption.no need to calc the power_comsumption every time
+    -- code opt:distance->power_consumption.no need to calc the power_consumption every time
     if global.global_data_version == nil or global.global_data_version < 4 then
         game.print({config.locale_print_when_global_data_migrate, 3})
         -- cc_entities.entities.nearest_lc
@@ -268,7 +268,7 @@ function global_data_migrations()
     end
 
     -- eighth change,global.global_data_version = 8
-    -- bug fix:mutiplayer desyncs.check https://wiki.factorio.com/Tutorial:Modding_tutorial/Gangsir#Multiplayer_and_desyncs
+    -- bug fix:multiplayer desyncs.check https://wiki.factorio.com/Tutorial:Modding_tutorial/Gangsir#Multiplayer_and_desyncs
     if global.global_data_version < 9 then
         game.print({config.locale_print_when_global_data_migrate, 8})
         -- global.runtime_vars

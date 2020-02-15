@@ -46,24 +46,24 @@ data:extend(
             default_value = 500,
             allowed_values = {20, 40, 60, 80, 100, 150, 200, 300, 400, 500, 600, 1000, 2000}
         },
-        -- POWER CONSUMPTIN SETTINGS
+        -- POWER CONSUMPTION SETTINGS
         {
             -- Logistics center power consumption
             type = 'int-setting',
             name = 'ab-logistics-center-lc-power-consumption',
             order = 'ab-lc-p-a',
             setting_type = 'startup',
-            default_value = 2000,
-            allowed_values = {100, 300, 500, 1000, 1500, 1800, 2000, 3000, 4000, 5000, 8000, 10000, 20000, 30000, 50000,100000}
+            default_value = 10000,
+            allowed_values = {100, 300, 500, 1000, 1500, 1800, 2500, 3000, 4000, 5000, 8000, 10000, 15000, 30000, 50000, 100000}
         },
         {
-            -- Default collecter chest power consumption
+            -- Default collector chest power consumption
             type = 'int-setting',
             name = 'ab-logistics-center-default-cc-power-consumption',
             order = 'ab-lc-p-b',
             setting_type = 'startup',
             default_value = 1000,
-            allowed_values = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 1800, 2000, 3000, 5000, 10000}
+            allowed_values = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 1800, 2000, 3000, 5000, 10000, 20000}
         },
         {
             -- Default requester chest power consumption
@@ -71,12 +71,12 @@ data:extend(
             name = 'ab-logistics-center-default-rc-power-consumption',
             order = 'ab-lc-p-c',
             setting_type = 'startup',
-            default_value = 100,
-            allowed_values = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 150, 180, 200, 300, 500, 1000, 2000, 3000, 5000}
+            default_value = 500,
+            allowed_values = {10, 20, 30, 40, 50, 60, 70, 80, 90, 110, 120, 150, 180, 200, 300, 500, 1000, 2000, 3000, 5000, 10000, 20000}
         },
         -- Warning: the following four settings are important. Modify them unless you know exactly what will happen if modified.
         {
-            -- Check collecter chest on nth tick
+            -- Check collector chest on nth tick
             type = 'int-setting',
             name = 'ab-logistics-center-check-cc-on-nth-tick',
             order = 'ab-lc-w-a',
@@ -94,7 +94,7 @@ data:extend(
             allowed_values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000}
         },
         {
-            -- Check collecter chest percentages
+            -- Check collector chest percentages
             type = 'double-setting',
             name = 'ab-logistics-center-check-cc-percentages',
             order = 'ab-lc-w-c',

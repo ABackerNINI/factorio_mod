@@ -56,7 +56,7 @@ function EB:add(g_lc)
     end
 end
 
--- Destory energy bar for the logistics center
+-- Destroy energy bar for the logistics center
 function EB:remove(g_lc)
     if g_lc.energy_bar_index ~= nil then
         local g_ebs = global.energy_bar_entities.entities
