@@ -46,9 +46,10 @@ data:extend(
             default_value = 500,
             allowed_values = {20, 40, 60, 80, 100, 150, 200, 300, 400, 500, 600, 1000, 2000}
         },
+        --------------------------------------------------------------------------------------------------------
         -- POWER CONSUMPTION SETTINGS
         {
-            -- Logistics center power consumption
+            -- Logistics center standby power consumption [KW]
             type = 'int-setting',
             name = 'ab-logistics-center-lc-power-consumption',
             order = 'ab-lc-p-a',
@@ -57,23 +58,42 @@ data:extend(
             allowed_values = {100, 300, 500, 1000, 1500, 1800, 2500, 3000, 4000, 5000, 8000, 10000, 15000, 30000, 50000, 100000}
         },
         {
-            -- Default collector chest power consumption
+            -- Logistics center input flow limit except standby consumption [MW]
+            type = 'int-setting',
+            name = 'ab-logistics-center-input-flow-limit',
+            order = 'ab-lc-p-b',
+            setting_type = 'startup',
+            default_value = 40,
+            allowed_values = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100}
+        },
+        {
+            -- Logistics center buffer capacity [MJ]
+            type = 'int-setting',
+            name = 'ab-logistics-center-buffer-capacity',
+            order = 'ab-lc-p-c',
+            setting_type = 'startup',
+            default_value = 1000,
+            allowed_values = {10, 100, 500, 1000, 5000, 10000}
+        },
+        {
+            -- Collector chest power consumption per item per distance [J]
             type = 'int-setting',
             name = 'ab-logistics-center-default-cc-power-consumption',
-            order = 'ab-lc-p-b',
+            order = 'ab-lc-p-d',
             setting_type = 'startup',
             default_value = 1000,
             allowed_values = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 1800, 2000, 3000, 5000, 10000, 20000}
         },
         {
-            -- Default requester chest power consumption
+            -- Requester chest power consumption per item per distance [J]
             type = 'int-setting',
             name = 'ab-logistics-center-default-rc-power-consumption',
-            order = 'ab-lc-p-c',
+            order = 'ab-lc-p-e',
             setting_type = 'startup',
             default_value = 500,
             allowed_values = {10, 20, 30, 40, 50, 60, 70, 80, 90, 110, 120, 150, 180, 200, 300, 500, 1000, 2000, 3000, 5000, 10000, 20000}
         },
+        --------------------------------------------------------------------------------------------------------
         -- Warning: the following four settings are important. Modify them unless you know exactly what will happen if modified.
         {
             -- Check collector chest on nth tick

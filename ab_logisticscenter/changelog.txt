@@ -2,19 +2,25 @@
 Version: 0.18.5
 Date: 14. 02. 2020
   Changes:
+    - Added energy bar indicating energy buffer for logistics center, press [R] to enable it.
+    - Added a new setting 'Logistics Center Input Flow Limit' (origin: eei_input_flow_limit) and set its default value from 10GW to 50MW.
+    - Added a new setting 'Logistics Center Buffer Capacity'.
     - Changed flying text style when build chests.
-    - Changed eei_input_flow_limit from 10GW to 1GW.
+    - Changed default value of setting 'logistics center power consumption' from 2MW to 10MW.
+    - Changed default value of setting 'requester chest power consumption per item per distance' from 100J to 500J.
+    - Changed some descriptions, added 'default value' tips for each setting.
   Bugfixes:
     - Fixed setting disorder.
-    - Fixed power consumption and logistics center capacity technologies error with Creative Mod.
+    - Fixed 'power consumption' and 'logistics center capacity' technologies error with Creative Mod.
+    - Fixed wrong description of requester chest.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 11. 02. 2020
   Changes:
     - Changed some descriptions.
-    - Changed default values of check_cc_on_nth_tick/check_rc_on_nth_tick to 50/30.
+    - Changed default values of check_cc_on_nth_tick/check_rc_on_nth_tick from 5/3 to 50/30.
     - Added tips when first init.
-    - Added a new setting Logistics Center Power Consumption Per Second.
+    - Added a new setting 'Logistics Center Power Consumption Per Second'.
   Bugfixes:
     - Fixed multi-surface position string conflict.
     - Fixed on_configuration_changed event.
@@ -56,16 +62,16 @@ Version: 0.17.2
 Date: 12. 03. 2019
   Changes:
     - Changed Quick Start setting to int-setting, now can choose 0 - 10 logistics centers.
-    - Added a new setting Item Type Limitation to limit item types can be teleported, "all", "ores only", "except ores".
-    - Added a new setting Tech Cost to determine how many times will it cost to research Logistics Center Technologies.
-    - Added a new setting Logistic Slots Count of Requester Chest.
-    - Added a new setting Item Slot Count of Logistics Center.
-    - Added a new setting Basic Power Consumption of Collector Chest.
-    - Added a new setting Basic Power Consumption of Requester Chest.
-    - Added a new setting Check Collector Chests on Nth Tick.
-    - Added a new setting Check Requester Chests on Nth Tick.
-    - Added a new setting Check Collector Chests Percentages.
-    - Added a new setting Check Requester Chests Percentages.
+    - Added a new setting 'Item Type Limitation' to limit item types can be teleported, "all", "ores only", "except ores".
+    - Added a new setting 'Tech Cost' to determine how many times will it cost to research Logistics Center Technologies.
+    - Added a new setting 'Logistic Slots Count' of Requester Chest.
+    - Added a new setting 'Item Slot Count of Logistics Center'.
+    - Added a new setting 'Basic Power Consumption of Collector Chest'.
+    - Added a new setting 'Basic Power Consumption of Requester Chest'.
+    - Added a new setting 'Check Collector Chests on Nth Tick'.
+    - Added a new setting 'Check Requester Chests on Nth Tick'.
+    - Added a new setting 'Check Collector Chests Percentages'.
+    - Added a new setting 'Check Requester Chests Percentages'.
   Bugfixes:
     - Fixed wrong logistics center capacity and power consumption after calling research_all_technologies() through Lua script or in sandbox mode.
 ---------------------------------------------------------------------------------------------------
@@ -74,7 +80,7 @@ Date: 11. 03. 2019
   Changes:
     - Updated to fit factorio v0.17.
   Bugfixes:
-    - Fixed that crash in sandbox mode,fail to get player's inventory.
+    - Fixed that crash in sandbox mode, fail to get player's inventory.
 ---------------------------------------------------------------------------------------------------
 Version: 0.16.0
 Date: 19. 10. 2018

@@ -70,12 +70,16 @@ local function get_startup_settings()
         lc_item_slot_count = settings.startup['ab-logistics-center-lc-item-slot-count'].value,
         -------------------------------------------------------------------------------------------
         -- POWER CONSUMPTION SETTINGS
-        -- power consumption of logistics center per second, default = 10000
-        lc_power_consumption = settings.startup['ab-logistics-center-lc-power-consumption'].value, -- KW
-        -- power consumption of collector chests per distance per item transferring, default = 1000
-        default_cc_power_consumption = settings.startup['ab-logistics-center-default-cc-power-consumption'].value, -- J
-        -- power consumption of requester chests per distance per item transferring, default = 500
-        default_rc_power_consumption = settings.startup['ab-logistics-center-default-rc-power-consumption'].value, -- J
+        -- power consumption of logistics center per second, default = 10000 [KW]
+        lc_power_consumption = settings.startup['ab-logistics-center-lc-power-consumption'].value,
+        -- logistics center input flow limit except standby consumption, default = 40 [MW]
+        lc_input_flow_limit = settings.startup['ab-logistics-center-input-flow-limit'].value,
+        -- logistics center buffer capacity, default = 1000 [MJ]
+        lc_buffer_capacity = settings.startup['ab-logistics-center-buffer-capacity'].value,
+        -- power consumption of collector chests per item per distance transferring, default = 1000 [J]
+        default_cc_power_consumption = settings.startup['ab-logistics-center-default-cc-power-consumption'].value,
+        -- power consumption of requester chests per item per distance transferring, default = 500 [J]
+        default_rc_power_consumption = settings.startup['ab-logistics-center-default-rc-power-consumption'].value,
         -------------------------------------------------------------------------------------------
         --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
         -- check collecter chests every nth tick, default = 50

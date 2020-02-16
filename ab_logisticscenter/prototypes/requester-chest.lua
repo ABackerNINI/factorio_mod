@@ -38,7 +38,7 @@ data:extend(
                 }
             },
             circuit_wire_max_distance = 9,
-            localised_description = {'item-description.ab-lc-collecter-chest'}
+            localised_description = {'item-description.ab-lc-requester-chest'}
         }
     }
 )

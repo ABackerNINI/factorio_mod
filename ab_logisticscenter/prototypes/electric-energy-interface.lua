@@ -17,8 +17,8 @@ data:extend(
             energy_source = {
                 type = 'electric',
                 usage_priority = 'secondary-input',
-                input_flow_limit = g_config.eei_input_flow_limit .. 'W',
-                buffer_capacity = g_config.eei_buffer_capacity .. 'J'
+                input_flow_limit = g_startup_settings.lc_input_flow_limit + (g_startup_settings.lc_power_consumption / 1000) .. 'MW',
+                buffer_capacity = g_startup_settings.lc_buffer_capacity .. 'MJ'
             },
             energy_usage = g_startup_settings.lc_power_consumption .. 'KW',
             energy_production = '0MW'

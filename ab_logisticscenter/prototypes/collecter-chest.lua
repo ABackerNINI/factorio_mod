@@ -1,8 +1,8 @@
 require('config')
 
 local function make_prototype(name, icon, inventory_size, max_health, width, height, picture, ingredients)
-    local hwidth = width / 2
-    local hheight = height / 2
+    local h_width = width / 2
+    local h_height = height / 2
     data:extend(
         {
             {
@@ -15,8 +15,8 @@ local function make_prototype(name, icon, inventory_size, max_health, width, hei
                 flags = {'placeable-neutral', 'placeable-player', 'player-creation'},
                 minable = {hardness = 0.5, mining_time = 1, result = name},
                 fast_replaceable_group = 'container',
-                selection_box = {{-hwidth, -hheight}, {hwidth, hheight}},
-                collision_box = {{-hwidth + 0.1, -hheight + 0.1}, {hwidth - 0.1, hheight - 0.1}},
+                selection_box = {{-h_width, -h_height}, {h_width, h_height}},
+                collision_box = {{-h_width + 0.1, -h_height + 0.1}, {h_width - 0.1, h_height - 0.1}},
                 open_sound = {filename = '__base__/sound/metallic-chest-open.ogg'},
                 close_sound = {filename = '__base__/sound/metallic-chest-close.ogg'},
                 vehicle_impact_sound = {filename = '__base__/sound/car-metal-impact.ogg', volume = 0.5},

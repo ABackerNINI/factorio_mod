@@ -5,7 +5,12 @@ function on_player_created(event)
     local player = game.players[event.player_index]
     local quick_start = startup_settings.quick_start
 
-    player.print{names.locale_print_when_first_init}
+    player.print(
+        {
+            names.locale_print_when_first_init,
+            startup_settings.lc_buffer_capacity
+        }
+    )
 
     if quick_start == nil then
         quick_start = 1
