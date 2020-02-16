@@ -7,6 +7,7 @@ local math_ceil = math.ceil
 
 -- local names = g_names
 local config = g_config
+local names = g_names
 local startup_settings = g_startup_settings
 
 -- TECHNOLOGIES
@@ -51,7 +52,7 @@ function TECH:research_lc_capacity(research)
         else
             increment = 1990000 * 10
         end
-        game.print({config.locale_print_when_error_detected, 'LC_CAPACITY_RESEARCH_LEVEL: ' .. research.level})
+        game.print({names.locale_print_when_error_detected, 'LC_CAPACITY_RESEARCH_LEVEL: ' .. research.level})
     end
 
     -- update max_control
@@ -90,7 +91,7 @@ function TECH:research_chest_power_consumption(research)
         else
             power_consumption_percentage = 1
         end
-        game.print({config.locale_print_when_error_detected, 'CHEST_POWER_CONSUMPTION_RESEARCH_LEVEL: ' .. research.level})
+        game.print({names.locale_print_when_error_detected, 'CHEST_POWER_CONSUMPTION_RESEARCH_LEVEL: ' .. research.level})
     end
 
     global.technologies.power_consumption_percentage = power_consumption_percentage
@@ -100,7 +101,7 @@ function TECH:research_chest_power_consumption(research)
 
     game.print(
         {
-            config.locale_print_after_tech_power_consumption_researched,
+            names.locale_print_after_tech_power_consumption_researched,
             global.technologies.cc_power_consumption,
             global.technologies.rc_power_consumption
         }

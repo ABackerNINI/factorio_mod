@@ -1,7 +1,7 @@
 require('updates')
 
 local math_ceil = math.ceil
-local config = g_config
+local names = g_names
 local startup_settings = g_startup_settings
 
 function on_configuration_changed(config_changed_data)
@@ -28,7 +28,7 @@ function on_configuration_changed(config_changed_data)
     if default_power_consumption_changed == true then
         game.print(
             {
-                config.locale_print_after_power_consumption_configuration_changed,
+                names.locale_print_after_power_consumption_configuration_changed,
                 global.technologies.cc_power_consumption,
                 global.technologies.rc_power_consumption
             }

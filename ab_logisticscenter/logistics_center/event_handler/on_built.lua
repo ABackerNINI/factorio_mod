@@ -6,19 +6,18 @@ local LCC = require('logistics_center.logistics_center_controller')
 local math_ceil = math.ceil
 
 local names = g_names
-local config = g_config
 local startup_settings = g_startup_settings
 
 local function show_flying_text(entity, nearest_lc)
     local text = {}
     if nearest_lc ~= nil then
         text = {
-            config.locale_flying_text_when_build_chest,
+            names.locale_flying_text_when_build_chest,
             string.format('%.1f', calc_distance_between_two_points(entity.position, nearest_lc.eei.position))
         }
     else
         text = {
-            config.locale_flying_text_when_building_chest_no_nearest_lc
+            names.locale_flying_text_when_building_chest_no_nearest_lc
         }
     end
     entity.surface.create_entity {
@@ -33,9 +32,9 @@ function on_built(event)
     local entity = event.created_entity
     local name = entity.name
 
-    -- if string.match(name,names.collecter_chest_pattern) ~= nil then  --- this is not recommanded
+    -- if string.match(name,names.collecter_chest_pattern) ~= nil then  --- this is not recommended
     if name == names.collecter_chest_1_1 then -- or
-        -- if string.match(name,names.requester_chest_pattern) ~= nil then  --- this is not recommanded
+        -- if string.match(name,names.requester_chest_pattern) ~= nil then  --- this is not recommended
         -- name == names.collecter_chest_3_6 or
         -- name == names.collecter_chest_6_3
 
@@ -86,7 +85,7 @@ function on_built(event)
             entity.get_or_create_control_behavior().enabled = false
         end
 
-        -- will confilct when entity on diffrent surfaces?
+        -- will conflict when entity on different surfaces?
         -- global.lc_entities.entities[position_to_string(entity.position)] = {
         local p_str = surface_and_position_to_string(entity)
         global.lc_entities.entities[p_str] = {

@@ -18,17 +18,7 @@ local function get_config()
         -- input flow limit of the electric energy interface, default = 10000000000
         eei_input_flow_limit = 50000000, -- W [0.05GW 50MW]
         -- buffer capacity of the electric energy interface, default = 1000000000
-        eei_buffer_capacity  = 1000000000, -- J [1GJ]
-        -------------------------------------------------------------------------------------------
-        -- LOCALES
-        locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
-        locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
-        locale_print_after_tech_lc_capacity_researched = 'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
-        locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
-        locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',
-        locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate',
-        locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init',
-        locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected'
+        eei_buffer_capacity = 1000000000 -- J [1GJ]
     }
 end
 
@@ -45,15 +35,27 @@ local function get_names()
         -- logistics_center_d = "ab-lc-logistics-center-",
         -- logistics_center_animation = "ab-lc-logistics-center-animation",
         energy_bar = 'ab-lc-energy-bar',
+        -------------------------------------------------------------------------------------------
         -- TECHNOLOGY NAMES
         tech_lc_capacity = 'ab-lc-tech-lc-capacity',
         tech_power_consumption = 'ab-lc-tech-power-consumption',
         distance_flying_text = 'distance-flying-text',
+        -------------------------------------------------------------------------------------------
         -- MATCH PATTERN STRINGS
         collecter_chest_pattern = 'ab%-lc%-collecter%-chest',
         requester_chest_pattern = 'ab%-lc%-collecter%-chest',
         tech_lc_capacity_pattern = 'ab%-lc%-tech%-lc%-capacity',
-        tech_power_consumption_pattern = 'ab%-lc%-tech%-power%-consumption'
+        tech_power_consumption_pattern = 'ab%-lc%-tech%-power%-consumption',
+        -------------------------------------------------------------------------------------------
+        -- LOCALES
+        locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
+        locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
+        locale_print_after_tech_lc_capacity_researched = 'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
+        locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
+        locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',
+        locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate',
+        locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init',
+        locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected'
     }
 end
 
@@ -66,16 +68,19 @@ local function get_startup_settings()
         rc_logistic_slots_count = settings.startup['ab-logistics-center-rc-logistic-slots-count'].value,
         -- item slot count of logistics center, default = 500
         lc_item_slot_count = settings.startup['ab-logistics-center-lc-item-slot-count'].value,
-        -- power consumption of logistics center per second, default = 2000
+        -------------------------------------------------------------------------------------------
+        -- POWER CONSUMPTION SETTINGS
+        -- power consumption of logistics center per second, default = 10000
         lc_power_consumption = settings.startup['ab-logistics-center-lc-power-consumption'].value, -- KW
         -- power consumption of collector chests per distance per item transferring, default = 1000
         default_cc_power_consumption = settings.startup['ab-logistics-center-default-cc-power-consumption'].value, -- J
-        -- power consumption of requester chests per distance per item transferring, default = 100
+        -- power consumption of requester chests per distance per item transferring, default = 500
         default_rc_power_consumption = settings.startup['ab-logistics-center-default-rc-power-consumption'].value, -- J
+        -------------------------------------------------------------------------------------------
         --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
-        -- check collecter chests every nth tick, default = 5
+        -- check collecter chests every nth tick, default = 50
         check_cc_on_nth_tick = settings.startup['ab-logistics-center-check-cc-on-nth-tick'].value,
-        -- check requester chests every nth tick, default = 3
+        -- check requester chests every nth tick, default = 30
         check_rc_on_nth_tick = settings.startup['ab-logistics-center-check-rc-on-nth-tick'].value,
         -- check 1.5%(on default) collecter chests every 'check_cc_on_nth_tick', default = 0.015
         check_cc_percentages = settings.startup['ab-logistics-center-check-cc-percentages'].value,
