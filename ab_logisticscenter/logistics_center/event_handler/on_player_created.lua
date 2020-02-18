@@ -1,8 +1,9 @@
+require('config')
+
 local names = g_names
 local startup_settings = g_startup_settings
 
-function on_player_created(event)
-    local player = game.players[event.player_index]
+local function insert_quick_start_items(player)
     local quick_start = startup_settings.quick_start
 
     player.print(
@@ -30,4 +31,9 @@ function on_player_created(event)
             end
         end
     end
+end
+
+function on_player_created(event)
+    local player = game.players[event.player_index]
+    insert_quick_start_items(player)
 end

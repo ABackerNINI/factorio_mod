@@ -1,3 +1,4 @@
+require('config')
 local TECH = require('logistics_center.technology')
 
 local names = g_names

@@ -60,7 +60,7 @@ function TECH:research_lc_capacity(research)
         v.max_control = global.technologies.lc_capacity
     end
 
-    LCC:update()
+    LCC:update_signals()
 
     game.print(
         {

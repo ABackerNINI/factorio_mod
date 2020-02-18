@@ -10,6 +10,7 @@ require('logistics_center.event_handler.on_built')
 require('logistics_center.event_handler.on_configuration_changed')
 require('logistics_center.event_handler.on_gui_closed')
 require('logistics_center.event_handler.on_gui_opened')
+require('logistics_center.event_handler.on_load')
 require('logistics_center.event_handler.on_destroy')
 require('logistics_center.event_handler.on_player_created')
 require('logistics_center.event_handler.on_research_finished')
@@ -25,6 +26,7 @@ local on_built = on_built
 local on_configuration_changed = on_configuration_changed
 local on_gui_closed = on_gui_closed
 local on_gui_opened = on_gui_opened
+local on_load = on_load
 local on_destroy = on_destroy
 local on_player_created = on_player_created
 local on_research_finished = on_research_finished
@@ -33,10 +35,7 @@ local on_rotated = on_rotated
 script.on_init(init_globals)
 
 -- will be called on every save and load
--- script.on_load(
---     function()
---     end
--- )
+script.on_load(on_load)
 
 -- on configuration changed
 script.on_configuration_changed(on_configuration_changed)

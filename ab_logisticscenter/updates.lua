@@ -14,7 +14,7 @@ local function position_to_string(p)
 end
 
 -- find nearest lc
-local function find_nearest_lc(entity)
+local function find_nearest_lc(entity, type)
     if global.lc_entities.count == 0 then
         return nil
     end
@@ -34,7 +34,7 @@ local function find_nearest_lc(entity)
             power_consumption = 0,
             eei = eei
         }
-        if entity.name == names.collecter_chest then
+        if type == 1 then
             ret.power_consumption = nearest_distance * 1000 -- config.cc_power_consumption
         else
             ret.power_consumption = nearest_distance * 100 -- config.rc_power_consumption
@@ -52,14 +52,14 @@ local function recalc_distance()
     -- recalc cc
     for index, v in pairs(global.cc_entities.entities) do
         if v.entity.valid then
-            v.nearest_lc = find_nearest_lc(v.entity)
+            v.nearest_lc = find_nearest_lc(v.entity, 1)
         end
     end
 
     -- recalc rc
     for index, v in pairs(global.rc_entities.entities) do
         if v.entity.valid then
-            v.nearest_lc = find_nearest_lc(v.entity)
+            v.nearest_lc = find_nearest_lc(v.entity, 2)
         end
     end
 end
@@ -407,6 +407,19 @@ function global_data_migrations()
 
         -- set global_data_version
         global.global_data_version = 16
+    end
+
+    -- 16-th change,global.global_data_version = 16
+    -- add lc energy_bar
+    if global.global_data_version < 16 then
+        game.print({names.locale_print_when_global_data_migrate, 16})
+
+        -- global.lc_entities
+        -- OLD {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index}}}
+        -- NEW {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index, animation}}}
+
+        -- set global_data_version
+        global.global_data_version = 17
     end
 
     -- global.global_data_version = config.global_data_version

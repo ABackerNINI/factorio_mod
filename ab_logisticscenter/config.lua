@@ -1,6 +1,6 @@
 local function get_config()
     return {
-        global_data_version = 16,
+        global_data_version = 17,
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGIES
         -- increment of lc_capacity of each research, default = {19000, 30000, 50000, 100000}
@@ -18,7 +18,9 @@ local function get_config()
         -- input flow limit of the electric energy interface, default = 10000000000
         eei_input_flow_limit = 50000000, -- W [0.05GW 50MW]
         -- buffer capacity of the electric energy interface, default = 1000000000
-        eei_buffer_capacity = 1000000000 -- J [1GJ]
+        eei_buffer_capacity = 1000000000, -- J [1GJ]
+        -------------------------------------------------------------------------------------------
+        check_energy_bar_on_nth_tick = 20
     }
 end
 
@@ -33,7 +35,7 @@ local function get_names()
         logistics_center_controller = 'ab-lc-logistics-center-controller',
         electric_energy_interface = 'ab-lc-electric-energy-interface',
         -- logistics_center_d = "ab-lc-logistics-center-",
-        -- logistics_center_animation = "ab-lc-logistics-center-animation",
+        logistics_center_animation = "ab-lc-logistics-center-animation",
         energy_bar = 'ab-lc-energy-bar',
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGY NAMES

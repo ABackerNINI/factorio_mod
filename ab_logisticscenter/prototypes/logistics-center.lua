@@ -13,7 +13,8 @@ local function make_sprite()
         width = width,
         height = height,
         frame_count = 1,
-        shift = {0.2, 0.15}
+        shift = {0.2, 0.15},
+        scale = 0.8
     }
 end
 
@@ -35,10 +36,20 @@ data:extend(
             item_slot_count = g_startup_settings.lc_item_slot_count,
             map_color = {r = 0, g = 1, b = 0},
             sprites = {
-                north = make_sprite(),
-                east = make_sprite(),
-                south = make_sprite(),
-                west = make_sprite()
+                -- north = make_sprite(),
+                -- east = make_sprite(),
+                -- south = make_sprite(),
+                -- west = make_sprite()
+                -- filename = LC_PATH .. '/graphics/nothing.png',
+                -- width = 4,
+                -- height = 4,
+                -- frame_count = 1
+                filename = LC_PATH .. '/graphics/entity/logistics-center.png',
+                width = width,
+                height = height,
+                frame_count = 1,
+                shift = {0.2, 0.15},
+                scale = 0.95
             },
             activity_led_sprites = {
                 north = {

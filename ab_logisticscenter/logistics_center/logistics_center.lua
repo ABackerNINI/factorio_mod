@@ -1,5 +1,6 @@
 require('helper')
 local CHEST = require('chest')
+local EB = require('energy_bar')
 
 -- logistics center
 LC = {}
@@ -28,6 +29,71 @@ local function pack_signals()
     local parameters = {parameters = signals}
 
     return parameters
+end
+
+function LC:add(entity)
+    -- disable signal output of the lc on default except the very first one
+    -- this will cause a problem that signals don't show up immediately after control-behavior enabled
+    if global.lc_entities.count > 0 then
+        entity.get_or_create_control_behavior().enabled = false
+    end
+
+    -- will conflict when entity on different surfaces?
+    -- global.lc_entities.entities[position_to_string(entity.position)] = {
+    local p_str = surface_and_position_to_string(entity)
+    local pack = {
+        lc = entity,
+        -- create the electric energy interface
+        eei = entity.surface.create_entity {
+            name = names.electric_energy_interface,
+            position = entity.position,
+            force = entity.force
+        }
+        -- animation = entity.surface.create_entity {
+        --     name = names.logistics_center_animation,
+        --     position = entity.position,
+        --     force = entity.force
+        -- }
+    }
+    -- pack.animation.active = false
+    -- pack.eei.active = false
+    global.lc_entities.entities[p_str] = pack
+
+    global.lc_entities.count = global.lc_entities.count + 1
+
+    -- recalc distance
+    LC:recalc_distance()
+end
+
+function LC:destroy(entity)
+    global.lc_entities.count = global.lc_entities.count - 1
+
+    -- local p_str = position_to_string(entity.position)
+    local p_str = surface_and_position_to_string(entity)
+    -- game.print("pre-mined:"..p_str)
+    local lc = global.lc_entities.entities[p_str]
+    -- destroy the electric energy interface
+    lc.eei.destroy()
+    -- lc.animation.destroy()
+    -- destroy the energy bar
+    EB:remove(lc)
+    global.lc_entities.entities[p_str] = nil
+
+    -- recalc distance
+    LC:recalc_distance()
+end
+
+function LC:create_energy_bar(entity)
+    -- Create or destroy energy bar for the rotated logistics center
+
+    local p_str = surface_and_position_to_string(entity)
+    local lc = global.lc_entities.entities[p_str]
+
+    if lc.energy_bar_index == nil then
+        EB:add(lc)
+    else
+        EB:remove(lc)
+    end
 end
 
 -- update single lc signal
@@ -89,52 +155,13 @@ function LC:update_all_lc_signals()
     end
 end
 
--- Find nearest lc
-function LC:find_nearest_lc(entity)
-    if global.lc_entities.count == 0 then
-        return nil
-    end
-
-    local surface = entity.surface.index
-    local eei = nil
-    local nearest_distance = 1000000000 -- should big enough
-    for k, v in pairs(global.lc_entities.entities) do
-        if surface == v.lc.surface.index then
-            local distance = calc_distance_between_two_points(entity.position, v.lc.position)
-            if distance < nearest_distance then
-                nearest_distance = distance
-                eei = v.eei
-            end
-        end
-    end
-
-    if eei ~= nil then
-        local ret = {
-            power_consumption = 0,
-            eei = eei
-        }
-        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then this is not recommanded
-        if entity.name == names.collecter_chest_1_1 then -- or
-            -- entity.name == names.collecter_chest_3_6 or
-            -- entity.name == names.collecter_chest_6_3
-            ret.power_consumption = math_ceil(nearest_distance * global.technologies.cc_power_consumption)
-        else
-            ret.power_consumption = math_ceil(nearest_distance * global.technologies.rc_power_consumption)
-        end
-        return ret
-    else
-        -- game.print("[ab_logisticscenter]: error, didn't find@find_nearest_lc")
-        return nil
-    end
-end
-
 -- recalc distance from cc/rc to the nearest lc
--- call after lc entity being created or destoried
+-- call after lc entity being created or destroyed
 function LC:recalc_distance()
     -- recalc cc
     for index, v in pairs(global.cc_entities.entities) do
         if v.entity.valid then
-            v.nearest_lc = LC:find_nearest_lc(v.entity)
+            v.nearest_lc = CHEST:find_nearest_lc(v.entity, 1)
         else
             CHEST:remove_cc(index)
         end
@@ -143,12 +170,11 @@ function LC:recalc_distance()
     -- recalc rc
     for index, v in pairs(global.rc_entities.entities) do
         if v.entity.valid then
-            v.nearest_lc = LC:find_nearest_lc(v.entity)
+            v.nearest_lc = CHEST:find_nearest_lc(v.entity, 2)
         else
             CHEST:remove_rc(index)
         end
     end
 end
-
 
 return LC

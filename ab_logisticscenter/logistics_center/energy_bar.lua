@@ -6,12 +6,22 @@ EB = {}
 local names = g_names
 local config = g_config
 
+local math_ceil = math.ceil
+
+local check_on_nth_tick = config.check_energy_bar_on_nth_tick
+if check_on_nth_tick == g_startup_settings.check_cc_on_nth_tick then
+    check_on_nth_tick = check_on_nth_tick + 1
+end
+if check_on_nth_tick == g_startup_settings.check_rc_on_nth_tick then
+    check_on_nth_tick = check_on_nth_tick + 1
+end
+
 -- Check energy bars on every nth tick
 local function energy_bar_check_on_nth_tick(tick)
     local bar_max = 13.0
     local g_ebs = global.energy_bar_entities.entities
     for k, v in pairs(g_ebs) do
-        local bar_index = math.ceil(bar_max * v.eei.energy / config.eei_buffer_capacity)
+        local bar_index = math_ceil(bar_max * v.eei.energy / config.eei_buffer_capacity)
         if v.bar_index ~= bar_index then
             v.energy_bar.destroy()
             v.energy_bar =
@@ -21,6 +31,13 @@ local function energy_bar_check_on_nth_tick(tick)
             }
             v.bar_index = bar_index
         end
+    end
+end
+
+function EB:on_game_load()
+    -- Re-register conditional handler
+    if global.energy_bar_entities.count >= 1 then
+        script.on_nth_tick(check_on_nth_tick, energy_bar_check_on_nth_tick)
     end
 end
 
@@ -49,7 +66,7 @@ function EB:add(g_lc)
             g_energy_bar.count = g_energy_bar.count + 1
             if g_energy_bar.count == 1 then
                 -- game.print('check')
-                script.on_nth_tick(20, energy_bar_check_on_nth_tick)
+                script.on_nth_tick(check_on_nth_tick, energy_bar_check_on_nth_tick)
             end
             break
         end
@@ -67,7 +84,7 @@ function EB:remove(g_lc)
         local g_energy_bar = global.energy_bar_entities
         g_energy_bar.count = g_energy_bar.count - 1
         if g_energy_bar.count == 0 then
-            script.on_nth_tick(20, nil)
+            script.on_nth_tick(check_on_nth_tick, nil)
         end
     end
 end
