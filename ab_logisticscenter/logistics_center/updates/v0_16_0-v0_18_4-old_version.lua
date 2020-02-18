@@ -64,13 +64,8 @@ local function recalc_distance()
     end
 end
 
--- global data migrations
--- call only in script.on_configuration_changed()
-function global_data_migrations()
-    if global.global_data_version ~= nil then -- and global.global_data_version ~= config.global_data_version then
-        game.print('ab_logisticscenter: global_data_version: ' .. global.global_data_version)
-    end
-
+-- global_data_version: nil -> 16
+function update()
     -- if global.global_data_version == nil or global.global_data_version < config.global_data_version then
     --     game.print("")
     -- end
@@ -408,19 +403,4 @@ function global_data_migrations()
         -- set global_data_version
         global.global_data_version = 16
     end
-
-    -- 16-th change,global.global_data_version = 16
-    -- add lc energy_bar
-    if global.global_data_version < 16 then
-        game.print({names.locale_print_when_global_data_migrate, 16})
-
-        -- global.lc_entities
-        -- OLD {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index}}}
-        -- NEW {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index, animation}}}
-
-        -- set global_data_version
-        global.global_data_version = 17
-    end
-
-    -- global.global_data_version = config.global_data_version
 end
