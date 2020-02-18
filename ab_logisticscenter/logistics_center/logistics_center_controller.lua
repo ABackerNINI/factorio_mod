@@ -4,7 +4,7 @@ LCC = {}
 
 local math_min = math.min
 
--- update lc controller
+-- Update signals of lc controller
 function LCC:update_signals()
     if global.lcc_entity.parameters == nil then
         return
@@ -47,39 +47,45 @@ function LCC:update_signals()
     end
 end
 
+-- Add to watch-list
 function LCC:add(entity)
+    local lcc_s = global.lcc_entity
+
     -- caution: loop with big_number
     for index = 1, 100000000 do
-        if global.lcc_entity.entities[index] == nil then -- or global.lcc_entity.entities[index].valid == false
-            if global.lcc_entity.parameters ~= nil then
+        if lcc_s.entities[index] == nil then -- or lcc_s.entities[index].valid == false
+            if lcc_s.parameters ~= nil then
                 -- set parameters
                 local control_behavior = entity.get_or_create_control_behavior()
-                control_behavior.parameters = global.lcc_entity.parameters
+                control_behavior.parameters = lcc_s.parameters
 
                 -- update lc controller
-                if global.lcc_entity.count == 0 then
+                if lcc_s.count == 0 then
                     LCC:update_signals()
                 end
             end
 
-            global.lcc_entity.entities[index] = entity
-            global.lcc_entity.count = global.lcc_entity.count + 1
+            lcc_s.entities[index] = entity
+            lcc_s.count = lcc_s.count + 1
             break
         end
     end
 end
 
-function LCC:destroy(entity)
+-- Remove from watch list
+function LCC:remove(entity)
+    local lcc_s = global.lcc_entity
+
     -- caution: loop with big_number
     for index = 1, 100000000 do
-        if global.lcc_entity.entities[index] == entity then
-            global.lcc_entity.entities[index] = nil
-            global.lcc_entity.count = global.lcc_entity.count - 1
+        if lcc_s.entities[index] == entity then
+            lcc_s.entities[index] = nil
+            lcc_s.count = lcc_s.count - 1
             break
         end
     end
 
-    if global.lcc_entity.count == 0 then
+    if lcc_s.count == 0 then
         -- reset all max_control
         for k, v in pairs(global.items_stock.items) do
             v.max_control = global.technologies.lc_capacity
@@ -87,11 +93,20 @@ function LCC:destroy(entity)
     end
 end
 
+-- Update lcc
+-- Call on lcc gui closed
 function LCC:update(entity)
-    local parameters = entity.get_or_create_control_behavior().parameters
+    local control_behavior = entity.get_or_create_control_behavior()
+    if control_behavior.enabled == false then
+        control_behavior.parameters = nil
+        return
+    end
+    local parameters = control_behavior.parameters
+
+    local lcc_s = global.lcc_entity
 
     -- update all other lcc-s
-    for _, v in pairs(global.lcc_entity.entities) do
+    for _, v in pairs(lcc_s.entities) do
         local control_behavior = v.get_or_create_control_behavior()
         if control_behavior.enabled == true then
             control_behavior.parameters = parameters
@@ -101,9 +116,9 @@ function LCC:update(entity)
     end
 
     -- update global parameters
-    global.lcc_entity.parameters = parameters
+    lcc_s.parameters = parameters
 
-    -- update lc controller
+    -- update lc controller signals
     LCC:update_signals()
     LC:update_all_lc_signals()
 end

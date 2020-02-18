@@ -35,7 +35,7 @@ local function get_names()
         logistics_center_controller = 'ab-lc-logistics-center-controller',
         electric_energy_interface = 'ab-lc-electric-energy-interface',
         -- logistics_center_d = "ab-lc-logistics-center-",
-        logistics_center_animation = "ab-lc-logistics-center-animation",
+        -- logistics_center_animation = "ab-lc-logistics-center-animation",
         energy_bar = 'ab-lc-energy-bar',
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGY NAMES
@@ -50,8 +50,9 @@ local function get_names()
         tech_power_consumption_pattern = 'ab%-lc%-tech%-power%-consumption',
         -------------------------------------------------------------------------------------------
         -- LOCALES
-        locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-building-chest',
-        locale_flying_text_when_building_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-building-chest-no-nearest-lc',
+        locale_flying_text_when_build_chest = 'ab-logisticscenter-text.flying-text-when-build-chest',
+        locale_flying_text_when_build_chest_no_nearest_lc = 'ab-logisticscenter-text.flying-text-when-build-chest-no-nearest-lc',
+        locale_flying_text_when_build_lc = 'ab-logisticscenter-text.flying-text-when-build-lc',
         locale_print_after_tech_lc_capacity_researched = 'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
         locale_print_after_tech_power_consumption_researched = 'ab-logisticscenter-text.print-after-tech-power-consumption-researched',
         locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',

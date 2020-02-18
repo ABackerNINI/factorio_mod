@@ -18,7 +18,7 @@ local function show_flying_text(entity, nearest_lc)
         }
     else
         text = {
-            names.locale_flying_text_when_building_chest_no_nearest_lc
+            names.locale_flying_text_when_build_chest_no_nearest_lc
         }
     end
     entity.surface.create_entity {
@@ -29,8 +29,8 @@ local function show_flying_text(entity, nearest_lc)
     }
 end
 
+-- Add to watch-list
 function CHEST:add_cc(entity)
-    -- add cc to the watch-list
     local index = global.cc_entities.index
     local empty_stack = global.cc_entities.empty_stack
     if empty_stack.count > 0 then
@@ -50,8 +50,8 @@ function CHEST:add_cc(entity)
     global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
 end
 
+-- Add to watch-list
 function CHEST:add_rc(entity)
-    -- add rc to the watch-list
     local index = global.rc_entities.index
     local empty_stack = global.rc_entities.empty_stack
     if empty_stack.count > 0 then
@@ -97,8 +97,40 @@ function CHEST:remove_rc(index)
     global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
 end
 
+function CHEST:calc_power_consumption(distance, eei, chest_type)
+    if eei ~= nil then
+        local ret = {
+            power_consumption = 0,
+            eei = eei
+        }
+
+        -- calc multiplier
+        local dis = calc_distance_between_two_points2(eei.position.x, eei.position.y, global.lc_entities.center_pos_x, global.lc_entities.center_pos_y)
+        local multiplier
+        if dis < 500 then
+            multiplier = 1
+        else
+            multiplier = 1 + (dis / 500 * 0.1)
+            -- game.print('multiplier: ' .. multiplier)
+        end
+
+        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then this is not recommended
+        if chest_type == 1 then -- entity.name == names.collecter_chest_1_1 then --- or
+            -- entity.name == names.collecter_chest_3_6 or
+            -- entity.name == names.collecter_chest_6_3
+            ret.power_consumption = math_ceil(distance * global.technologies.cc_power_consumption * multiplier)
+        else
+            ret.power_consumption = math_ceil(distance * global.technologies.rc_power_consumption * multiplier)
+        end
+        return ret
+    else
+        -- game.print("[ab_logisticscenter]: error, didn't find@find_nearest_lc")
+        return nil
+    end
+end
+
 -- Find nearest lc
-function CHEST:find_nearest_lc(entity, type)
+function CHEST:find_nearest_lc(entity, chest_type)
     if global.lc_entities.count == 0 then
         return nil
     end
@@ -117,24 +149,7 @@ function CHEST:find_nearest_lc(entity, type)
         end
     end
 
-    if eei ~= nil then
-        local ret = {
-            power_consumption = 0,
-            eei = eei
-        }
-        -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then this is not recommended
-        if type == 1 then -- entity.name == names.collecter_chest_1_1 then --- or
-            -- entity.name == names.collecter_chest_3_6 or
-            -- entity.name == names.collecter_chest_6_3
-            ret.power_consumption = math_ceil(nearest_distance * global.technologies.cc_power_consumption)
-        else
-            ret.power_consumption = math_ceil(nearest_distance * global.technologies.rc_power_consumption)
-        end
-        return ret
-    else
-        -- game.print("[ab_logisticscenter]: error, didn't find@find_nearest_lc")
-        return nil
-    end
+    return CHEST:calc_power_consumption(nearest_distance, eei, chest_type)
 end
 
 return CHEST

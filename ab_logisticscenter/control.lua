@@ -1,5 +1,4 @@
 require('config')
-require('updates')
 require('logistics_center.init_globals')
 
 require('logistics_center.event_handler.check_collector_chest')
@@ -65,7 +64,7 @@ script.on_event(
         defines.events.on_pre_player_mined_item, -- on_player_mined_entity
         defines.events.on_robot_pre_mined,
         defines.events.on_entity_died,
-        defines.events.script_raised_destroy
+        defines.events.script_raised_destroy -- seems duplicated with the above events
     },
     on_destroy
 )

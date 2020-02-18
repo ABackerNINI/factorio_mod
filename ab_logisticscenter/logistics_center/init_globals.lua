@@ -17,11 +17,13 @@ function init_globals()
             items = {}
         }
 
-    -- {count, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index}}}
+    -- {count, center_pos_x, center_pos_y, entities = {["surface_and_pos_str"] = {lc, eei, energy_bar_index}}}
     global.lc_entities =
         global.lc_entities or
         {
             count = 0,
+            center_pos_x = 0,
+            center_pos_y = 0,
             entities = {}
         }
 
@@ -67,8 +69,8 @@ function init_globals()
             cc_power_consumption = startup_settings.default_cc_power_consumption,
             rc_power_consumption = startup_settings.default_rc_power_consumption,
             power_consumption_percentage = 1,
-            tech_lc_capacity_real_level = 0,
-            tech_power_consumption_real_level = 0
+            -- tech_lc_capacity_real_level = 0,
+            -- tech_power_consumption_real_level = 0
         }
 
     global.runtime_vars =

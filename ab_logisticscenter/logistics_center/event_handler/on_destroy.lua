@@ -13,8 +13,8 @@ function on_destroy(event)
     -- elseif entity.name == names.requester_chest then
     -- else
     if entity.name == names.logistics_center then
-        LC:destroy(entity)
+        LC:remove(entity)
     elseif entity.name == names.logistics_center_controller then
-        LCC:destroy(entity)
+        LCC:remove(entity)
     end
 end

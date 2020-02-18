@@ -5,14 +5,17 @@ Date: 14. 02. 2020
     - Added energy bar indicating energy buffer for logistics center, press [R] to enable it.
     - Added a new setting 'Logistics Center Input Flow Limit' (origin: eei_input_flow_limit) and set its default value from 10GW to 50MW.
     - Added a new setting 'Logistics Center Buffer Capacity'.
+    - Added center point of logistics centers that the further between the logistics center and the center point, the more power is needed to teleport items, 10% per 100 distance.
     - Changed flying text style when build chests.
     - Changed default value of setting 'logistics center power consumption' from 2MW to 10MW.
     - Changed default value of setting 'requester chest power consumption per item per distance' from 100J to 500J.
     - Changed some descriptions, added 'default value' tips for each setting.
+    - Changed the image of logistics center.
   Bugfixes:
     - Fixed setting disorder.
     - Fixed 'power consumption' and 'logistics center capacity' technologies error with Creative Mod.
     - Fixed wrong description of requester chest.
+    - Fixed signal lost when disable logistics center controller.
 ---------------------------------------------------------------------------------------------------
 Version: 0.18.4
 Date: 11. 02. 2020

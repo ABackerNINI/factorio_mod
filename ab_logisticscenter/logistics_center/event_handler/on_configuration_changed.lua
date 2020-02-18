@@ -1,4 +1,4 @@
-require('updates')
+require('logistics_center.updates')
 
 local math_ceil = math.ceil
 local names = g_names

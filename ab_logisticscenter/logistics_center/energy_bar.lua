@@ -34,7 +34,7 @@ local function energy_bar_check_on_nth_tick(tick)
     end
 end
 
-function EB:on_game_load()
+function EB:re_register_handler()
     -- Re-register conditional handler
     if global.energy_bar_entities.count >= 1 then
         script.on_nth_tick(check_on_nth_tick, energy_bar_check_on_nth_tick)
@@ -42,13 +42,13 @@ function EB:on_game_load()
 end
 
 -- Create energy bar for the logistics center
-function EB:add(g_lc)
+function EB:add(lc_pack)
     local bar_max = 13.0
-    local bar_index = math.ceil(bar_max * g_lc.eei.energy / config.eei_buffer_capacity)
+    local bar_index = math.ceil(bar_max * lc_pack.eei.energy / config.eei_buffer_capacity)
     local eb =
-        g_lc.eei.surface.create_entity {
+        lc_pack.eei.surface.create_entity {
         name = names.energy_bar .. bar_index,
-        position = {x = g_lc.eei.position.x, y = g_lc.eei.position.y + 0.9}
+        position = {x = lc_pack.eei.position.x, y = lc_pack.eei.position.y + 0.9}
     }
 
     -- caution: loop with big number
@@ -56,11 +56,11 @@ function EB:add(g_lc)
     local g_energy_bar_entities = g_energy_bar.entities
     for index = 1, 1000000000 do
         if g_energy_bar_entities[index] == nil then
-            g_lc.energy_bar_index = index
+            lc_pack.energy_bar_index = index
             g_energy_bar_entities[index] = {
                 energy_bar = eb,
                 bar_index = bar_index,
-                eei = g_lc.eei
+                eei = lc_pack.eei
             }
 
             g_energy_bar.count = g_energy_bar.count + 1
@@ -74,12 +74,12 @@ function EB:add(g_lc)
 end
 
 -- Destroy energy bar for the logistics center
-function EB:remove(g_lc)
-    if g_lc.energy_bar_index ~= nil then
+function EB:remove(lc_pack)
+    if lc_pack.energy_bar_index ~= nil then
         local g_ebs = global.energy_bar_entities.entities
-        g_ebs[g_lc.energy_bar_index].energy_bar.destroy()
-        g_ebs[g_lc.energy_bar_index] = nil
-        g_lc.energy_bar_index = nil
+        g_ebs[lc_pack.energy_bar_index].energy_bar.destroy()
+        g_ebs[lc_pack.energy_bar_index] = nil
+        lc_pack.energy_bar_index = nil
 
         local g_energy_bar = global.energy_bar_entities
         g_energy_bar.count = g_energy_bar.count - 1

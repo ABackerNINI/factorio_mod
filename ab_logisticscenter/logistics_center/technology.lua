@@ -34,7 +34,9 @@ for i = 2, 5 do
 end
 
 function TECH:research_lc_capacity(research)
-    -- global.technologies.tech_lc_capacity_real_level = global.technologies.tech_lc_capacity_real_level + 1
+    local tech = global.technologies
+
+    -- tech.tech_lc_capacity_real_level = tech.tech_lc_capacity_real_level + 1
 
     local level = (research.level / 10) + 1
     local remain = research.level - (level - 1) * 10
@@ -43,7 +45,7 @@ function TECH:research_lc_capacity(research)
         increment = increment + config.tech_lc_capacity_increment[level] * remain
     end
 
-    global.technologies.lc_capacity = config.default_lc_capacity + increment
+    tech.lc_capacity = config.default_lc_capacity + increment
 
     -- the maximum logistics center capacity increment is 1990000 when researched all technologies
     if increment < 0 or increment > 1990000 * 10 then
@@ -57,7 +59,7 @@ function TECH:research_lc_capacity(research)
 
     -- update max_control
     for k, v in pairs(global.items_stock.items) do
-        v.max_control = global.technologies.lc_capacity
+        v.max_control = tech.lc_capacity
     end
 
     LCC:update_signals()
@@ -65,15 +67,17 @@ function TECH:research_lc_capacity(research)
     game.print(
         {
             'ab-logisticscenter-text.print-after-tech-lc-capacity-researched',
-            global.technologies.lc_capacity
+            tech.lc_capacity
         }
     )
 end
 
 function TECH:research_chest_power_consumption(research)
-    -- global.technologies.tech_power_consumption_real_level = global.technologies.tech_power_consumption_real_level + 1
+    local tech = global.technologies
 
-    -- game.print(i .. ', ' .. global.technologies.tech_power_consumption_real_level .. ', ' .. research.level)
+    -- tech.tech_power_consumption_real_level = tech.tech_power_consumption_real_level + 1
+
+    -- game.print(i .. ', ' .. tech.tech_power_consumption_real_level .. ', ' .. research.level)
 
     local level = (research.level / 10) + 1
     local remain = research.level - (level - 1) * 10
@@ -94,21 +98,21 @@ function TECH:research_chest_power_consumption(research)
         game.print({names.locale_print_when_error_detected, 'CHEST_POWER_CONSUMPTION_RESEARCH_LEVEL: ' .. research.level})
     end
 
-    global.technologies.power_consumption_percentage = power_consumption_percentage
+    tech.power_consumption_percentage = power_consumption_percentage
 
-    global.technologies.cc_power_consumption = math_ceil(startup_settings.default_cc_power_consumption * power_consumption_percentage)
-    global.technologies.rc_power_consumption = math_ceil(startup_settings.default_rc_power_consumption * power_consumption_percentage)
+    tech.cc_power_consumption = math_ceil(startup_settings.default_cc_power_consumption * power_consumption_percentage)
+    tech.rc_power_consumption = math_ceil(startup_settings.default_rc_power_consumption * power_consumption_percentage)
 
     game.print(
         {
             names.locale_print_after_tech_power_consumption_researched,
-            global.technologies.cc_power_consumption,
-            global.technologies.rc_power_consumption
+            tech.cc_power_consumption,
+            tech.rc_power_consumption
         }
     )
 
     -- recalc distance
-    LC:recalc_distance()
+    LC:recalc_distance_when_power_consumption_changed()
 end
 
 return TECH
