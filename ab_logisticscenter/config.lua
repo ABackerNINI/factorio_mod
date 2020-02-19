@@ -20,7 +20,8 @@ local function get_config()
         -- buffer capacity of the electric energy interface, default = 1000000000
         eei_buffer_capacity = 1000000000, -- J [1GJ]
         -------------------------------------------------------------------------------------------
-        check_energy_bar_on_nth_tick = 20
+        check_energy_bar_on_nth_tick = 20,
+        check_lc_animation_on_nth_tick = 120
     }
 end
 
@@ -35,7 +36,7 @@ local function get_names()
         logistics_center_controller = 'ab-lc-logistics-center-controller',
         electric_energy_interface = 'ab-lc-electric-energy-interface',
         -- logistics_center_d = "ab-lc-logistics-center-",
-        -- logistics_center_animation = "ab-lc-logistics-center-animation",
+        logistics_center_animation = 'ab-lc-logistics-center-animation',
         energy_bar = 'ab-lc-energy-bar',
         -------------------------------------------------------------------------------------------
         -- TECHNOLOGY NAMES
@@ -58,7 +59,10 @@ local function get_names()
         locale_print_after_power_consumption_configuration_changed = 'ab-logisticscenter-text.print-after-power-consumption-configuration-changed',
         locale_print_when_global_data_migrate = 'ab-logisticscenter-text.print-when-global-data-migrate',
         locale_print_when_first_init = 'ab-logisticscenter-text.print-when-first-init',
-        locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected'
+        locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected',
+        -------------------------------------------------------------------------------------------
+        -- RUNTIME MOD SETTINGS
+        lc_animation = 'ab-logistics-center-lc-animation'
     }
 end
 
@@ -85,13 +89,13 @@ local function get_startup_settings()
         default_rc_power_consumption = settings.startup['ab-logistics-center-default-rc-power-consumption'].value,
         -------------------------------------------------------------------------------------------
         --!!ATTENTION! the values "xx_on_nth_tick" below can NOT be the same with each other.
-        -- check collecter chests every nth tick, default = 50
+        -- check collecter chests every nth tick, default = 20
         check_cc_on_nth_tick = settings.startup['ab-logistics-center-check-cc-on-nth-tick'].value,
-        -- check requester chests every nth tick, default = 30
+        -- check requester chests every nth tick, default = 10
         check_rc_on_nth_tick = settings.startup['ab-logistics-center-check-rc-on-nth-tick'].value,
-        -- check 1.5%(on default) collecter chests every 'check_cc_on_nth_tick', default = 0.015
+        -- check 1.5%(on default) collecter chests every 'check_cc_on_nth_tick', default = 0.03
         check_cc_percentages = settings.startup['ab-logistics-center-check-cc-percentages'].value,
-        -- check 1.5%(on default) requester chests every 'check_rc_on_nth_tick', default = 0.015
+        -- check 1.5%(on default) requester chests every 'check_rc_on_nth_tick', default = 0.03
         check_rc_percentages = settings.startup['ab-logistics-center-check-rc-percentages'].value
     }
 

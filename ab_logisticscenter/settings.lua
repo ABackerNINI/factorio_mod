@@ -101,7 +101,7 @@ data:extend(
             name = 'ab-logistics-center-check-cc-on-nth-tick',
             order = 'ab-lc-w-a',
             setting_type = 'startup',
-            default_value = 50,
+            default_value = 20,
             allowed_values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000}
         },
         {
@@ -110,7 +110,7 @@ data:extend(
             name = 'ab-logistics-center-check-rc-on-nth-tick',
             order = 'ab-lc-w-b',
             setting_type = 'startup',
-            default_value = 30,
+            default_value = 10,
             allowed_values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 100, 200, 500, 1000}
         },
         {
@@ -119,7 +119,7 @@ data:extend(
             name = 'ab-logistics-center-check-cc-percentages',
             order = 'ab-lc-w-c',
             setting_type = 'startup',
-            default_value = 0.015,
+            default_value = 0.03,
             allowed_values = {0.005, 0.006, 0.007, 0.008, 0.009, 0.01, 0.012, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1}
         },
         {
@@ -128,8 +128,17 @@ data:extend(
             name = 'ab-logistics-center-check-rc-percentages',
             order = 'ab-lc-w-d',
             setting_type = 'startup',
-            default_value = 0.015,
+            default_value = 0.03,
             allowed_values = {0.005, 0.006, 0.007, 0.008, 0.009, 0.01, 0.012, 0.015, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1}
+        },
+        --------------------------------------------------------------------------------------------------------
+        {
+            -- Logistics center animation
+            type = 'bool-setting',
+            name = 'ab-logistics-center-lc-animation',
+            order = 'ab-lc-x-a',
+            setting_type = 'runtime-global',
+            default_value = true
         }
     }
 )

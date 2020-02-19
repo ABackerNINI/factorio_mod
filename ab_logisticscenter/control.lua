@@ -14,6 +14,7 @@ require('logistics_center.event_handler.on_destroy')
 require('logistics_center.event_handler.on_player_created')
 require('logistics_center.event_handler.on_research_finished')
 require('logistics_center.event_handler.on_rotated')
+require('logistics_center.event_handler.on_runtime_mod_setting_changed')
 
 local check_ccs_on_nth_tick_all = check_ccs_on_nth_tick_all
 local check_ccs_on_nth_tick_ores_only = check_ccs_on_nth_tick_ores_only
@@ -30,6 +31,7 @@ local on_destroy = on_destroy
 local on_player_created = on_player_created
 local on_research_finished = on_research_finished
 local on_rotated = on_rotated
+local on_runtime_mod_setting_changed = on_runtime_mod_setting_changed
 
 script.on_init(init_globals)
 
@@ -88,6 +90,8 @@ script.on_event(defines.events.on_gui_opened, on_gui_opened)
 
 -- on closed the `logistics center` and `logistics center controller`
 script.on_event(defines.events.on_gui_closed, on_gui_closed)
+
+script.on_event(defines.events.on_runtime_mod_setting_changed, on_runtime_mod_setting_changed)
 
 -- commands.add_command("abc()",{"update all signals"},function(event)
 --     update_all_signals()
