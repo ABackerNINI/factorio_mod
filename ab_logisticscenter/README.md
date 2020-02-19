@@ -57,6 +57,7 @@ The images of this mod are copied from other mods, including:
 * [BlackMarket](https://mods.factorio.com/mod/BlackMarket#)
 * [BobGreenHouse](https://mods.factorio.com/mod/bobgreenhouse)
 * [Turret Shields](https://mods.factorio.com/mod/Turret-Shields)
+* [Dark Matter Replicators](https://mods.factorio.com/mod/dark-matter-replicators)
 
 Let me know if this bothers you.
 
