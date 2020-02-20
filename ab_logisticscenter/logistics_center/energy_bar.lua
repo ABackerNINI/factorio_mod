@@ -36,7 +36,7 @@ end
 
 function EB:re_register_handler()
     -- Re-register conditional handler
-    if global.energy_bar_entities.count >= 1 then
+    if global.energy_bar_entities ~= nil and global.energy_bar_entities.count >= 1 then
         script.on_nth_tick(check_on_nth_tick, energy_bar_check_on_nth_tick)
     end
 end
