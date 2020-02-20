@@ -12,9 +12,9 @@ data:extend(
             icon_size = 32,
             flags = {'not-on-map'},
             selectable_in_game = false,
-            render_layer = 'higher-object-under', --'entity-info-icon',
-            collision_box = {{-hcl, -hcl}, {hcl, hcl}},
-            selection_box = {{-hsl, -hsl}, {hsl, hsl}},
+            render_layer = 'object', --'entity-info-icon',
+            -- collision_box = {{-hcl, -hcl}, {hcl, hcl}},
+            -- selection_box = {{-hsl, -hsl}, {hsl, hsl}},
             animations = {
                 {
                     filename = LC_PATH .. '/graphics/entity/logistics-center.png',
@@ -24,7 +24,7 @@ data:extend(
                     frame_count = 33,
                     line_length = 11,
                     animation_speed = 1 / 5,
-                    shift = {0.2, 0.15}
+                    shift = {-0.29, -0.35}
                 }
             }
         }

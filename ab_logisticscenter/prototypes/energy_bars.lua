@@ -12,7 +12,7 @@ local function make_bars()
                     icon = LC_PATH .. '/graphics/nothing.png',
                     icon_size = 4,
                     flags = neutral_flags,
-                    render_layer = 'higher-object-above', -- 'entity-info-icon-above',
+                    render_layer = 'object', --- 'higher-object-above', --- 'entity-info-icon-above',
                     order = 'pb2' .. index,
                     pictures = {
                         {
