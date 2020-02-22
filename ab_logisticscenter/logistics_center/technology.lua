@@ -4,6 +4,7 @@ local LCC = require('logistics_center.logistics_center_controller')
 TECH = {}
 
 local math_ceil = math.ceil
+local math_floor = math.floor
 
 -- local names = g_names
 local config = g_config
@@ -38,7 +39,7 @@ function TECH:research_lc_capacity(research)
 
     -- tech.tech_lc_capacity_real_level = tech.tech_lc_capacity_real_level + 1
 
-    local level = (research.level / 10) + 1
+    local level = math_floor(research.level / 10) + 1
     local remain = research.level - (level - 1) * 10
     local increment = tech_lc_capacity_increment_sum[level]
     if remain > 0 then
@@ -79,7 +80,7 @@ function TECH:research_chest_power_consumption(research)
 
     -- game.print(i .. ', ' .. tech.tech_power_consumption_real_level .. ', ' .. research.level)
 
-    local level = (research.level / 10) + 1
+    local level = math_floor(research.level / 10) + 1
     local remain = research.level - (level - 1) * 10
     local decrement = tech_power_consumption_decrement_sum[level]
     if remain > 0 then

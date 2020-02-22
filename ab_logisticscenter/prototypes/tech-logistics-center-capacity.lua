@@ -2,15 +2,23 @@ require('config')
 
 local function make_tech(index, icon, unit)
     local prerequisites = {}
-    if index ~= 1 then
-        prerequisites = {g_names.tech_lc_capacity .. '-' .. (index * 10 - 19)}
+    local name
+    if index == 1 then
+        name = g_names.tech_lc_capacity .. '-0'
+    else
+        if index == 2 then
+            prerequisites = {g_names.tech_lc_capacity .. '-0'}
+        else
+            prerequisites = {g_names.tech_lc_capacity .. '-' .. (index * 10 - 19)}
+        end
+        name = g_names.tech_lc_capacity .. '-' .. (index * 10 - 9)
     end
 
     data:extend(
         {
             {
                 type = 'technology',
-                name = g_names.tech_lc_capacity .. '-' .. (index * 10 - 9),
+                name = name,
                 icon = icon,
                 icon_size = 128,
                 enable = true,
