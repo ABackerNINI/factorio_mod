@@ -47,7 +47,7 @@ function CHEST:add_cc(entity)
     global.cc_entities.index = global.cc_entities.index + 1
 
     -- recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
 end
 
 -- Add to watch-list
@@ -68,7 +68,7 @@ function CHEST:add_rc(entity)
     global.rc_entities.index = global.rc_entities.index + 1
 
     -- recalc cpr
-    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
 end
 
 function CHEST:remove_cc(index)
@@ -81,7 +81,7 @@ function CHEST:remove_cc(index)
     empty_stack.data[empty_stack.count] = index
 
     -- recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.index * startup_settings.check_cc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
 end
 
 function CHEST:remove_rc(index)
@@ -94,7 +94,7 @@ function CHEST:remove_rc(index)
     empty_stack.data[empty_stack.count] = index
 
     -- recalc cpr
-    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.index * startup_settings.check_rc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
 end
 
 function CHEST:calc_power_consumption(distance, eei, chest_type)
@@ -110,8 +110,8 @@ function CHEST:calc_power_consumption(distance, eei, chest_type)
         if dis < 500 then
             multiplier = 1
         else
-            multiplier = 1 + (dis / 500 * 0.1)
             -- game.print('multiplier: ' .. multiplier)
+            multiplier = 1 + (dis / 500 * 0.1)
         end
 
         -- if string.match(entity.name,names.collecter_chest_pattern) ~= nil then this is not recommended
@@ -150,6 +150,65 @@ function CHEST:find_nearest_lc(entity, chest_type)
     end
 
     return CHEST:calc_power_consumption(nearest_distance, eei, chest_type)
+end
+
+-- Add to watch-list
+local function re_scan_add_cc(entity)
+    local index = global.cc_entities.index
+    local nearest_lc = CHEST:find_nearest_lc(entity, 1)
+
+    global.cc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
+
+    global.cc_entities.index = global.cc_entities.index + 1
+end
+
+-- Add to watch-list
+local function re_scan_add_rc(entity)
+    local index = global.rc_entities.index
+    local nearest_lc = CHEST:find_nearest_lc(entity, 2)
+
+    global.rc_entities.entities[index] = {entity = entity, nearest_lc = nearest_lc}
+
+    global.rc_entities.index = global.rc_entities.index + 1
+end
+
+function CHEST:re_scan_chests()
+    global.cc_entities = {
+        index = 1,
+        empty_stack = {count = 0, data = {}},
+        entities = {}
+    }
+
+    global.rc_entities = {
+        index = 1,
+        empty_stack = {count = 0, data = {}},
+        entities = {}
+    }
+
+    local total_ccs = 0
+    local total_rcs = 0
+
+    for k, surface in pairs(game.surfaces) do
+        -- re-scan collector chests
+        local ccs = surface.find_entities_filtered {name = names.collecter_chest_1_1}
+        for k1, v in pairs(ccs) do
+            re_scan_add_cc(v)
+        end
+        total_ccs = total_ccs + #ccs
+
+        -- re-scan requester chests
+        local rcs = surface.find_entities_filtered {name = names.requester_chest_1_1}
+        for k1, v in pairs(rcs) do
+            re_scan_add_rc(v)
+        end
+        total_rcs = total_rcs + #rcs
+    end
+
+    game.print('requester chests: ' .. total_rcs .. '  collector chests: ' .. total_ccs)
+
+    -- recalc cpr
+    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
 end
 
 return CHEST

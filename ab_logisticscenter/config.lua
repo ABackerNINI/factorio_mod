@@ -62,7 +62,8 @@ local function get_names()
         locale_print_when_error_detected = 'ab-logisticscenter-text.print-when-error-detected',
         -------------------------------------------------------------------------------------------
         -- RUNTIME MOD SETTINGS
-        lc_animation = 'ab-logistics-center-lc-animation'
+        lc_animation = 'ab-logistics-center-lc-animation',
+        re_scan_chests = 'ab-logistics-center-re-scan-chests'
     }
 end
 

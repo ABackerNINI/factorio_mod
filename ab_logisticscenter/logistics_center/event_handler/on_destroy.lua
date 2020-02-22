@@ -6,6 +6,9 @@ local config = g_config
 function on_destroy(event)
     local entity = event.entity
 
+    -- incase a nil value by script_raised_destroy by other mods
+    if entity == nil then return end
+
     -- can't get index by entity except using 'for'
     -- no need to remove chest here,
     -- but should check valid before using entities stored in the watch-list

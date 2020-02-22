@@ -6,6 +6,9 @@ local names = g_names
 function on_gui_opened(event)
     local entity = event.entity
 
+    -- incase a nil value
+    if entity == nil then return end
+    
     if entity ~= nil then
         if entity.name == names.logistics_center then -- Logistics Center
             LC:update_lc_signals(entity)

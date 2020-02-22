@@ -139,6 +139,14 @@ data:extend(
             order = 'ab-lc-x-a',
             setting_type = 'runtime-global',
             default_value = true
+        },
+        {
+            -- Re-scan chests
+            type = 'bool-setting',
+            name = 'ab-logistics-center-re-scan-chests',
+            order = 'ab-lc-x-b',
+            setting_type = 'runtime-global',
+            default_value = false
         }
     }
 )

@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.18.8
+Date: 22. 02. 2020
+  Changes:
+    - Added a new setting 'Re-scan All Chests'.
+  Bugfixes:
+    - Fixed crash when a nil value passed by script_raised_built comes in.
+---------------------------------------------------------------------------------------------------
 Version: 0.18.7
 Date: 22. 02. 2020
   Bugfixes:

@@ -7,6 +7,10 @@ local names = g_names
 
 function on_built(event)
     local entity = event.created_entity
+    
+    -- incase a nil value by script_raised_built by other mods
+    if entity == nil then return end
+
     local name = entity.name
 
     -- if string.match(name,names.collecter_chest_pattern) ~= nil then  --- this is not recommended
