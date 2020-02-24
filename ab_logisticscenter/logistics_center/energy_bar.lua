@@ -5,6 +5,7 @@ EB = {}
 
 local names = g_names
 local config = g_config
+local startup_settings = g_startup_settings
 
 local math_ceil = math.ceil
 
@@ -21,7 +22,10 @@ local function energy_bar_check_on_nth_tick(tick)
     local bar_max = 13.0
     local g_ebs = global.energy_bar_entities.entities
     for k, v in pairs(g_ebs) do
-        local bar_index = math_ceil(bar_max * v.eei.energy / config.eei_buffer_capacity)
+        local bar_index = math_ceil(bar_max * v.eei.energy / (startup_settings.lc_buffer_capacity * 1000000))
+        if bar_index > bar_max then
+            bar_index = bar_max
+        end
         if v.bar_index ~= bar_index then
             v.energy_bar.destroy()
             v.energy_bar =
@@ -44,7 +48,10 @@ end
 -- Create energy bar for the logistics center
 function EB:add(lc_pack)
     local bar_max = 13.0
-    local bar_index = math.ceil(bar_max * lc_pack.eei.energy / config.eei_buffer_capacity)
+    local bar_index = math_ceil(bar_max * lc_pack.eei.energy / (startup_settings.lc_buffer_capacity * 1000000))
+    if bar_index > bar_max then
+        bar_index = bar_max
+    end
     local eb =
         lc_pack.eei.surface.create_entity {
         name = names.energy_bar .. bar_index,
