@@ -2,6 +2,7 @@ require('config')
 require('logistics_center.updates.v0_16_0-v0_18_4-old_version')
 require('logistics_center.updates.v0_18_4-v0_18_5-add_center_position')
 require('logistics_center.updates.v0_18_6-v0_18_7-re_create_lc_animations')
+require('logistics_center.updates.v0_18_9-v0_18_10-add_lc_rc_count')
 
 -- global data migrations
 -- call only in script.on_configuration_changed()
@@ -21,6 +22,9 @@ function global_data_migrations()
 
     -- 18
     re_create_lc_animations()
+
+    -- 19
+    add_lc_rc_count()
 
     -- global.global_data_version = g_config.global_data_version
 end

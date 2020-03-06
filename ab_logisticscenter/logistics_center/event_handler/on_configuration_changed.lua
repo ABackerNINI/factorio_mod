@@ -9,8 +9,8 @@ function on_configuration_changed(config_changed_data)
 
     -- in case global tables were altered in global_data_migrations()
     -- and cc/rc counts may change after migrations
-    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
-    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.count * startup_settings.check_cc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.count * startup_settings.check_rc_percentages)
 
     -- recalc power consumption if configuration changed
     local default_power_consumption_changed = false

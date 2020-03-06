@@ -33,7 +33,8 @@ function init_globals()
         {
             index = 1,
             empty_stack = {count = 0, data = {}},
-            entities = {}
+            entities = {},
+            count = 0
         }
 
     -- {index, empty_stack, entities = {[index] = {entity, nearest_lc = {power_consumption, eei}}}}
@@ -42,7 +43,8 @@ function init_globals()
         {
             index = 1,
             empty_stack = {count = 0, data = {}},
-            entities = {}
+            entities = {},
+            count = 0
         }
 
     -- {count, parameters, entities = {[index] = entity}
@@ -68,7 +70,7 @@ function init_globals()
             lc_capacity = config.default_lc_capacity,
             cc_power_consumption = startup_settings.default_cc_power_consumption,
             rc_power_consumption = startup_settings.default_rc_power_consumption,
-            power_consumption_percentage = 1,
+            power_consumption_percentage = 1
             -- tech_lc_capacity_real_level = 0,
             -- tech_power_consumption_real_level = 0
         }

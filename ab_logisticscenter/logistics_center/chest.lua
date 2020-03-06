@@ -31,11 +31,14 @@ end
 
 -- Add to watch-list
 function CHEST:add_cc(entity)
-    local index = global.cc_entities.index
+    local index
     local empty_stack = global.cc_entities.empty_stack
     if empty_stack.count > 0 then
         index = empty_stack.data[empty_stack.count]
         empty_stack.count = empty_stack.count - 1
+    else
+        index = global.cc_entities.index
+        global.cc_entities.index = global.cc_entities.index + 1
     end
 
     local nearest_lc = CHEST:find_nearest_lc(entity, 1)
@@ -44,19 +47,22 @@ function CHEST:add_cc(entity)
     -- show flying text
     show_flying_text(entity, nearest_lc)
 
-    global.cc_entities.index = global.cc_entities.index + 1
+    global.cc_entities.count = global.cc_entities.count + 1
 
     -- recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.count * startup_settings.check_cc_percentages)
 end
 
 -- Add to watch-list
 function CHEST:add_rc(entity)
-    local index = global.rc_entities.index
+    local index
     local empty_stack = global.rc_entities.empty_stack
     if empty_stack.count > 0 then
         index = empty_stack.data[empty_stack.count]
         empty_stack.count = empty_stack.count - 1
+    else
+        index = global.rc_entities.index
+        global.rc_entities.index = global.rc_entities.index + 1
     end
 
     local nearest_lc = CHEST:find_nearest_lc(entity, 2)
@@ -65,10 +71,10 @@ function CHEST:add_rc(entity)
     -- show flying text
     show_flying_text(entity, nearest_lc)
 
-    global.rc_entities.index = global.rc_entities.index + 1
+    global.rc_entities.count = global.rc_entities.count + 1
 
     -- recalc cpr
-    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.count * startup_settings.check_rc_percentages)
 end
 
 function CHEST:remove_cc(index)
@@ -81,7 +87,7 @@ function CHEST:remove_cc(index)
     empty_stack.data[empty_stack.count] = index
 
     -- recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(global.cc_entities.count * startup_settings.check_cc_percentages)
 end
 
 function CHEST:remove_rc(index)
@@ -94,7 +100,7 @@ function CHEST:remove_rc(index)
     empty_stack.data[empty_stack.count] = index
 
     -- recalc cpr
-    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(global.rc_entities.count * startup_settings.check_rc_percentages)
 end
 
 function CHEST:calc_power_consumption(distance, eei, chest_type)
@@ -206,9 +212,12 @@ function CHEST:re_scan_chests()
 
     game.print('requester chests: ' .. total_rcs .. '  collector chests: ' .. total_ccs)
 
+    global.cc_entities.count = total_ccs
+    global.rc_entities.count = total_rcs
+
     -- recalc cpr
-    global.runtime_vars.cc_check_per_round = math_ceil(#global.cc_entities.entities * startup_settings.check_cc_percentages)
-    global.runtime_vars.rc_check_per_round = math_ceil(#global.rc_entities.entities * startup_settings.check_rc_percentages)
+    global.runtime_vars.cc_check_per_round = math_ceil(total_ccs * startup_settings.check_cc_percentages)
+    global.runtime_vars.rc_check_per_round = math_ceil(total_rcs * startup_settings.check_rc_percentages)
 end
 
 return CHEST
