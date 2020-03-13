@@ -37,7 +37,8 @@ local function check_animation(tick)
                 v.animation =
                     v.lc.surface.create_entity {
                     name = names.logistics_center_animation,
-                    position = {x = v.lc.position.x, y = v.lc.position.y + 0.5},
+                    -- position = {x = v.lc.position.x, y = v.lc.position.y + 0.5},
+                    position = {x = v.lc.position.x, y = v.lc.position.y},
                     force = v.lc.force
                 }
             end

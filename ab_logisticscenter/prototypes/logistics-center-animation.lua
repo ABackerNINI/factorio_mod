@@ -13,7 +13,8 @@ data:extend(
             flags = {'not-on-map'},
             selectable_in_game = false,
             render_layer = 'object', --'entity-info-icon',
-            -- collision_box = {{-hcl, -hcl}, {hcl, hcl}},
+            secondary_draw_order = 1, -- ?
+            collision_box = {{-hcl, -hcl}, {hcl, hcl}},
             -- selection_box = {{-hsl, -hsl}, {hsl, hsl}},
             animations = {
                 {
@@ -24,7 +25,8 @@ data:extend(
                     frame_count = 33,
                     line_length = 11,
                     animation_speed = 1 / 5,
-                    shift = {-0.29, -0.35}
+                    shift = {0.2, 0.15},
+                    -- shift = {-0.29, -0.35}
                 }
             }
         }

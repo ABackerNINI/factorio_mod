@@ -30,7 +30,7 @@ data:extend(
                 frame_count = 1,
                 shift = {0.2, 0.15},
                 priority = 'high',
-                scale = 0.99
+                -- scale = 0.99
             },
             activity_led_sprites = {
                 north = {
