@@ -6,7 +6,7 @@ Have fun with these mods.
 
 ### [ab_loaderunlock(lu)](https://github.com/ABackerNINI/factorio_mod/tree/master/ab_loaderunlock)
 
-Unlock three buildin loaders: loader, fast-loader, express-loader.
+Unlock three builtin loaders: loader, fast-loader, express-loader.
 
 ### [ab_logisticscenter(lc)](https://github.com/ABackerNINI/factorio_mod/tree/master/ab_logisticscenter)
 
