@@ -6,21 +6,13 @@
 
 ## Mods
 
-### [ab_loaderunlock(lu)](https://github.com/ABackerNINI/factorio_mod/tree/master/ab_loaderunlock)
-
-* Unlock three builtin loaders: loader, fast-loader, express-loader.
-
 ### [ab_logisticscenter(lc)](https://github.com/ABackerNINI/factorio_mod/tree/master/ab_logisticscenter)
 
 * Consume power to teleport items.
 
-### ab_mapsettings(ms)
+### [ab_loaderunlock(lu)](https://github.com/ABackerNINI/factorio_mod/tree/master/ab_loaderunlock)
 
-* Developing, don't use it.
-
-### ab_trainschedule(ts)
-
-* Developing, don't use it.
+* Unlock three builtin loaders: loader, fast-loader, express-loader.
 
 ## License
 
