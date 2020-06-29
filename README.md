@@ -1,4 +1,6 @@
-# factorio_mod
+# FACTORIO_MOD
+
+[![GitHub](https://img.shields.io/github/license/ABackerNINI/factorio_mod)](https://github.com/ABackerNINI/factorio_mod/blob/master/LICENSE)
 
 Have fun with these mods.
 
