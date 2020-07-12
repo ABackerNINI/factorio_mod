@@ -52,7 +52,7 @@ Any feedback on this mod is welcome.
 
 ## Announcement
 
-The images of this mod are copied from other mods, including:
+The images of this mod are copied from other mods and some of them have been recreated by [kots01](https://github.com/kots01), including:
 
 * [BlackMarket](https://mods.factorio.com/mod/BlackMarket#)
 * [BobGreenHouse](https://mods.factorio.com/mod/bobgreenhouse)
