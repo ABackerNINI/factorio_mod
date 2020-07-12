@@ -52,14 +52,14 @@ Any feedback on this mod is welcome.
 
 ## Announcement
 
-The images of this mod are copied from other mods and some of them have been recreated by [kots01](https://github.com/kots01), including:
+The images of this mod are copied from other mods, including:
 
 * [BlackMarket](https://mods.factorio.com/mod/BlackMarket#)
 * [BobGreenHouse](https://mods.factorio.com/mod/bobgreenhouse)
 * [Turret Shields](https://mods.factorio.com/mod/Turret-Shields)
 * [Dark Matter Replicators](https://mods.factorio.com/mod/dark-matter-replicators)
 
-Let me know if this bothers you.
+Some of them have been recreated by [kots01](https://github.com/kots01). Let me know if this bothers you.
 
 So if you have proper images, contact me on [Github](https://github.com/ABackerNINI/factorio_mod) or the mod [Discussion Board](https://mods.factorio.com/mod/ab_logisticscenter/discussion). I will really appreciate it.
 
